@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+    <script>
+        // Вывод поступившего сообщения в виде объекта {type, text, ...}
+        function drawMessage(msg) {
+        	if (msg.text) {
+				var containerDiv = document.createElement('div');
+				document.getElementById('output').appendChild(containerDiv);
+				containerDiv.appendChild(document.createTextNode(msg.text));
+			}
+		}
+
+		// Скрыть/показать кнопку реконнекта
+		function showReconnect(bVisible) {
+        	var button = document.getElementById('Reconnect');
+        	button.style.display = bVisible ? 'inline-block' : 'none';
+        	return button;
+        }
+		var ws = null;
+
+        // Отправка сообщения в формате {type, ...}
+        function sendMsg(msg) {
+        	if (ws) {
+        		ws.send(JSON.stringify(msg))
+            }
+		}
+        function createConnection() {
+			ws = new WebSocket('ws://localhost:3000');
+			ws.onmessage = function (event) {
+				try {
+					var msgObj = JSON.parse(event.data)
+					drawMessage(msgObj);
+				} catch (e) {
+					console.error(e);
+                }
+			}
+			ws.onopen = function (event) {
+				showReconnect(false);
+			}
+			ws.onclose = function (event) {
+				drawMessage('Connection closed');
+				showReconnect(true);
+			}
+			ws.onerror = function (event) {
+				drawMessage('Error');
+				console.error(event);
+				showReconnect(true);
+			}
+		}
+
+		// Инициализация страницы
+        window.addEventListener('load', function () {
+			drawMessage('Begin');
+			showReconnect(false).addEventListener('click', function (event) {
+				showReconnect(false);
+				createConnection();
+			});
+			createConnection();
+			document.getElementById('BroadcastForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                var text = event.target[0].value;
+                sendMsg({type: 'all', text: text});
+			});
+		})
+    </script>
+</head>
+<body>
+    <h1>Hello, world!</h1>
+    <div>
+        <button id="Reconnect" style="display: none">Reconnect</button>
+    </div>
+    <div>
+        <div>Сообщение для всех</div>
+        <form action="#" id="BroadcastForm">
+            <input type="text" name="text" size="50" /><input type="submit" value="Send" />
+        </form>
+    </div>
+    <div id="output"></div>
+</body>
+</html>
