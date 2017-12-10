@@ -4,7 +4,7 @@
   "description": "Star Fleet Battle prototype",
   "main": "start.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/Peter-Win/sfb#readme",
   "dependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.13.0",
     "express": "^4.16.2",
+    "jasmine": "^2.8.0",
     "ws": "^3.3.2"
   }
 }

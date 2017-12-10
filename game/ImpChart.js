@@ -3,7 +3,7 @@
  * Created by PeterWin on 04.12.2017.
  */
 
-export const ImpPhase = {
+const ImpPhase = {
 	BeginOfImp: 'BeginOfImp',
 	MoveShips: 'MoveShips',
 	ResolveShips: 'ResolveShips',
@@ -24,7 +24,7 @@ export const ImpPhase = {
 	EndOfImp: 'EndOfImp',
 }
 
-export const ImpChart = {
+const ImpChart = {
 	Basic: [
 		ImpPhase.BeginOfImp,
 		ImpPhase.MoveShips,
@@ -60,3 +60,5 @@ export const ImpChart = {
 		ImpPhase.EndOfImp,
 	],
 }
+
+module.exports = {ImpPhase, ImpChart}

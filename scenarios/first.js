@@ -5,8 +5,9 @@
 const {MovChart8} = require('../game/MovChart')
 const {TurnChart} = require('../game/TurnChart')
 const {ImpChart} = require('../game/ImpChart')
+const {ShipFCC} = require('../game/ships/ShipFCC')
 
-const scenario = {
+const first = {
 	name: 'CADET SCENARIO #1: BATTLE DRILL',
 	width: 14,
 	height: 16,
@@ -18,18 +19,21 @@ const scenario = {
 		{},
 		{},
 	],
-	objects: {
-		Con: {
+	objects: [
+		{
+			uid: 'Con',
 			name: 'Constellation',
+			type: ShipFCC,
 			side: 0,
-			x: 0, y: 10, dir: 1,
+			x: 0, y: 10, dir: 0,
 		},
-		DroneA: {
-			name: 'Drone A',
-			side: 1,
-			x: 0, y: 0, dir: 3,
-		},
-	},
+		// {
+		// 	uid: 'DroneA',
+		// 	name: 'Drone A',
+		// 	side: 1,
+		// 	x: 0, y: 0, dir: 2,
+		// },
+	],
 }
 
-export default scenario
+module.exports = {first}

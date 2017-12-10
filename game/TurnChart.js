@@ -2,8 +2,9 @@
  * Turn Chart - Sequences of play
  * Created by PeterWin on 04.12.2017.
  */
-export const TurnPhase = {
+const TurnPhase = {
 	BeginOfTurn: 'BeginOfTurn',
+	BeginOfTurn2: 'BeginOfTurn2',
 	AutoEAlloc: 'AutoEAlloc',
 	EnergyAlloc: 'EnergyAlloc',
 	OnMainEnergyAlloc: 'OnMainEnergyAlloc',
@@ -17,7 +18,7 @@ export const TurnPhase = {
 	EndOfTurn: 'EndOfTurn',
 }
 
-export const TurnChart = {
+const TurnChart = {
 	Basic: [
 		TurnPhase.BeginOfTurn,
 		TurnPhase.AutoEAlloc,
@@ -52,3 +53,5 @@ export const TurnChart = {
 		TurnPhase.EndOfTurn,
 	],
 }
+
+module.exports = {TurnPhase, TurnChart}
