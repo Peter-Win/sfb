@@ -4,7 +4,7 @@
   "description": "Star Fleet Battle prototype",
   "main": "start.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json"
   },
   "repository": {
     "type": "git",

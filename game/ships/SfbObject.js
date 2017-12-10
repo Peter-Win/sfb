@@ -37,17 +37,32 @@ class SfbObject {
 		return this.fsm
 	}
 
-	init() {
-
+	init(description) {
+		// скопировать все простые поля из описания
+		Object.keys(description).forEach(key => {
+			const value = description[key]
+			const type = typeof value
+			if (type == 'string' || type == 'number' || type == 'boolean') {
+				this[key] = value
+			}
+		})
 	}
 
 	/**
 	 * Создать объект из описания
 	 * @param {Object} description Описание, которое используется в сценариях
+	 * @param {function} description.type Конструктор объекта
 	 * @returns {SfbObject} Корабль или другой объект
 	 */
 	static create(description) {
-
+		// У описания обязательно должен быть указан тип
+		const {Type} = description
+		if (!Type) {
+			throw new Error(`Undefined type for ship object ${description.name}`)
+		}
+		const instance = new Type()
+		instance.init(description)
+		return instance
 	}
 }
 

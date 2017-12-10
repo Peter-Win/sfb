@@ -2,10 +2,10 @@
  * First scenario
  * Created by PeterWin on 03.12.2017.
  */
-const {MovChart8} = require('../game/MovChart')
-const {TurnChart} = require('../game/TurnChart')
-const {ImpChart} = require('../game/ImpChart')
-const {ShipFCC} = require('../game/ships/ShipFCC')
+const {MovChart8} = require('../MovChart')
+const {TurnChart} = require('../TurnChart')
+const {ImpChart} = require('../ImpChart')
+const {ShipFCC} = require('../ships/ShipFCC')
 
 const first = {
 	name: 'CADET SCENARIO #1: BATTLE DRILL',
@@ -23,7 +23,7 @@ const first = {
 		{
 			uid: 'Con',
 			name: 'Constellation',
-			type: ShipFCC,
+			Type: ShipFCC,
 			side: 0,
 			x: 0, y: 10, dir: 0,
 		},
