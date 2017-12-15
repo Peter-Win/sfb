@@ -4,9 +4,11 @@
 
 const {ImpChart} = require('./ImpChart')
 const {TurnChart} = require('./TurnChart')
+const {TurnEvents} = require('./TurnEvents')
 const {MovChart32} = require('./MovChart')
 const {Side} = require('./Side')
 const {SfbObject} = require('./ships/SfbObject')
+const {Events} = require('./Events')
 
 const GameState = {
 	Active: 'Active',
@@ -36,6 +38,12 @@ class Game {
 		 * @type {Object<string, SfbObject>}
 		 */
 		this.objects = {}
+		/**
+		 * Действия над объектами
+		 * @type {Object<string,{name:string, state:string}>}
+		 */
+		this.actions = {}
+
 		this.impChart = []
 		this.turnChart = []
 		this.movChart = []
@@ -52,13 +60,14 @@ class Game {
 	 * @param {Array} scenario.movChart		Таблица для вычисления скоростей
 	 * @param {Object[]} scenario.sides	Описание сторон
 	 * @param {Object[]} scenario.objects	Описание игровых объектов
+	 * @returns {void}
 	 */
 	create(scenario) {
 		this.curTurn = 1
 		this.curImp = 0
 		this.curProc = 0
 		this.uidGen = 0
-		this.turnStep = 1
+		this.turnStep = 0
 		this.action = ''
 		this.shotNdx = 0
 		this.width = scenario.width
@@ -73,13 +82,44 @@ class Game {
 		// Стороны, участвующие в игре
 		this.sides = scenario.sides.map(sideData => new Side(sideData))
 		// Объекты, участвующие в игре
-		this.objects = scenario.objects.reduce((map, objectData) => {
+		scenario.objects.forEach(objectData => {
 			const ship = SfbObject.create(objectData)
-		}, {})
+			this.insertShip(ship)
+		})
+		this.actions = {}
 		Events.toGame(Events.BeginOfGame, this)
 	}
 
+	/**
+	 * Сгенерировать уникальное значение
+	 * @return {number} уникальное значение
+	 */
+	generateUid() {
+		return ++this.uidGen
+	}
 
+	/**
+	 * @param {SfbObject} ship Inserting ship or same object
+	 * @returns {void}
+	 */
+	insertShip(ship) {
+		if (!ship.uid) {
+			ship.uid = `${ship.type}_${this.generateUid()}`
+		}
+		this.objects[ship.uid] = ship
+		this.sides[ship.side].objects.push(ship)
+	}
+
+	beginStep() {
+		const evid = this.turnChart[this.turnStep]
+		const specialHandler = TurnEvents[evid]
+		if (specialHandler) {
+			const params = {evid, game: this}
+			specialHandler(params)
+		} else {
+			Events.toGame(evid, this)
+		}
+	}
 }
 
-module.exports = {Game}
+module.exports = {Game, GameState}

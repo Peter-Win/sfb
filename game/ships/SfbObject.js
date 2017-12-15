@@ -29,6 +29,18 @@ class SfbObject {
 		this.tractorSrc = ''	// UID of tractor beam source
 		this.canBeTractored = 1	// 2 if unit can be towed from map
 		this.fsm = {}
+		// Вместо методов используются контроллеры, позволяющие гибко агрегировать нужное поведение
+		this.ctrls = {
+			/**
+			 * @param {Object} params	Parameters
+			 * @param {Game} params.game	main game object
+			 * @param {SfbObject} params.ship	current ship
+			 * @returns {boolean} Может ли данный корабль совершить поворот в текущий момент
+			 */
+			isCanChangeDir(params) {
+				return false
+			}
+		}
 	}
 	/**
 	 * @return {Object} FSM object
@@ -46,6 +58,11 @@ class SfbObject {
 				this[key] = value
 			}
 		})
+		// скопировать функции контроллера
+		const {ctrls} = description
+		if (ctrls) {
+			Object.keys(ctrls).forEach(key => this.ctrls[key] = ctrls[key])
+		}
 	}
 
 	/**

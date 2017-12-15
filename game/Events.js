@@ -11,6 +11,7 @@ class Events {
 	 * @param {Object} params Параметры. Обязательные поля: evid, game
 	 * @param {string} params.evid	идентификатор события
 	 * @param {Game} params.game	Объект игры
+	 * @return {void}
 	 */
 	static onFsm(fsm, stateId, params) {
 		const {evid} = params
@@ -28,9 +29,10 @@ class Events {
 	}
 
 	/**
-	 *
-	 * @param {string} evid
-	 * @param {Game} game
+	 * Event for all game objects
+	 * @param {string} evid		event ID
+	 * @param {Game} game		main game object
+	 * @return {void}
 	 */
 	static toGame(evid, game) {
 		game.sides.forEach(side => Events.toSide({evid, game, side}))
@@ -38,26 +40,28 @@ class Events {
 
 	/**
 	 * Событие для одной из сторон, участвующих в игоре
-	 * @param {Object} params
-	 * @param {string} params.evid
-	 * @param {Game} params.game
-	 * @param {Side} params.side
+	 * @param {Object} params	Parameters
+	 * @param {string} params.evid	event ID
+	 * @param {Game} params.game	main game object
+	 * @param {Side} params.side	side object
+	 * @return {void}
 	 */
 	static toSide(params) {
-		const {side} = params;
+		const {side} = params
 		side.objects.forEach(ship => {
-			params.ship = ship;
+			params.ship = ship
 			Events.toShip(params)
-		});
+		})
 	}
 
 	/**
 	 * Событие для корабля (или аналогичного объекта)
-	 * @param {Object} params
-	 * @param {string} params.evid
-	 * @param {Game} params.game
-	 * @param {Side} params.side
-	 * @param {Ship} params.ship
+	 * @param {Object} params	Parameters
+	 * @param {string} params.evid	event ID
+	 * @param {Game} params.game	main game object
+	 * @param {Side} params.side	side object
+	 * @param {Ship} params.ship	ship object
+	 * @return {void}
 	 */
 	static toShip(params) {
 		const {ship} = params
@@ -73,12 +77,13 @@ class Events {
 
 	/**
 	 * Событие для корабельного устройства
-	 * @param {Object} params
-	 * @param {string} params.evid
-	 * @param {Game} params.game
-	 * @param {Side} params.side
-	 * @param {Ship} params.ship
-	 * @param {Device} params.dev
+	 * @param {Object} params Параметры
+	 * @param {string} params.evid	ИД события
+	 * @param {Game} params.game	общий объект игры
+	 * @param {Side} params.side	сторона
+	 * @param {Ship} params.ship	корабль
+	 * @param {Device} params.dev	устройство
+	 * @return {void}
 	 */
 	static toDevice(params) {
 		const {dev} = params

@@ -6,6 +6,7 @@ const {MovChart8} = require('../MovChart')
 const {TurnChart} = require('../TurnChart')
 const {ImpChart} = require('../ImpChart')
 const {ShipFCC} = require('../ships/ShipFCC')
+const {cadetSimple} = require('../ctrls/cadetSimple')
 
 const first = {
 	name: 'CADET SCENARIO #1: BATTLE DRILL',
@@ -25,7 +26,8 @@ const first = {
 			name: 'Constellation',
 			Type: ShipFCC,
 			side: 0,
-			x: 0, y: 10, dir: 0,
+			x: 0, y: 9, dir: 0,
+			ctrls: cadetSimple,
 		},
 		// {
 		// 	uid: 'DroneA',
