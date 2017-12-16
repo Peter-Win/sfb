@@ -2,22 +2,23 @@
  * Created by PeterWin on 09.12.2017.
  */
 const {Rules} = require('../Rules')
+const {StateObject} = require('../StateObject')
 
 const ShipState = {
 	Active: 'Active',
 	Dead: 'Dead',
-	Lost: 'Lost',
+	Lost: 'Lost',	// Выход за пределы карты
 	Exploded: 'Exploded',
 	Wait: 'Wait',
 }
 
-class SfbObject {
+class SfbObject extends StateObject {
 	constructor() {
+		super(ShipState.Active)
 		this.x = 0
 		this.y = 0
 		this.dir = 0
 		this.uid = ''
-		this.state = ShipState.Active
 		this.speed = 1
 		this.turnMode = 1
 		this.turnCounter = 100
@@ -62,6 +63,17 @@ class SfbObject {
 		const {ctrls} = description
 		if (ctrls) {
 			Object.keys(ctrls).forEach(key => this.ctrls[key] = ctrls[key])
+		}
+	}
+
+	/**
+	 * @param {Game} game	main game object
+	 * @returns {void}
+	 */
+	updateState(game) {
+		if (this.x < 0 || this.y < 0 || this.x >= game.width || this.y >= game.height) {
+			// Выход за границы карты
+			this.setState(ShipState.Lost)
 		}
 	}
 

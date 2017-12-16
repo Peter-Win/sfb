@@ -110,6 +110,15 @@ class Game {
 		this.sides[ship.side].objects.push(ship)
 	}
 
+	/**
+	 * Get ship by uid
+	 * @param {string} uid	ship id
+	 * @returns {SfbObject} ship
+	 */
+	getShip(uid) {
+		return this.objects[uid]
+	}
+
 	beginStep() {
 		const evid = this.turnChart[this.turnStep]
 		const specialHandler = TurnEvents[evid]

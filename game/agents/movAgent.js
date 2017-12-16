@@ -23,15 +23,36 @@ class MovAgent extends Agent {
 		if (bCanRotate) {
 			const action = this.newActionObject()
 			action.uid = ship.uid
-			action.list = [
-				Hex.nearPos[dir](ship),
-				Hex.nearPos[Hex.normalDir(dir - 1)](ship),
-				Hex.nearPos[Hex.normalDir(dir + 1)](ship),
-			]
+			action.list = [0, -1, 1].map(phi => {
+				const curDir = Hex.normalDir(dir + phi)
+				const pos = Hex.nearPos[curDir](ship)
+				pos.dir = curDir
+				return pos
+			})
 			action.current = 0
 			return action
 		}
 		return null
+	}
+
+	/**
+	 * Выполнить акцию
+	 * @param {Game} game	main game object
+	 * @param {Object} action	Action
+	 * @param {string} action.name	Должно совпадать с именем агента
+	 * @param {string} action.state Предполагается ActionState.End
+	 * @param {{x,y,dir: number}[]} action.list	Список вариантов
+	 * @param {number} action.current	Выбор, сделанный контроллером
+	 * @returns {void}
+	 */
+	execAction(game, action) {
+		this.checkAction(action)
+		const pos = action.list[action.current]
+		const ship = game.getShip(action.uid)
+		ship.x = pos.x
+		ship.y = pos.y
+		ship.dir = ship.dir
+		ship.updateState(game)
 	}
 }
 
