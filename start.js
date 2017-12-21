@@ -23,13 +23,14 @@ app.get('/', (request, response) => {
  * Отправка сообщения всем актуальным клиентам
  * @param {Object} msg	Объект сообщения. Должен быть пригоден для сериализации
  * @param {string} msg.type Тип сообщения
+ * @returns {void}
  */
 const broadcast = msg => {
 	try {
 		msgText = JSON.stringify(msg)
 		webSocketServer.clients.forEach(client => {
 			if (client.readyState === WebSocket.OPEN) {
-				client.send(msgText);
+				client.send(msgText)
 			}
 		})
 	} catch (e) {
@@ -41,13 +42,13 @@ webSocketServer.on('connection', ws => {
 	broadcast({type: 'all', text: 'There is new client'})
 	ws.on('message', message => {
 		try {
-			const obj = JSON.parse(message);
+			const obj = JSON.parse(message)
 			switch (obj.type) {
 				case 'all':
-					broadcast(obj);
-					break;
+					broadcast(obj)
+					break
 				default:
-					throw new Error('Invalid message type: ' + obj.type);
+					throw new Error('Invalid message type: ' + obj.type)
 			}
 		} catch (err) {
 			console.error(err)

@@ -20,6 +20,10 @@ class Ship extends SfbObject {
 		this.crewHP = 0		// hit points, striked to crew/boarding parties
 		this.armor = 0
 		this.srcSide = 0	// Source side (side in begin of combat)
+		/**
+		 * @type {CtrlBase}
+		 */
+		this.ctrl = null
 
 		// TODO: пока события не доделаны...
 		this.fsm = {}

@@ -18,11 +18,10 @@ class MovAgent extends Agent {
 	 */
 	createAction(params) {
 		const {ship} = params
-		const bCanRotate = ship.ctrls.isCanChangeDir(params.game)
+		const bCanRotate = ship.handlers.isCanChangeDir(params.game)
 		const {dir} = ship
 		if (bCanRotate) {
-			const action = this.newActionObject()
-			action.uid = ship.uid
+			const action = this.newActionObject(ship.uid)
 			action.list = [0, -1, 1].map(phi => {
 				const curDir = Hex.normalDir(dir + phi)
 				const pos = Hex.nearPos[curDir](ship)

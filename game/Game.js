@@ -9,10 +9,14 @@ const {MovChart32} = require('./MovChart')
 const {Side} = require('./Side')
 const {SfbObject} = require('./ships/SfbObject')
 const {Events} = require('./Events')
+const {ActionState} = require('./agents/ActionState')
+const {execAction} = require('./agents/AgentsMap')
 
 const GameState = {
 	Active: 'Active',
 }
+
+const gameFields = ['actions', 'curProc', 'curImp', 'curTurn', 'height', 'state', 'turnLength', 'userSpeed', 'width']
 
 class Game {
 	constructor() {
@@ -47,6 +51,11 @@ class Game {
 		this.impChart = []
 		this.turnChart = []
 		this.movChart = []
+
+		/**
+		 * @type {function(game:Game)[]}
+		 */
+		this.fnStepEnd = []
 	}
 
 	/**
@@ -91,6 +100,23 @@ class Game {
 	}
 
 	/**
+	 * Конвертировать в простой объект, который может быть конвертирован в JSON
+	 * @returns {Object}	simple object
+	 */
+	toSimple() {
+		const result = {objects: {}}
+		// простые поля
+		gameFields.forEach(field => {
+			result[field] = this[field]
+		})
+		// Корабли и др. объекты
+		Object.keys(this.objects).forEach(uid => {
+			result.objects[uid] = this.objects[uid].toSimple()
+		})
+		return result
+	}
+
+	/**
 	 * Сгенерировать уникальное значение
 	 * @return {number} уникальное значение
 	 */
@@ -117,6 +143,65 @@ class Game {
 	 */
 	getShip(uid) {
 		return this.objects[uid]
+	}
+
+	/**
+	 * @param {Object} action	Action object
+	 * @param {string} action.uid	ship ID
+	 * @returns {void}
+	 */
+	addAction(action) {
+		this.actions[action.uid] = action
+	}
+
+	/**
+	 * Send new actions to controllers
+	 * @returns {void}
+	 */
+	sendActions() {
+		Object.keys(this.actions).forEach(uid => {
+			const action = this.actions[uid]
+			if (action.state === ActionState.Begin) {
+				const ship = this.objects[uid]
+				const {ctrl} = ship
+				if (!ctrl) {
+					throw new Error(`Empty controller for ${ship.getSignature()}`)
+				}
+				action.state = ActionState.Wait
+				ctrl.onAction(this, action)
+			}
+		})
+	}
+
+	/**
+	 * receive actions
+	 * @returns {void}
+	 */
+	receiveActions() {
+		const keys = Object.keys(this.actions)
+		const waitActionId = keys.find(uid => this.actions[uid].state !== ActionState.End)
+		if (!waitActionId) {
+			// Если все акции обработаны контроллером, значит их нужно выполнить и удалить
+			keys.forEach(uid => {
+				const action = this.actions[uid]
+				execAction(this, action)
+				delete this.actions[uid]
+			})
+			// Обработчики конца хода
+			this.fnStepEnd.forEach(fn => fn(this))
+			this.fnStepEnd.length = 0
+			// Выполнить следующий ход
+			this.beginStep()
+		}
+	}
+
+	/**
+	 * Добавить однократный обработчик конца хода
+	 * @param {function(game:Game):void} handler Функция-обработчик конца хода
+	 * @returns {void}
+	 */
+	onceStepEnd(handler) {
+		this.fnStepEnd.push(handler)
 	}
 
 	beginStep() {

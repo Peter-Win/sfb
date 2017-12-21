@@ -12,6 +12,8 @@ const ShipState = {
 	Wait: 'Wait',
 }
 
+const objectFields = ['state', 'x', 'y', 'dir', 'uid', 'speed', 'turnMode', 'name', 'type']
+
 class SfbObject extends StateObject {
 	constructor() {
 		super(ShipState.Active)
@@ -21,17 +23,14 @@ class SfbObject extends StateObject {
 		this.uid = ''
 		this.speed = 1
 		this.turnMode = 1
-		this.turnCounter = 100
-		this.moveAction = ''
-		this.action = ''
 		this.name = ''
 		this.type = ''
 		this.side = 0
 		this.tractorSrc = ''	// UID of tractor beam source
 		this.canBeTractored = 1	// 2 if unit can be towed from map
 		this.fsm = {}
-		// Вместо методов используются контроллеры, позволяющие гибко агрегировать нужное поведение
-		this.ctrls = {
+		// Вместо методов используются обработчики, позволяющие гибко агрегировать нужное поведение
+		this.handlers = {
 			/**
 			 * @param {Object} params	Parameters
 			 * @param {Game} params.game	main game object
@@ -42,6 +41,21 @@ class SfbObject extends StateObject {
 				return false
 			}
 		}
+	}
+
+	toSimple() {
+		return objectFields.reduce((acc, field) => {
+			acc[field] = this[field]
+			return acc
+		}, {})
+	}
+
+	/**
+	 * Краткое текстовое описание объекта
+	 * @returns {string}	signature
+	 */
+	getSignature() {
+		return `${this.name} ($this.uid)`
 	}
 	/**
 	 * @return {Object} FSM object
@@ -60,9 +74,9 @@ class SfbObject extends StateObject {
 			}
 		})
 		// скопировать функции контроллера
-		const {ctrls} = description
-		if (ctrls) {
-			Object.keys(ctrls).forEach(key => this.ctrls[key] = ctrls[key])
+		const {handlers} = description
+		if (handlers) {
+			Object.keys(handlers).forEach(key => this.handlers[key] = handlers[key])
 		}
 	}
 

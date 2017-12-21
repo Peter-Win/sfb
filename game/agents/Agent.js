@@ -8,8 +8,19 @@ class Agent {
 		this.name = name
 	}
 
-	newActionObject() {
-		return {name: this.name, state: ActionState.Begin}
+	newActionObject(uid) {
+		if (!uid) {
+			throw new Error(`Cant create action without uid in agent ${this.name}`)
+		}
+		return {name: this.name, state: ActionState.Begin, uid}
+	}
+
+	createAction(params) {
+		throw new Error('Abstract method Agent.createAction')
+	}
+
+	execAction(game, action) {
+		throw new Error('Abstract method Agent.execAction')
 	}
 
 	/**
@@ -20,8 +31,8 @@ class Agent {
 	 * @throws {Error}
 	 */
 	checkAction(action) {
-		if (name !== this.name) {
-			throw new Error(`Action "${name}" can not be executed by "${this.name}" agent`)
+		if (action.name !== this.name) {
+			throw new Error(`Action "${action.name}" can not be executed by "${this.name}" agent`)
 		}
 	}
 }
