@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function createNodeNS(namespaceURI, tag, owner, params) {
+  var node = document.createElementNS(namespaceURI, tag);
+  if (owner) {
+    owner.appendChild(node);
+  }
+  if (params) {
+    Object.keys(params).forEach(key => {
+      node.setAttribute(key, params[key]);
+    });
+  }
+  return node;
+}
+function createNode(tag, owner, params) {
+  return createNodeNS("http://www.w3.org/2000/svg", tag, owner, params);
+}
+
+function main() {
+  var boardContainer = document.getElementById('GameView');
+  var wWidth = 10, wHeight = 4;
+  var hexHalf = 10, hexW = hexHalf * 2, space = 26;
+  var hexHalfHeight = Math.sqrt(3) * hexHalf;
+  var vWidth = (wWidth * 3 + 1) * hexHalf + space * 2;
+  var vHeight = (wHeight * 2 + 1) * hexHalfHeight + space * 2;
+  var svg = createNode('svg', boardContainer, {width: vWidth+'px', height: vHeight+'100px', viewBox: `0 0 ${vWidth} ${vHeight}`,
+    xmlns: "http://www.w3.org/2000/svg"});
+  var board = createNode('g', svg, {id: 'board'});
+  var x, y, d = '';
+  for (x=0; x<wWidth; x++) {
+    var x0 = x * hexHalf * 3 + space;
+    var x1 = x0 + hexHalf, x2 = x1 + hexHalf + hexHalf, x3 = x2 + hexHalf;
+    var yt = (x & 1) * hexHalfHeight + space;
+    d += `M${x1} ${yt}h${hexW}`;
+    for (y=0; y<wHeight; y++) {
+      var y0 = (y * 2 + (x & 1)) * hexHalfHeight + space;
+      var y1 = y0 + hexHalfHeight, y2 = y1 + hexHalfHeight;
+      d+= `M${x2} ${y0}L${x3} ${y1}L${x2} ${y2}L${x1} ${y2}`;
+    }
+    if (x & 1) {
+      d += `M${x0} ${y1}L${x1} ${y2}`;
+    } else {
+      d += `M${x0} ${hexHalfHeight+space}l${hexHalf} ${-hexHalfHeight}`;
+    }
+  }
+  d += `M${space} ${hexHalfHeight+space}`;
+  for (y=0; y<wHeight; y++) {
+    if (y) d += `l${-hexHalf} ${hexHalfHeight}`;
+    d += `l${hexHalf} ${hexHalfHeight}`;
+  }
+  var boardBk = createNode('rect', board, {'class': 'board-bk', x:0, y:0, width: vWidth, height: vHeight});
+  var rect = createNode('path', board, {'class': 'hex-border', d});
+
+  function getCoords(event) {
+    var rc = svg.getBoundingClientRect();
+    return [event.clientX - rc.left, event.clientY - rc.top];
+  }
+  var boardX=0, boardY=0;
+  var boardDrag = '';
+  var boardDragPos0;
+  var ln = createNode('path', board, {'class': 'mark', d: ''});
+  svg.addEventListener('mousedown', event => {
+    boardDragPos0 = getCoords(event);
+    boardDrag = 'W';
+  });
+  svg.addEventListener('mouseup', event => {
+    if (boardDrag === 'W') {
+      // just a click
+      let [x, y] = getCoords(event);
+      x -= boardX; y -= boardY;
+      const w = 10;
+      const d = `M${x-w} ${y} h${w+w} M${x} ${y-w} v${w+w}`;
+      const mark = createNode('path', board, {'class': 'mark', d});
+      const anim = createNode('animate', mark,
+        {attributeType:"CSS", attributeName: "opacity", from: "1", to: "0", dur:"1s", repeatCount:3});
+    }
+    boardDrag = '';
+  });
+  svg.addEventListener('mousemove', event => {
+    if (boardDrag === 'W') {
+      var delta = 5;
+      var [x, y] = getCoords(event);
+      if (Math.abs(boardDragPos0[0] - x) > delta ||
+        Math.abs(boardDragPos0[1] - y) > delta) 
+      {
+        boardDragPos0[0] -= boardX;
+        boardDragPos0[1] -= boardY;
+        boardDrag = 'M';
+      }
+    } else if (boardDrag === 'M') {
+      var [x, y] = getCoords(event);
+      boardX = x - boardDragPos0[0];
+      boardY = y - boardDragPos0[1];
+      board.setAttribute('transform', `translate(${boardX} ${boardY})`);
+    }
+  });
+}
+window.onload = main;
+</script>
+<style>
+  #GameView {border: thin solid silver; padding: 20px;}
+  .hex-border {fill: none; stroke: #007; stroke-width: 1;}
+  .mark {fill: none; stroke: #C00; stroke-width: 1;}
+  .board-bk {fill: #EEE; stroke: none;}
+</style>
+</head>
+<body>
+  <h1>Hello!</h1>
+  <div id="GameView"></div>
+</body>
+</html>
