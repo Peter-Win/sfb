@@ -8,6 +8,11 @@ class Agent {
 		this.name = name
 	}
 
+	/**
+	 * Создать объект акции
+	 * @param {string} uid	Идентификатор корабля
+	 * @return {{name: string, state: string, uid: string}} Акция
+	 */
 	newActionObject(uid) {
 		if (!uid) {
 			throw new Error(`Cant create action without uid in agent ${this.name}`)

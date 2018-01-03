@@ -7,12 +7,15 @@ const {TurnChart} = require('../TurnChart')
 const {ImpChart} = require('../ImpChart')
 const {ShipFCC} = require('../ships/ShipFCC')
 const {cadetSimple} = require('../handlers/cadetSimple')
+const {ShipState} = require('../ships/SfbObject')
+const {GameState} = require('../GameState')
+const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('../consts')
 
 const first = {
 	name: 'Cadet scenario #1: Battle Drill',
-	width: 14,
-	height: 16,
-	turnLength: 8,
+	width: mapSectorWidth * 2,
+	height: mapSectorHeight,
+	turnLength: turnLengthShort,
 	turnChart: TurnChart.Basic,
 	impChart: ImpChart.Basic,
 	movChart: MovChart8,
@@ -27,6 +30,7 @@ const first = {
 			Type: ShipFCC,
 			side: 0,
 			x: 0, y: 9, dir: 0,
+			speed: 8,
 			handlers: cadetSimple,
 		},
 		// {
@@ -36,6 +40,17 @@ const first = {
 		// 	x: 0, y: 0, dir: 2,
 		// },
 	],
+	/**
+	 * Проверка смены текущего состояния игры с Active на другое
+	 * @param {Game} game	Main game object
+	 * @return {void}
+	 */
+	checkState: (game) => {
+		// Если Con выходит за границу карты - это проигрыш
+		if (game.objects.Con.state !== ShipState.Active) {
+			game.setState(GameState.Fail)
+		}
+	}
 }
 
 module.exports = {first}

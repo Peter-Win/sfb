@@ -3,7 +3,7 @@
  * Created by PeterWin on 04.12.2017.
  */
 
-const ImpPhase = {
+const ImpPhase = Object.freeze({
 	BeginOfImp: 'BeginOfImp',
 	MoveShips: 'MoveShips',
 	ResolveShips: 'ResolveShips',
@@ -22,9 +22,9 @@ const ImpPhase = {
 	FireDirect: 'FireDirect',
 	ResolveDirect: 'ResolveDirect',
 	EndOfImp: 'EndOfImp',
-}
+})
 
-const ImpChart = {
+const ImpChart = Object.freeze({
 	Basic: [
 		ImpPhase.BeginOfImp,
 		ImpPhase.MoveShips,
@@ -59,6 +59,6 @@ const ImpChart = {
 		ImpPhase.ResolveDirect,
 		ImpPhase.EndOfImp,
 	],
-}
+})
 
 module.exports = {ImpPhase, ImpChart}

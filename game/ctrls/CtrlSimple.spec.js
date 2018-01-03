@@ -4,6 +4,7 @@
 const {expect} = require('chai')
 const {CtrlSimple} = require('./CtrlSimple')
 const {Game} = require('../Game')
+const {GameState} = require('../GameState')
 const {first} = require('../scenarios/first')
 const {movAgent} = require('../agents/movAgent')
 const {ActionState} = require('../agents/ActionState')
@@ -23,6 +24,7 @@ describe('CtrlSimple', () => {
 			game.onceStepEnd(() => {
 				expect(action.state, ActionState.End)
 				expect(ship.y).to.be.equal(expectedY)
+				game.setState(GameState.End) // прекратить игру, чтобы избежать зацикливания
 				resolve()
 			})
 		})

@@ -48,9 +48,7 @@ class MovAgent extends Agent {
 		this.checkAction(action)
 		const pos = action.list[action.current]
 		const ship = game.getShip(action.uid)
-		ship.x = pos.x
-		ship.y = pos.y
-		ship.dir = ship.dir
+		ship.setPos(pos.x, pos.y, pos.dir)
 		ship.updateState(game)
 	}
 }

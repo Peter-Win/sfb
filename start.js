@@ -6,6 +6,9 @@ const http = require('http')
 const url = require('url')
 const express = require('express')
 const WebSocket = new require('ws')
+const {createTestGame} = require('./game/TestGame')
+const {ActionState} = require('./game/agents/ActionState')
+const {execAction} = require('./game/agents/AgentsMap')
 
 const app = express()
 const htmlHeaders = {
@@ -15,8 +18,13 @@ const htmlHeaders = {
 const server = http.createServer(app)
 const webSocketServer = new WebSocket.Server({server})
 
+const game = createTestGame(webSocketServer)
+
 app.get('/', (request, response) => {
 	response.sendFile(path.join(__dirname, '/pages/main.html'))
+})
+app.get('/game', (request, response) => {
+	response.sendFile(path.join(__dirname, '/pages/simpleTest.html'))
 })
 
 /**
@@ -46,6 +54,20 @@ webSocketServer.on('connection', ws => {
 			switch (obj.type) {
 				case 'all':
 					broadcast(obj)
+					break
+				case 'askGame':
+					ws.send(JSON.stringify({type: 'game', game: game.toSimple()}))
+					game.actions.forEach((action, uid) => {
+						// в случае реконнекта нужно бужет подхватить акции, которые уже Wait
+						if (action.state !== ActionState.End) {
+							ws.send(JSON.stringify({type: 'action', action}))
+							action.state = ActionState.Wait
+						}
+					})
+					break
+				case 'actionResult':
+					execAction(game, obj.action)
+					game.receiveActions()
 					break
 				default:
 					throw new Error('Invalid message type: ' + obj.type)

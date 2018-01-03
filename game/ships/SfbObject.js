@@ -29,6 +29,10 @@ class SfbObject extends StateObject {
 		this.tractorSrc = ''	// UID of tractor beam source
 		this.canBeTractored = 1	// 2 if unit can be towed from map
 		this.fsm = {}
+		/**
+		 * @type {CtrlBase}
+		 */
+		this.ctrl = null
 		// Вместо методов используются обработчики, позволяющие гибко агрегировать нужное поведение
 		this.handlers = {
 			/**
@@ -43,6 +47,22 @@ class SfbObject extends StateObject {
 		}
 	}
 
+	/**
+	 * Установить позицию и (возможно) направление
+	 * @param {number} x	X
+	 * @param {number} y	Y
+	 * @param {number|undefined} dir	optional direction
+	 * @return {void}
+	 */
+	setPos(x, y, dir) {
+		this.x = x
+		this.y = y
+		if (dir !== undefined) {
+			this.dir = dir
+		}
+	}
+
+	// Экспорт в простой объект
 	toSimple() {
 		return objectFields.reduce((acc, field) => {
 			acc[field] = this[field]
@@ -85,10 +105,41 @@ class SfbObject extends StateObject {
 	 * @returns {void}
 	 */
 	updateState(game) {
-		if (this.x < 0 || this.y < 0 || this.x >= game.width || this.y >= game.height) {
+		if (!this.inMap(game)) {
 			// Выход за границы карты
 			this.setState(ShipState.Lost)
 		}
+	}
+
+	/**
+	 * Проверка попадания в границы карты
+	 * @param {Game} game	Main game object
+	 * @return {boolean} true, if object in map bounds
+	 */
+	inMap(game) {
+		const {x, y} = this
+		return x >= 0 && y >= 0 && x < game.width && y < game.height
+	}
+
+	/**
+	 * Возможно ли перемещаться данному кораблю
+	 * @param {Game} game	main game object
+	 * @return {boolean}	true, если можно двигаться
+	 */
+	isCanMove(game) {
+		if (this.isNotActive() || this.isTractored() || !this.isHaveMinCrew()) {
+			return false
+		}
+		const intSpeed = ~~this.speed
+		return !!game.movChart[game.curImp][intSpeed]
+	}
+
+	isTractored() {
+		return false	// TODO: заглушка
+	}
+
+	isHaveMinCrew() {
+		return true	// TODO: заглушка
 	}
 
 	/**

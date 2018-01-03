@@ -3,7 +3,7 @@
  */
 
 const {ImpChart} = require('./ImpChart')
-const {TurnChart} = require('./TurnChart')
+const {TurnChart, TurnPhase} = require('./TurnChart')
 const {TurnEvents} = require('./TurnEvents')
 const {MovChart32} = require('./MovChart')
 const {Side} = require('./Side')
@@ -11,15 +11,14 @@ const {SfbObject} = require('./ships/SfbObject')
 const {Events} = require('./Events')
 const {ActionState} = require('./agents/ActionState')
 const {execAction} = require('./agents/AgentsMap')
+const {StateObject} = require('./StateObject')
+const {GameState} = require('./GameState')
 
-const GameState = {
-	Active: 'Active',
-}
+const gameFields = ['actions', 'curImp', 'curTurn', 'height', 'state', 'turnLength', 'userSpeed', 'width']
 
-const gameFields = ['actions', 'curProc', 'curImp', 'curTurn', 'height', 'state', 'turnLength', 'userSpeed', 'width']
-
-class Game {
+class Game extends StateObject {
 	constructor() {
+		super('')
 		this.turnLength = -1
 		this.curTurn = -1
 		this.turnStep = -1
@@ -30,7 +29,6 @@ class Game {
 		this.shotNdx = 0
 		this.width = 0
 		this.height = 0
-		this.state = ''
 		this.onCheckState = ''
 		this.userSpeed = false	// true, if user can changing speed in the begin of turn
 		/**
@@ -43,10 +41,10 @@ class Game {
 		 */
 		this.objects = {}
 		/**
-		 * Действия над объектами
-		 * @type {Object<string,{name:string, state:string}>}
+		 * Действия над объектами shipId => action
+		 * @type {Map<string,{name:string, state:string}>}
 		 */
-		this.actions = {}
+		this.actions = new Map()
 
 		this.impChart = []
 		this.turnChart = []
@@ -56,6 +54,11 @@ class Game {
 		 * @type {function(game:Game)[]}
 		 */
 		this.fnStepEnd = []
+
+		this.checkState = game => {
+			// Эта функцтя должна быть перезаписана сценарием
+			game.setState(GameState.InvalidEndHandler)
+		}
 	}
 
 	/**
@@ -69,10 +72,12 @@ class Game {
 	 * @param {Array} scenario.movChart		Таблица для вычисления скоростей
 	 * @param {Object[]} scenario.sides	Описание сторон
 	 * @param {Object[]} scenario.objects	Описание игровых объектов
+	 * @param {function(game:Game):void} scenario.checkState	Функция проверки конца сценария
 	 * @returns {void}
 	 */
 	create(scenario) {
-		this.curTurn = 1
+		this.setState(GameState.Active)
+		this.curTurn = 0
 		this.curImp = 0
 		this.curProc = 0
 		this.uidGen = 0
@@ -81,7 +86,6 @@ class Game {
 		this.shotNdx = 0
 		this.width = scenario.width
 		this.height = scenario.height
-		this.state = GameState.Active
 		this.userSpeed = 0
 		this.turnLength = scenario.turnLength || 32
 		this.impChart = scenario.impChart || ImpChart.Advanced
@@ -95,8 +99,16 @@ class Game {
 			const ship = SfbObject.create(objectData)
 			this.insertShip(ship)
 		})
-		this.actions = {}
+		this.actions.clear()
+		this.checkState = scenario.checkState || this.checkState
 		Events.toGame(Events.BeginOfGame, this)
+	}
+
+	/**
+	 * @return {boolean} true, если выполняется фаза импульса (это большая часть игрового времени)
+	 */
+	isImpulse() {
+		return this.turnChart[this.turnStep] === TurnPhase.ImpulseProc
 	}
 
 	/**
@@ -109,6 +121,10 @@ class Game {
 		gameFields.forEach(field => {
 			result[field] = this[field]
 		})
+		result.turnStepId = this.turnChart[this.turnStep]
+		if (this.isImpulse()) {
+			result.curProcId = this.impChart[this.curProc]
+		}
 		// Корабли и др. объекты
 		Object.keys(this.objects).forEach(uid => {
 			result.objects[uid] = this.objects[uid].toSimple()
@@ -151,7 +167,7 @@ class Game {
 	 * @returns {void}
 	 */
 	addAction(action) {
-		this.actions[action.uid] = action
+		this.actions.set(action.uid, action)
 	}
 
 	/**
@@ -159,8 +175,8 @@ class Game {
 	 * @returns {void}
 	 */
 	sendActions() {
-		Object.keys(this.actions).forEach(uid => {
-			const action = this.actions[uid]
+		this.actions.forEach(action => {
+			const {uid} = action
 			if (action.state === ActionState.Begin) {
 				const ship = this.objects[uid]
 				const {ctrl} = ship
@@ -174,25 +190,29 @@ class Game {
 	}
 
 	/**
-	 * receive actions
+	 * Вызывается после обработки акции контроллером
 	 * @returns {void}
 	 */
 	receiveActions() {
-		const keys = Object.keys(this.actions)
-		const waitActionId = keys.find(uid => this.actions[uid].state !== ActionState.End)
-		if (!waitActionId) {
-			// Если все акции обработаны контроллером, значит их нужно выполнить и удалить
-			keys.forEach(uid => {
-				const action = this.actions[uid]
-				execAction(this, action)
-				delete this.actions[uid]
-			})
-			// Обработчики конца хода
-			this.fnStepEnd.forEach(fn => fn(this))
-			this.fnStepEnd.length = 0
-			// Выполнить следующий ход
-			this.beginStep()
+		const actionsList = []
+		for(const current of this.actions.entries()) {
+			const action = current[1]
+			if (action.state !== ActionState.End) {
+				// Если есть незаконченная акция - дальше ничего не делать (будет новый вызов receiveActions)
+				return
+			}
+			actionsList.push(action)
 		}
+		// Если все акции обработаны контроллером, значит их нужно выполнить и удалить
+		actionsList.forEach(action => {
+			execAction(this, action)
+			this.actions.delete(action.uid)
+		})
+		// Обработчики конца хода
+		this.fnStepEnd.forEach(fn => fn(this))
+		this.fnStepEnd.length = 0
+		// Выполнить следующий ход
+		this.idle()
 	}
 
 	/**
@@ -204,7 +224,33 @@ class Game {
 		this.fnStepEnd.push(handler)
 	}
 
-	beginStep() {
+	/**
+	 * Получить список контроллеров (без повторений)
+	 * @return {CtrlBase[]} список контроллеров
+	 */
+	getAllCtrls() {
+		const all = new Set()
+		const add = ctrl => {
+			if (ctrl) {
+				all.add(ctrl)
+			}
+		}
+		this.sides.forEach(side => add(side.ctrl))
+		Object.keys(this.objects).forEach(key => {
+			const ship = this.objects[key]
+			add(ship.ctrl)
+		})
+		return Array.from(all.values())
+	}
+
+	/**
+	 * Выполнить очередной шаг
+	 * @return {void}
+	 */
+	nextStep() {
+		const ctrls = this.getAllCtrls()
+		ctrls.forEach(ctrl => ctrl.onStep(this))
+
 		const evid = this.turnChart[this.turnStep]
 		const specialHandler = TurnEvents[evid]
 		if (specialHandler) {
@@ -213,7 +259,88 @@ class Game {
 		} else {
 			Events.toGame(evid, this)
 		}
+		this.checkState(this)
+	}
+
+	switchStep() {
+		if (this.curTurn === 0) {
+			// Самый первый ход
+			this.curTurn++
+			return
+		}
+		if (this.turnChart[this.turnStep] !== TurnPhase.ImpulseProc) {
+			// Если не процедура импульса, то просто переход к следующей процедуре
+			this.turnStep++
+			if (this.turnStep === this.turnChart.length) {
+				this.turnStep = 0
+				this.curTurn++	// Новый ход
+			} else if (this.turnChart[this.turnStep] === TurnPhase.ImpulseProc) {
+				this.curImp = 1
+			}
+		} else {
+			// Импульсы
+			this.curProc++
+			if (this.curProc === this.impChart.length) { // новый импульс
+				this.curProc = 0
+				this.curImp++
+				if (this.curImp === this.turnLength) { // импульсы кончились
+					this.turnStep++
+				}
+			}
+		}
+	}
+
+	/**
+	 * Выполнять шаги, пока не появятся акции
+	 * Когда акции будут выполнены, вызов receiveActions(), который снова запустит idle()
+	 * @return {void}
+	 */
+	idle() {
+		for (let j = 0; j < 10000; j++) {
+			// Только для активного состояния игры...
+			if (this.isNotActive()) {
+				return
+			}
+			// Если появились акции, прекратить выполнять шаги
+			if (this.actions.size > 0) {
+				return
+			}
+			this.switchStep()
+			this.nextStep()
+		}
+		// Для предотвращения бесконечного цикла
+		throw new Error('Dead loop in Game.idle()')
+	}
+
+	/**
+	 * Создать акции для всех объектов, которые удовлетворяют указанному условию
+	 * @param {Agent} agent агент
+	 * @param {function(game:Game, ship:SfbObject):boolean} condition Условие
+	 * @return {void}
+	 */
+	beginGlbActionIf(agent, condition) {
+		Object.keys(this.objects).forEach(key => {
+			const ship = this.objects[key]
+			if (condition(this, ship)) {
+				const action = agent.createAction({game: this, ship})
+				if (action) {
+					this.actions.set(ship.uid, action)
+				}
+			}
+		})
+	}
+
+	/**
+	 * Debug info about current step
+	 * @return {string} turn, step, impulse and proc
+	 */
+	curStepInfo() {
+		let stepInfo = `turn: ${this.curTurn}; turnStep: ${this.turnChart[this.turnStep]}`
+		if (this.turnChart[this.turnStep] === TurnPhase.ImpulseProc) {
+			stepInfo += `; imp: ${this.curImp}; impProc: ${this.impChart[this.curProc]}`
+		}
+		return stepInfo
 	}
 }
 
-module.exports = {Game, GameState}
+module.exports = {Game}

@@ -35,22 +35,10 @@ class Events {
 	 * @return {void}
 	 */
 	static toGame(evid, game) {
-		game.sides.forEach(side => Events.toSide({evid, game, side}))
-	}
-
-	/**
-	 * Событие для одной из сторон, участвующих в игоре
-	 * @param {Object} params	Parameters
-	 * @param {string} params.evid	event ID
-	 * @param {Game} params.game	main game object
-	 * @param {Side} params.side	side object
-	 * @return {void}
-	 */
-	static toSide(params) {
-		const {side} = params
-		side.objects.forEach(ship => {
-			params.ship = ship
-			Events.toShip(params)
+		Object.keys(game.objects).forEach(key => {
+			const ship = game.objects[key]
+			const side = game.sides[ship.side]
+			Events.toShip({game, side, ship})
 		})
 	}
 
@@ -73,7 +61,6 @@ class Events {
 			})
 		}
 	}
-
 
 	/**
 	 * Событие для корабельного устройства

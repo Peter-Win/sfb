@@ -3,20 +3,26 @@
  * Created by PeterWin on 12.12.2017.
  */
 const {expect} = require('chai')
-const {Game, GameState} = require('./Game')
+const {Game} = require('./Game')
+const {GameState} = require('./GameState')
 const {first} = require('./scenarios/first')
 const {ShipFCC} = require('./ships/ShipFCC')
 const {ShipState} = require('./ships/SfbObject')
 const {movAgent} = require('./agents/movAgent')
+const {CtrlBase} = require('./ctrls/CtrlBase')
+const {TurnPhase} = require('./TurnChart')
+const {ImpPhase} = require('./ImpChart')
+const {ActionState} = require('./agents/ActionState')
+const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('./consts')
 
 describe('Game', () => {
 	it('create first scenario', () => {
 		const game = new Game()
 		game.create(first)
 
-		expect(game.width).to.be.equal(14)
-		expect(game.height).to.be.equal(16)
-		expect(game.turnLength).to.be.equal(8)
+		expect(game.width).to.be.equal(mapSectorWidth * 2)
+		expect(game.height).to.be.equal(mapSectorHeight)
+		expect(game.turnLength).to.be.equal(turnLengthShort)
 		expect(game.state).to.be.equal(GameState.Active)
 
 		const ship = game.objects.Con
@@ -35,24 +41,112 @@ describe('Game', () => {
 		game.addAction(movAgent.createAction({game, ship}))
 
 		const simple = game.toSimple()
-		expect(simple).to.have.property('turnLength', 8)
-		expect(simple).to.have.property('width', 14)
-		expect(simple).to.have.property('height', 16)
+		expect(simple).to.have.property('turnLength', turnLengthShort)
+		expect(simple).to.have.property('width', mapSectorWidth * 2)
+		expect(simple).to.have.property('height', mapSectorHeight)
 		expect(simple).to.have.property('state', GameState.Active)
-		expect(simple).to.have.property('curTurn', 1)
+		expect(simple).to.have.property('curTurn', 0)
 		expect(simple).to.have.property('curImp', 0)
-		expect(simple).to.have.property('curProc', 0)
 		expect(simple).to.have.property('userSpeed', 0)
+		expect(simple).to.have.property('turnStepId', TurnPhase.BeginOfTurn)
 		expect(simple).to.have.property('actions')
 
-		const {actions} = simple
-		expect(actions).to.have.property('Con')
-		expect(actions.Con).to.have.property('name', movAgent.name)
-		expect(actions.Con).to.have.property('uid', 'Con')
+		const ConAction = simple.actions.get('Con')
+		expect(ConAction).to.be.ok
+		expect(ConAction).to.have.property('name', movAgent.name)
+		expect(ConAction).to.have.property('uid', 'Con')
 
 		const {objects} = simple
 		expect(objects).to.have.property('Con')
-		expect(objects.Con).to.have.property('state', ShipState.Active)
-		expect(objects.Con).to.have.property('x', 0)
+		const {Con} = objects
+		expect(Con).to.have.property('state', ShipState.Active)
+		expect(Con).to.have.property('x', 0)
+		expect(Con).to.have.property('speed', 8)
+	})
+
+	it('beginGlbActionIf', () => {
+		const game = new Game()
+		game.create(first)
+		// Генерация акции для всех игровых объектов, которые могут двигаться
+		game.beginGlbActionIf(movAgent, (game, ship) => ship.isCanMove(game))
+		const {actions} = game
+		expect(actions.size).to.be.equal(1)
+		const conAction = actions.get('Con')
+		expect(conAction).to.be.instanceOf(Object)
+		expect(conAction.uid).to.be.equal('Con')
+	})
+
+	it('switchStep', () => {
+		const game = new Game()
+		const turnStepId = () => game.turnChart[game.turnStep]
+		const impProcId = () => game.impChart[game.curProc]
+		game.create(first)
+		game.switchStep()
+		expect(game.curTurn).to.be.equal(1)
+		expect(turnStepId()).to.be.equal(TurnPhase.BeginOfTurn)
+		expect(game.isImpulse()).to.be.false
+		game.switchStep()
+		expect(turnStepId()).to.be.equal(TurnPhase.AutoEAlloc)
+		game.switchStep()
+		expect(turnStepId()).to.be.equal(TurnPhase.OnMainEnergyAlloc)
+		game.switchStep()
+		expect(turnStepId()).to.be.equal(TurnPhase.OnEnergyAlloc)
+		game.switchStep()
+		expect(turnStepId()).to.be.equal(TurnPhase.SpeedDeterm)
+		game.switchStep()
+		expect(turnStepId()).to.be.equal(TurnPhase.ImpulseProcBegin)
+		expect(game.isImpulse()).to.be.false
+		game.switchStep()
+		expect(turnStepId()).to.be.equal(TurnPhase.ImpulseProc)
+		expect(game.isImpulse()).to.be.true
+		expect(game.curImp).to.be.equal(1)
+		expect(impProcId()).to.be.equal(ImpPhase.BeginOfImp)
+		game.switchStep()
+		expect(turnStepId()).to.be.equal(TurnPhase.ImpulseProc)
+		expect(game.curImp).to.be.equal(1)
+		expect(impProcId()).to.be.equal(ImpPhase.MoveShips)
+		while (impProcId() !== ImpPhase.EndOfImp) {
+			game.switchStep()
+		}
+		game.switchStep()
+		expect(impProcId()).to.be.equal(ImpPhase.BeginOfImp)
+		expect(game.curImp).to.be.equal(2)
+	})
+
+	// Тестирование прохождения стандартных шагов
+	it('idle', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.objects.Con
+		ship.ctrl = new CtrlLog()
+		ship.y = 1
+		// Предполагается два импульса, пока корабль выйдет за пределы карты
+		for (let j = 0; j < 1000; j++) {
+			game.idle()
+			if (game.isNotActive()) {
+				const {log} = ship.ctrl
+				expect(log).to.have.lengthOf(2)
+				expect(log[0]).to.be.equal('name=Move; uid=Con; y=1')
+				expect(log[1]).to.be.equal('name=Move; uid=Con; y=0')
+				return	// success finish
+			}
+			game.sendActions()
+		}
+		throw new Error('Dead loop in idle test')
 	})
 })
+
+class CtrlLog extends CtrlBase {
+	constructor() {
+		super()
+		this.log = []
+	}
+	onStep(game) {
+	}
+	onAction(game, action) {
+		const ship = game.objects[action.uid]
+		this.log.push(`name=${action.name}; uid=${action.uid}; y=${ship.y}`)
+		action.state = ActionState.End
+		game.receiveActions()
+	}
+}

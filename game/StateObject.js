@@ -15,6 +15,14 @@ class StateObject {
 	setState(newState) {
 		this.state = newState
 	}
+
+	isActive() {
+		return this.state === 'Active'
+	}
+
+	isNotActive() {
+		return !this.isActive()
+	}
 }
 
 module.exports = {StateObject}

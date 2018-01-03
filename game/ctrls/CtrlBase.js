@@ -16,6 +16,14 @@ class CtrlBase {
 	onAction(game, action) {
 		throw new Error(`Abstract CtrlBase.onAction(${action.name})`)
 	}
+
+	/**
+	 * Оповещает контроллер о начале очередного хода
+	 * @param {Game} game 	main game object
+	 * @return {void}
+	 */
+	onStep(game) {
+	}
 }
 
 module.exports = {CtrlBase}

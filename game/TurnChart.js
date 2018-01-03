@@ -2,7 +2,7 @@
  * Turn Chart - Sequences of play
  * Created by PeterWin on 04.12.2017.
  */
-const TurnPhase = {
+const TurnPhase = Object.freeze({
 	BeginOfTurn: 'BeginOfTurn',
 	BeginOfTurn2: 'BeginOfTurn2',
 	AutoEAlloc: 'AutoEAlloc',
@@ -16,9 +16,9 @@ const TurnPhase = {
 	KlingonMutiny: 'KlingonMutiny',
 	Boarding: 'Boarding',
 	EndOfTurn: 'EndOfTurn',
-}
+})
 
-const TurnChart = {
+const TurnChart = Object.freeze({
 	Basic: [
 		TurnPhase.BeginOfTurn,
 		TurnPhase.AutoEAlloc,
@@ -52,7 +52,7 @@ const TurnChart = {
 		TurnPhase.Boarding,
 		TurnPhase.EndOfTurn,
 	],
-}
+})
 
 
 module.exports = {TurnPhase, TurnChart}
