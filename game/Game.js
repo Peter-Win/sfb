@@ -195,18 +195,19 @@ class Game extends StateObject {
 	 */
 	receiveActions() {
 		const actionsList = []
-		for(const current of this.actions.entries()) {
-			const action = current[1]
+		this.actions.forEach(action => {
 			if (action.state !== ActionState.End) {
 				// Если есть незаконченная акция - дальше ничего не делать (будет новый вызов receiveActions)
+				console.log('Game.receiveActions. Active action: ', JSON.stringify(action))
 				return
 			}
 			actionsList.push(action)
-		}
+		})
 		// Если все акции обработаны контроллером, значит их нужно выполнить и удалить
 		actionsList.forEach(action => {
-			execAction(this, action)
+			// execAction(this, action) - вызывается при получении акции
 			this.actions.delete(action.uid)
+			console.log('Game.receiveActions. Delete action: ', JSON.stringify(action))
 		})
 		// Обработчики конца хода
 		this.fnStepEnd.forEach(fn => fn(this))

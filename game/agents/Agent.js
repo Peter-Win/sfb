@@ -40,6 +40,11 @@ class Agent {
 			throw new Error(`Action "${action.name}" can not be executed by "${this.name}" agent`)
 		}
 	}
+
+	static closeAction(game, action) {
+		game.actions.get(action.uid).state = ActionState.End
+		console.log('Agent.closeAction: ', JSON.stringify(game.actions.get(action.uid)))
+	}
 }
 
 module.exports = {Agent}
