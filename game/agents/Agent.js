@@ -29,6 +29,20 @@ class Agent {
 	}
 
 	/**
+	 * Акция, поступившая с клиента должна быть правильно обработана
+	 * Например, для акции Move есть список возможных позиций. Но от клиента нельзя его принять.
+	 * Иначе читеры смогут присылать некорректные позиции, а корабль сможет перемещаться куда угодно.
+	 * То есть, с клиента можно принять только номер выбранного варианта
+	 * _Результатом функции_ является перенос нужных полей из alienAction в nativeAction
+	 * @param {Object} alienAction	[in] акция, поступившая с клиента
+	 * @param {Object} nativeAction	[in/out] акция из списка game.actions
+	 * @return {void}
+	 * @abstract
+	 */
+	mergeAction(alienAction, nativeAction) {
+	}
+
+	/**
 	 * Проверка акции на соответствие
 	 * @param {Object} action	Action
 	 * @param {string} action.name	Должно совпадать с именем агента
@@ -41,9 +55,17 @@ class Agent {
 		}
 	}
 
+	/**
+	 * Перевести акцию в конечное состояние
+	 * @param {Game} game	main game object
+	 * @param {{uid:string}} action		Action
+	 * @return {void}
+	 */
 	static closeAction(game, action) {
-		game.actions.get(action.uid).state = ActionState.End
-		console.log('Agent.closeAction: ', JSON.stringify(game.actions.get(action.uid)))
+		const oldAction = game.actions.get(action.uid)
+		if (oldAction) {
+			oldAction.state = ActionState.End
+		}
 	}
 }
 

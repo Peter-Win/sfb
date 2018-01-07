@@ -4,8 +4,8 @@
 
 const ActionState = {
 	Begin: 'Begin',
-	Wait: 'Wait',
-	End: 'End',
+	Wait: 'Wait',	// Контроллер взял акцию в работу
+	End: 'End',		// контроллер вернул ответ
 }
 
 module.exports = {ActionState}

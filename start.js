@@ -26,6 +26,9 @@ app.get('/', (request, response) => {
 app.get('/game', (request, response) => {
 	response.sendFile(path.join(__dirname, '/pages/simpleTest.html'))
 })
+app.get('/img/:name', (request, response) => {
+	response.sendFile(path.join(__dirname, `/img/${request.params.name}`))
+})
 
 /**
  * Отправка сообщения всем актуальным клиентам
@@ -66,8 +69,7 @@ webSocketServer.on('connection', ws => {
 					})
 					break
 				case 'actionResult':
-					execAction(game, obj.action)
-					game.receiveActions()
+					game.onActionIncome(obj.action)
 					break
 				default:
 					throw new Error('Invalid message type: ' + obj.type)

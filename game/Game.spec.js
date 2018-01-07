@@ -29,7 +29,7 @@ describe('Game', () => {
 		expect(ship).to.not.be.empty
 		expect(ship).to.be.instanceOf(ShipFCC)
 		expect(ship.x).to.be.equal(0)
-		expect(ship.y).to.be.equal(9)
+		expect(ship.y).to.be.equal(10)
 		expect(ship.state).to.be.equal(ShipState.Active)
 	})
 
@@ -70,47 +70,47 @@ describe('Game', () => {
 		// Генерация акции для всех игровых объектов, которые могут двигаться
 		game.beginGlbActionIf(movAgent, (game, ship) => ship.isCanMove(game))
 		const {actions} = game
-		expect(actions.size).to.be.equal(1)
+		expect(actions.size).to.be.equal(2)
 		const conAction = actions.get('Con')
 		expect(conAction).to.be.instanceOf(Object)
 		expect(conAction.uid).to.be.equal('Con')
 	})
 
-	it('switchStep', () => {
+	it('switchProc', () => {
 		const game = new Game()
 		const turnStepId = () => game.turnChart[game.turnStep]
 		const impProcId = () => game.impChart[game.curProc]
 		game.create(first)
-		game.switchStep()
+		game.switchProc()
 		expect(game.curTurn).to.be.equal(1)
 		expect(turnStepId()).to.be.equal(TurnPhase.BeginOfTurn)
 		expect(game.isImpulse()).to.be.false
-		game.switchStep()
+		game.switchProc()
 		expect(turnStepId()).to.be.equal(TurnPhase.AutoEAlloc)
-		game.switchStep()
+		game.switchProc()
 		expect(turnStepId()).to.be.equal(TurnPhase.OnMainEnergyAlloc)
-		game.switchStep()
+		game.switchProc()
 		expect(turnStepId()).to.be.equal(TurnPhase.OnEnergyAlloc)
-		game.switchStep()
+		game.switchProc()
 		expect(turnStepId()).to.be.equal(TurnPhase.SpeedDeterm)
-		game.switchStep()
+		game.switchProc()
 		expect(turnStepId()).to.be.equal(TurnPhase.ImpulseProcBegin)
 		expect(game.isImpulse()).to.be.false
-		game.switchStep()
+		game.switchProc()
 		expect(turnStepId()).to.be.equal(TurnPhase.ImpulseProc)
 		expect(game.isImpulse()).to.be.true
-		expect(game.curImp).to.be.equal(1)
+		expect(game.curImp).to.be.equal(0)
 		expect(impProcId()).to.be.equal(ImpPhase.BeginOfImp)
-		game.switchStep()
+		game.switchProc()
 		expect(turnStepId()).to.be.equal(TurnPhase.ImpulseProc)
-		expect(game.curImp).to.be.equal(1)
+		expect(game.curImp).to.be.equal(0)
 		expect(impProcId()).to.be.equal(ImpPhase.MoveShips)
 		while (impProcId() !== ImpPhase.EndOfImp) {
-			game.switchStep()
+			game.switchProc()
 		}
-		game.switchStep()
+		game.switchProc()
 		expect(impProcId()).to.be.equal(ImpPhase.BeginOfImp)
-		expect(game.curImp).to.be.equal(2)
+		expect(game.curImp).to.be.equal(1)
 	})
 
 	// Тестирование прохождения стандартных шагов
@@ -121,7 +121,7 @@ describe('Game', () => {
 		ship.ctrl = new CtrlLog()
 		ship.y = 1
 		// Предполагается два импульса, пока корабль выйдет за пределы карты
-		for (let j = 0; j < 1000; j++) {
+		for (let j = 0; j < 300; j++) {
 			game.idle()
 			if (game.isNotActive()) {
 				const {log} = ship.ctrl

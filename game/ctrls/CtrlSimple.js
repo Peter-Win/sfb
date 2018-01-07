@@ -7,10 +7,8 @@ const {ActionState} = require('../agents/ActionState')
 class CtrlSimple extends CtrlBase {
 	onAction(game, action) {
 		// Самый примитивный контроллер. Просто закрывает акцию
-		setTimeout(() => {
-			action.state = ActionState.End
-			game.receiveActions()
-		}, 0)
+		action.state = ActionState.End
+		game.receiveActions()
 	}
 }
 

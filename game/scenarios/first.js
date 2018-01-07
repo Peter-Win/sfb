@@ -6,6 +6,8 @@ const {MovChart8} = require('../MovChart')
 const {TurnChart} = require('../TurnChart')
 const {ImpChart} = require('../ImpChart')
 const {ShipFCC} = require('../ships/ShipFCC')
+const {Missile} = require('../ships/Missile')
+const {CtrlSimple} = require('../ctrls/CtrlSimple')
 const {cadetSimple} = require('../handlers/cadetSimple')
 const {ShipState} = require('../ships/SfbObject')
 const {GameState} = require('../GameState')
@@ -29,16 +31,18 @@ const first = {
 			name: 'Constellation',
 			Type: ShipFCC,
 			side: 0,
-			x: 0, y: 9, dir: 0,
+			x: 0, y: 10, dir: 0,
 			speed: 8,
 			handlers: cadetSimple,
 		},
-		// {
-		// 	uid: 'DroneA',
-		// 	name: 'Drone A',
-		// 	side: 1,
-		// 	x: 0, y: 0, dir: 2,
-		// },
+		{
+			uid: 'droneA',
+			name: 'Drone A',
+			Type: Missile,
+			side: 1,
+			x: 0, y: 0, dir: 2,
+			ctrl: CtrlSimple,
+		},
 	],
 	/**
 	 * Проверка смены текущего состояния игры с Active на другое

@@ -1,6 +1,7 @@
 /**
  * Created by PeterWin on 13.12.2017.
  */
+const assert = require('assert')
 const {Agent} = require('./Agent')
 const {Hex} = require('../Hex')
 
@@ -19,8 +20,8 @@ class MovAgent extends Agent {
 	createAction(params) {
 		const {ship} = params
 		const bCanRotate = ship.handlers.isCanChangeDir(params.game)
-		const {dir} = ship
 		if (bCanRotate) {
+			const {dir} = ship
 			const action = this.newActionObject(ship.uid)
 			action.list = [0, -1, 1].map(phi => {
 				const curDir = Hex.normalDir(dir + phi)
@@ -35,6 +36,14 @@ class MovAgent extends Agent {
 	}
 
 	/**
+	 * @override
+	 */
+	mergeAction(alienAction, nativeAction) {
+		// Единственное поле, которое может изменить пользователь - current
+		nativeAction.current = alienAction.current
+	}
+
+	/**
 	 * Выполнить акцию
 	 * @param {Game} game	main game object
 	 * @param {Object} action	Action
@@ -45,13 +54,12 @@ class MovAgent extends Agent {
 	 * @returns {void}
 	 */
 	execAction(game, action) {
+		assert(game, 'Invalid game object')
 		this.checkAction(action)
-		console.log('movAgent.execAction: ', JSON.stringify(action))
 		const pos = action.list[action.current]
 		const ship = game.getShip(action.uid)
 		ship.setPos(pos.x, pos.y, pos.dir)
 		ship.updateState(game)
-		Agent.closeAction(game, action)
 	}
 }
 

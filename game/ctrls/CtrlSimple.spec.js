@@ -18,7 +18,6 @@ describe('CtrlSimple', () => {
 		const expectedY = ship.y - 1
 		const action = movAgent.createAction({game, ship})
 		game.addAction(action)
-		game.sendActions()
 
 		return new Promise((resolve, reject) => {
 			game.onceStepEnd(() => {
@@ -27,6 +26,7 @@ describe('CtrlSimple', () => {
 				game.setState(GameState.End) // прекратить игру, чтобы избежать зацикливания
 				resolve()
 			})
+			game.sendActions()
 		})
 	})
 })

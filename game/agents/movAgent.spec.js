@@ -21,9 +21,31 @@ describe('movAgent', () => {
 		expect(action.uid).to.be.equal('Con')
 		expect(action.current).to.be.equal(0)
 		expect(action.list).to.have.lengthOf(3)
-		expect(action.list[0]).to.be.eql({x: 0, y: 8, dir: 0})
-		expect(action.list[1]).to.be.eql({x: -1, y: 8, dir: 5})
-		expect(action.list[2]).to.be.eql({x: 1, y: 8, dir: 1})
+		expect(action.list[0]).to.be.eql({x: 0, y: 9, dir: 0})
+		expect(action.list[1]).to.be.eql({x: -1, y: 9, dir: 5})
+		expect(action.list[2]).to.be.eql({x: 1, y: 9, dir: 1})
+
+		const {droneA} = game.objects
+		const actionA = movAgent.createAction({game, ship: droneA})
+		expect(actionA).to.be.ok
+		expect(actionA.uid).to.be.equal('droneA')
+	})
+
+	it('mergeAction', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.objects.Con
+		const action = movAgent.createAction({game, ship})
+		const x0 = action.list[0].x
+		const y0 = action.list[0].y
+		// позитивный сценарий
+		movAgent.mergeAction({current:2}, action)
+		expect(action).to.have.property('current', 2)
+		// Попытка подсунуть ложный список
+		movAgent.mergeAction({list:[{x: 999, y: 999}], current: 0}, action)
+		expect(action).to.have.property('current', 0)	// Это поле применяется
+		expect(action.list[0].x).to.be.equal(x0)	// А эти данные меняться не должны
+		expect(action.list[0].y).to.be.equal(y0)
 	})
 
 	it('execAction', () => {

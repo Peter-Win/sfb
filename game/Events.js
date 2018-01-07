@@ -54,8 +54,10 @@ class Events {
 	static toShip(params) {
 		const {ship} = params
 		Events.onFsm(ship.getFsm(), ship.state, params)
-		if (ship.devs) {
-			ship.devs.forEach(device => {
+		const {devs} = ship
+		if (devs) {
+			Object.keys(devs).forEach(key => {
+				const device = devs[key]
 				params.dev = device
 				Events.toDevice(params)
 			})

@@ -12,7 +12,7 @@ const ShipState = {
 	Wait: 'Wait',
 }
 
-const objectFields = ['state', 'x', 'y', 'dir', 'uid', 'speed', 'turnMode', 'name', 'type']
+const objectFields = ['state', 'x', 'y', 'dir', 'uid', 'speed', 'turnMode', 'name', 'type', 'img']
 
 class SfbObject extends StateObject {
 	constructor() {
@@ -75,7 +75,7 @@ class SfbObject extends StateObject {
 	 * @returns {string}	signature
 	 */
 	getSignature() {
-		return `${this.name} ($this.uid)`
+		return `${this.name} (${this.uid})`
 	}
 	/**
 	 * @return {Object} FSM object
@@ -97,6 +97,11 @@ class SfbObject extends StateObject {
 		const {handlers} = description
 		if (handlers) {
 			Object.keys(handlers).forEach(key => this.handlers[key] = handlers[key])
+		}
+		// Контроллер
+		const {ctrl} = description
+		if (ctrl) {
+			this.ctrl = new ctrl
 		}
 	}
 

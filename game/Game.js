@@ -10,7 +10,7 @@ const {Side} = require('./Side')
 const {SfbObject} = require('./ships/SfbObject')
 const {Events} = require('./Events')
 const {ActionState} = require('./agents/ActionState')
-const {execAction} = require('./agents/AgentsMap')
+const {execAction, mergeAction} = require('./agents/AgentsMap')
 const {StateObject} = require('./StateObject')
 const {GameState} = require('./GameState')
 
@@ -112,8 +112,8 @@ class Game extends StateObject {
 	}
 
 	/**
-	 * Конвертировать в простой объект, который может быть конвертирован в JSON
-	 * @returns {Object}	simple object
+	 * Конвертировать в простой объект (совместимый с JSON)
+	 * @returns {Object}	JSON-object
 	 */
 	toSimple() {
 		const result = {objects: {}}
@@ -181,7 +181,7 @@ class Game extends StateObject {
 				const ship = this.objects[uid]
 				const {ctrl} = ship
 				if (!ctrl) {
-					throw new Error(`Empty controller for ${ship.getSignature()}`)
+					throw new Error(`Empty controller for ${ship.getSignature()}, action=${JSON.stringify(action)}`)
 				}
 				action.state = ActionState.Wait
 				ctrl.onAction(this, action)
@@ -190,24 +190,46 @@ class Game extends StateObject {
 	}
 
 	/**
-	 * Вызывается после обработки акции контроллером
+	 * Обработанная акция пришла по внешнему каналу.
+	 * Состояние не учитывается.
+	 * @param {{name,state,uid:string}} action	Акция, обработанная клиентом
+	 * @return {void}
+	 */
+	onActionIncome(action) {
+		const oldAction = this.actions.get(action.uid)
+		// Если вдруг приходит акция, не имеющая аналога среди существующих, то игнорируем
+		if (!oldAction) {
+			return
+		}
+		// Если акция пришла извне, то мержить полученные данные в существующий объект
+		if (oldAction !== action) {
+			mergeAction(this, action)
+		}
+		// Обозначить акцию, как законченную
+		oldAction.state = ActionState.End
+		// Продолжить жизненный цикл игры
+		this.receiveActions()
+	}
+
+	/**
+	 * Вызывается после обработки акции контроллером.
+	 * Акции, обработанные контроллером, имеют состояние End.
+	 * Передача на обработку агентам происходит только после закрытия всех акций.
 	 * @returns {void}
 	 */
 	receiveActions() {
 		const actionsList = []
-		this.actions.forEach(action => {
+		for (const [uid, action] of this.actions) {
 			if (action.state !== ActionState.End) {
 				// Если есть незаконченная акция - дальше ничего не делать (будет новый вызов receiveActions)
-				console.log('Game.receiveActions. Active action: ', JSON.stringify(action))
 				return
 			}
 			actionsList.push(action)
-		})
+		}
 		// Если все акции обработаны контроллером, значит их нужно выполнить и удалить
 		actionsList.forEach(action => {
-			// execAction(this, action) - вызывается при получении акции
+			execAction(this, action)
 			this.actions.delete(action.uid)
-			console.log('Game.receiveActions. Delete action: ', JSON.stringify(action))
 		})
 		// Обработчики конца хода
 		this.fnStepEnd.forEach(fn => fn(this))
@@ -249,21 +271,36 @@ class Game extends StateObject {
 	 * @return {void}
 	 */
 	nextStep() {
-		const ctrls = this.getAllCtrls()
-		ctrls.forEach(ctrl => ctrl.onStep(this))
-
+		this.sendStepToAll()
 		const evid = this.turnChart[this.turnStep]
+		// Сообщение рассылается всем
+		Events.toGame(evid, this)
+		// Возможно, есть обработчик процедуры
 		const specialHandler = TurnEvents[evid]
 		if (specialHandler) {
 			const params = {evid, game: this}
 			specialHandler(params)
-		} else {
-			Events.toGame(evid, this)
 		}
+		// Если появились акции - отправить на обработку
+		this.sendActions()
+		// Проверить, не закончена ли игра
 		this.checkState(this)
+		// Если закончилась, то сообщить контроллерам
+		if (this.isNotActive()) {
+			this.sendStepToAll()
+		}
 	}
 
-	switchStep() {
+	/**
+	 * Отправить всем контроллерам сообщение о смене состояния игры
+	 * @return {void}
+	 */
+	sendStepToAll() {
+		const ctrls = this.getAllCtrls()
+		ctrls.forEach(ctrl => ctrl.onStep(this))
+	}
+
+	switchProc() {
 		if (this.curTurn === 0) {
 			// Самый первый ход
 			this.curTurn++
@@ -276,7 +313,7 @@ class Game extends StateObject {
 				this.turnStep = 0
 				this.curTurn++	// Новый ход
 			} else if (this.turnChart[this.turnStep] === TurnPhase.ImpulseProc) {
-				this.curImp = 1
+				this.curImp = 0
 			}
 		} else {
 			// Импульсы
@@ -284,7 +321,7 @@ class Game extends StateObject {
 			if (this.curProc === this.impChart.length) { // новый импульс
 				this.curProc = 0
 				this.curImp++
-				if (this.curImp === this.turnLength) { // импульсы кончились
+				if (this.curImp === this.turnLength) { // импульсы кончились. Base 0
 					this.turnStep++
 				}
 			}
@@ -297,7 +334,7 @@ class Game extends StateObject {
 	 * @return {void}
 	 */
 	idle() {
-		for (let j = 0; j < 10000; j++) {
+		for (let j = 0; j < 100; j++) {
 			// Только для активного состояния игры...
 			if (this.isNotActive()) {
 				return
@@ -306,7 +343,7 @@ class Game extends StateObject {
 			if (this.actions.size > 0) {
 				return
 			}
-			this.switchStep()
+			this.switchProc()
 			this.nextStep()
 		}
 		// Для предотвращения бесконечного цикла

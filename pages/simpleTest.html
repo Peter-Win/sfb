@@ -20,30 +20,81 @@
             width: 100%;
             height: 100%;
         }
-        #header {z-index: 2;}
-        text {fill: #CCC; font-family: Tahoma, Arial; font-size: 18px;}
-        .hex-border {fill: none; stroke: #888; stroke-width: 1;}
-        .ship-frame {fill: none; stroke: #0C0; stroke-width: 1;}
-        .dir-selection {fill: #088; stroke: none; cursor: pointer;}
-        .dir-selection:hover {fill: #0FF; stroke: none; cursor: pointer;}
-        .dir-selection-cur {fill: #0CC; stroke: none;}
-        .btn-next {cursor: pointer;}
-        .btn-next rect {fill: #FFFF33; stroke: none;}
-        .btn-next rect:hover {fill: #FFFFAA; stroke: none;}
-        .btn-next text {fill: #000;}
+
+        #header {
+            z-index: 2;
+        }
+
+        text {
+            fill: #CCC;
+            font-family: Tahoma, Arial;
+            font-size: 18px;
+        }
+
+        .hex-border {
+            fill: none;
+            stroke: #888;
+            stroke-width: 1;
+        }
+
+        .ship-frame {
+            fill: none;
+            stroke: #0C0;
+            stroke-width: 1;
+        }
+
+        .dir-selection {
+            fill: #088;
+            stroke: none;
+            cursor: pointer;
+        }
+
+        .dir-selection:hover {
+            fill: #0FF;
+            stroke: none;
+            cursor: pointer;
+        }
+
+        .dir-selection-cur {
+            fill: #0CC;
+            stroke: none;
+        }
+
+        .btn-next {
+            cursor: pointer;
+        }
+
+        .btn-next rect {
+            fill: #FFFF33;
+            stroke: none;
+        }
+
+        .btn-next rect:hover {
+            fill: #FFFFAA;
+            stroke: none;
+        }
+
+        .btn-next text {
+            fill: #000;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
     </style>
 
     <script>
-		function createNodeNS(namespaceURI, tag, owner, params) {
-			var node = document.createElementNS(namespaceURI, tag);
-			if (owner) {
-				owner.appendChild(node);
-			}
+		function setAttr(node, params) {
 			if (params) {
 				Object.keys(params).forEach(key => {
 					node.setAttribute(key, params[key]);
 				});
 			}
+		}
+		function createNodeNS(namespaceURI, tag, owner, params) {
+			var node = document.createElementNS(namespaceURI, tag);
+			if (owner) {
+				owner.appendChild(node);
+			}
+			setAttr(node, params)
 			return node;
 		}
 		function createNode(tag, owner, params) {
@@ -54,17 +105,17 @@
 		function calcViewPos(worldPos) {
 			return {
 				x: worldPos.x * hexHalf * 3 + hexHalf * 2 + worldSpace,
-                y: worldPos.y * hexHalfHeight * 2 + hexHalfHeight + worldSpace + (worldPos.x & 1) * hexHalfHeight,
-            }
-        }
-        function drawHex(pos, owner, cls) {
+				y: worldPos.y * hexHalfHeight * 2 + hexHalfHeight + worldSpace + (worldPos.x & 1) * hexHalfHeight,
+			}
+		}
+		function drawHex(pos, owner, cls) {
 			var vpos = calcViewPos(pos);
 			var d = '', x = vpos.x, y = vpos.y;
 			const addPoint = (x, y) => {
 				d += d ? 'L' : 'M';
 				d += x + ' ' + y;
-            }
-            addPoint(x - hexHalf, y - hexHalfHeight);
+			}
+			addPoint(x - hexHalf, y - hexHalfHeight);
 			addPoint(x + hexHalf, y - hexHalfHeight);
 			addPoint(x + hexHalf * 2, y);
 			addPoint(x + hexHalf, y + hexHalfHeight);
@@ -73,106 +124,110 @@
 			d += ' z';
 			var node = createNode('path', owner, {
 				'class': cls,
-                d: d,
-            })
-            return node;
-        }
+				d: d,
+			})
+			return node;
+		}
 		function drawHexFrame(board, wWidth, wHeight) {
 			var vWidth = (wWidth * 3 + 1) * hexHalf + worldSpace * 2;
 			var vHeight = (wHeight * 2 + 1) * hexHalfHeight + worldSpace * 2;
 
 			var x, y, d = '';
-			for (x=0; x<wWidth; x++) {
+			for (x = 0; x < wWidth; x++) {
 				var x0 = x * hexHalf * 3 + worldSpace;
 				var x1 = x0 + hexHalf, x2 = x1 + hexHalf + hexHalf, x3 = x2 + hexHalf;
 				var yt = (x & 1) * hexHalfHeight + worldSpace;
 				d += `M${x1} ${yt}h${hexW}`;
-				for (y=0; y<wHeight; y++) {
+				for (y = 0; y < wHeight; y++) {
 					var y0 = (y * 2 + (x & 1)) * hexHalfHeight + worldSpace;
 					var y1 = y0 + hexHalfHeight, y2 = y1 + hexHalfHeight;
-					d+= `M${x2} ${y0}L${x3} ${y1}L${x2} ${y2}L${x1} ${y2}`;
+					d += `M${x2} ${y0}L${x3} ${y1}L${x2} ${y2}L${x1} ${y2}`;
 				}
 				if (x & 1) {
 					d += `M${x0} ${y1}L${x1} ${y2}`;
 				} else {
-					d += `M${x0} ${hexHalfHeight+worldSpace}l${hexHalf} ${-hexHalfHeight}`;
+					d += `M${x0} ${hexHalfHeight + worldSpace}l${hexHalf} ${-hexHalfHeight}`;
 				}
 			}
-			d += `M${worldSpace} ${hexHalfHeight+worldSpace}`;
-			for (y=0; y<wHeight; y++) {
+			d += `M${worldSpace} ${hexHalfHeight + worldSpace}`;
+			for (y = 0; y < wHeight; y++) {
 				if (y) d += `l${-hexHalf} ${hexHalfHeight}`;
 				d += `l${hexHalf} ${hexHalfHeight}`;
 			}
-			var boardBk = createNode('rect', board, {'class': 'board-bk', x:0, y:0, width: vWidth, height: vHeight});
+			var boardBk = createNode('rect', board, {'class': 'board-bk', x: 0, y: 0, width: vWidth, height: vHeight});
 			var rect = createNode('path', board, {'class': 'hex-border', d});
-        }
+		}
 		var ws = null;
 		var bHex = false;
 
 		function sendRequest(msgObj) {
 			ws.send(JSON.stringify(msgObj));
-        }
+		}
 
-		window.onload = function() {
+		window.onload = function () {
 			var boardContainer = document.getElementById('board');
 			var headerContainer = document.getElementById('header');
 			var mainContainer = document.getElementById('main');
+
 			function drawNextButton() {
 				var btn = createNode('g', mainContainer, {'class': 'btn-next'});
 				var x = 500, y = 0, w = 100, h = 26;
 				createNode('rect', btn, {
 					x: x, y: y, width: w, height: h,
-                });
-				createNode('text', btn, {x: x + w/2, y: y+h}).innerHTML = 'Next';
+				});
+				createNode('text', btn, {x: x + w / 2, y: y + h / 2}).innerHTML = 'Next';
 				btn.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    if (curAction) {
-                    	var result = curAction.getResult();
-                    	sendRequest({type: 'actionResult', action: result});
-                    	curAction.close();
-                    	curAction = null;
-                    	updateNextButton();
-                    }
+					event.preventDefault();
+					if (curAction) {
+						var result = curAction.getResult();
+						sendRequest({type: 'actionResult', action: result});
+						curAction.close();
+						curAction = null;
+						updateNextButton();
+					}
 				})
 				return btn;
 			}
+
 			var nextButton = drawNextButton();
 			var shipNodes = {}
 			var curGame = null;
 			var curAction = null;
+
 			function updateNextButton() {
 				nextButton.style.visibility = curAction ? 'visible' : 'hidden';
-            }
-            updateNextButton();
+			}
+
+			updateNextButton();
 			var actionHandlers = {
 				Move(action) {
-					console.log('Move action: ', action);
-					return new function() {
+					return new function () {
 						var hexNodes = []
 						for (var j in action.list) createHex(+j);
 						function createHex(j) {
 							var hexPos = action.list[j]
 							var hex = drawHex(hexPos, boardContainer,
-                                j == action.current ? 'dir-selection-cur' : 'dir-selection');
+								j == action.current ? 'dir-selection-cur' : 'dir-selection');
 							hex.addEventListener('click', event => {
 								event.preventDefault();
-								hexNodes[action.current].setAttribute('class', 'dir-selection');
-								hexNodes[j].setAttribute('class', 'dir-selection-cur')
+								setAttr(hexNodes[action.current], {'class': 'dir-selection'});
+								setAttr(hexNodes[j], {'class': 'dir-selection-cur'})
 								action.current = j;
 							});
 							hexNodes.push(hex);
 						}
-						this.getResult = function() {
+
+						this.getResult = function () {
 							return action;
-                        }
-						this.close = function() {
+						}
+						this.close = function () {
 							for (var j in hexNodes) {
 								boardContainer.removeChild(hexNodes[j]);
-                            }
-                        }
+							}
+						}
 					}
-                },
-            }
+				},
+			}
 			var msgHandlers = {
 				game(msg) {
 					var game = msg.game;
@@ -180,76 +235,86 @@
 					if (!bHex) {
 						bHex = true;
 						drawHexFrame(boardContainer, game.width, game.height)
-                    }
-                    drawGameHeader(game);
+					}
+					drawGameHeader(game);
 					updateShips(game.objects)
-                },
-                action(msg) {
+				},
+				action(msg) {
 					var action = msg.action;
 					var handler = actionHandlers[action.name];
 					if (handler) {
 						curAction = handler(action);
 						updateNextButton();
-                    } else {
+					} else {
 						console.warn('Unhandled action: ', action);
-                    }
-                },
-            }
+					}
+				},
+			}
+
 			function drawHeader(msg) {
 				headerContainer.innerHTML = msg;
-            }
-            function drawGameHeader(game) {
+			}
+
+			function drawGameHeader(game) {
 				var msg = '';
 				if (game.state == 'Active') {
 					msg = 'Turn: ' + game.curTurn;
 					if (game.turnStepId === 'ImpulseProc') {
-						msg += ', Impulse ' + game.curImp + '/' + game.turnLength;
+						msg += ', Impulse ' + (game.curImp + 1) + '/' + game.turnLength;
 					}
 				} else {
 					msg = 'Game state: ' + game.state;
-                }
+				}
 				drawHeader(msg);
-				console.log('Game: ', game)
-            }
-            function updateShips(ships) {
-                for (var uid in ships) {
-                	var ship = ships[uid];
-                	var shipNode = shipNodes[uid];
-                	if (!shipNode) {
-                		shipNode = createNode('g', boardContainer);
-                        shipNodes[uid] = shipNode;
-                        var img = createNode('path', shipNode, {
-                        	'class': 'ship-frame',
-                            d: 'M0 9 L0 -9 l4 4 m-4 -4 l-4 4 M-4 0 L4 0',
-                        });
-                    }
-                    var vpos = calcViewPos(ship);
-                	var a = ship.dir * 60;
-                    shipNode.setAttribute('transform', 'translate('+vpos.x+','+vpos.y+'),rotate('+a+')');
-                }
+			}
+
+			function updateShips(ships) {
+				for (var uid in ships) onShip(uid);
+				function onShip(uid){
+					var ship = ships[uid];
+					var shipNode = shipNodes[uid];
+					if (!shipNode) {
+						shipNode = createNode('g', boardContainer);
+						shipNodes[uid] = shipNode;
+						var img = createNode('image', shipNode, {
+							href: "/img/" + ship.img + ".png",
+						});
+						img.addEventListener('load', function () {
+                            var box = img.getBBox();
+                            var maxDim = Math.max(box.width, box.height);
+                            var k  = (hexHalfHeight * 2) * 0.9 / maxDim;
+                            var w = box.width * k;
+                            var h = box.height * k;
+                            setAttr(img, {x: -w/2, y: -h/2, width: w, height: h});
+						})
+					}
+					var vpos = calcViewPos(ship);
+					var a = ship.dir * 60;
+					setAttr(shipNode, {'transform': 'translate(' + vpos.x + ',' + vpos.y + '),rotate(' + a + ')'});
+				}
 			}
 
 			ws = new WebSocket('ws://' + location.host);
-			ws.onerror = function(err) {
+			ws.onerror = function (err) {
 				console.error(err);
 				drawHeader(err)
 			}
-			ws.onopen = function() {
+			ws.onopen = function () {
 				drawHeader('Wait for connection...')
 				sendRequest({type: 'askGame'})
-            }
+			}
 			ws.onclose = function () {
-                drawHeader('Connection lost');
+				drawHeader('Connection lost');
 			}
 			ws.onmessage = function (event) {
 				try {
 					var msgObj = JSON.parse(event.data)
-                    var handler = msgHandlers[msgObj.type];
+					var handler = msgHandlers[msgObj.type];
 					if (handler) {
 						handler(msgObj)
-                    } else {
+					} else {
 						console.warn('Unhandled message: ', msgObj);
-                    }
+					}
 				} catch (e) {
 					console.error(e);
 				}
@@ -258,9 +323,9 @@
     </script>
 </head>
 <body>
-    <svg id="main">
-        <g id="board"></g>
-        <text id="header" x="10" y="20"></text>
-    </svg>
+<svg id="main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="board"></g>
+    <text id="header" x="10" y="20"></text>
+</svg>
 </body>
 </html>

@@ -29,8 +29,16 @@ class Ship extends SfbObject {
 				ep.A = ep.B = ep.I = ep.W = 0
 			},
 		}
+
+		this.devs = {}
 	}
 
+	/**
+	 * @override
+	 */
+	init(description) {
+		super.init(description)
+	}
 }
 
 module.exports = {Ship}
