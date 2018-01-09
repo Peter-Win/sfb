@@ -18,6 +18,67 @@ const LR = 0x08
 const L =  0x10
 const LF = 0x20
 
+class Snowflake {
+	/**
+	 * @param {{x,y:number}} center	Центральная точка
+	 */
+	constructor(center) {
+		this.x0 = center.x
+		this.y0 = center.y
+		this.oddColumn = center.x & 1
+	}
+	isRight(pos) {
+		return pos.x >= this.x0
+	}
+	isLeft(pos) {
+		return pos.x <= this.x0
+	}
+
+	/**
+	 * Вычислить y для указанного x на прямой, которая проходит справа налево (вниз)
+	 * @param {number} x *
+	 * @return {number} y
+	 */
+	leftSlope(x) {
+		const dx = x - this.x0
+		const k = (dx + 1 - this.oddColumn) >> 1
+		return this.y0 - k
+	}
+
+	/**
+	 * Upper or equal then line from left to right (down)
+	 * @param {{x,y:number}} pos	target position
+	 * @return {boolean}	true, if upper or on line
+	 */
+	isLeftUp(pos) {
+		const y = this.leftSlope(pos.x)
+		return pos.y <= y
+	}
+	isLeftDown(pos) {
+		const y = this.leftSlope(pos.x)
+		return pos.y >= y
+	}
+
+	/**
+	 * Вычислить y для указанного x на прямой, которая проходит слева направо (вниз)
+	 * @param {number} x	*
+	 * @return {number}	y
+	 */
+	rightSlope(x) {
+		const dx = x - this.x0
+		const k = (dx + this.oddColumn) >> 1
+		return this.y0 + k
+	}
+	isRightUp(pos) {
+		const y = this.rightSlope(pos.x)
+		return pos.y <= y
+	}
+	isRightDown(pos) {
+		const y = this.rightSlope(pos.x)
+		return pos.y >= y
+	}
+}
+
 const Sector = Object.freeze({
 	/**
 	 * Проверка попадания
@@ -47,4 +108,37 @@ const Sector = Object.freeze({
 		RFA: R | LF | RF,
 		'360': RF | R | RR | LR | L | LF,
 	},
+	testPart: [
+		/**
+		 * 0 = RF
+		 * @param {Snowflake} snow	Center position
+		 * @param {{x,y:number}} pos	target position
+		 * @return {boolean}	true, if pos in RF sector
+		 */
+		(snow, pos) => {
+			return snow.isRight(pos) && snow.isLeftUp(pos)
+		},
+		// 1 = R
+		(snow, pos) => {
+			return snow.isRight(pos) && snow.isLeftDown(pos) && snow.isRightUp(pos)
+		},
+		// 2 = RR
+		(snow, pos) => {
+			return snow.isRight(pos) && snow.isRightDown(pos)
+		},
+		// 3 = LR
+		(snow, pos) => {
+			return snow.isLeft(pos) && snow.isRightDown(pos)
+		},
+		// 4 = L
+		(snow, pos) => {
+			return snow.isLeft(pos) && snow.isRightDown(pos) && snow.isLeftUp(pos)
+		},
+		// 5 = LF
+		(snow, pos) => {
+			return snow.isLeft(pos) && snow.isRightUp(pos)
+		},
+	],
 })
+
+module.exports = {Sector, Snowflake}
