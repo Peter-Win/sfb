@@ -4,6 +4,8 @@
  */
 const {SfbObject} = require('./SfbObject')
 const {TurnPhase} = require('../TurnChart')
+const {Device} = require('../devices/Device')
+const {PhaserCapacitor} = require('../devices/PhaserCapacitor')
 
 class Ship extends SfbObject {
 	constructor() {
@@ -30,7 +32,9 @@ class Ship extends SfbObject {
 			},
 		}
 
-		this.devs = {}
+		this.devs = {
+			PhCap: Device.create(PhaserCapacitor)
+		}
 	}
 
 	/**

@@ -2,9 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <script>
+        var data = {};
+        function recalc() {
+            const x0 = +data.x0;
+            const y0 = +data.y0;
+            const x1 = +data.x1;
+            const y1 = +data.y1;
+            var s = '';
+            if (isNaN(x0) || isNaN(y0) || isNaN(x1) || isNaN(y1)) {
+            	s = '';
+            } else {
+            	var dx = Math.abs(x1 - x0);
+            	var dy = Math.abs(y1 - y0);
+            	if (!dx) {
+            		// Вертикальная линия
+                    s = dy;
+                } else {
+            		if (x0 & 1) {
+						var c = y1 > y0 ? 1 : 0;
+					} else {
+            			var c = y1 < y0 ? 1 : 0;
+                    }
+            		var k = (dx + c) >> 1;
+            		if (dy <= k) {
+            			s = dx;
+                    } else {
+            			s = dx + (dy - k);
+                    }
+                }
+            }
+            document.getElementById('res').innerHTML = s;
+		}
+        window.onload = function () {
+            ['x0', 'y0', 'x1', 'y1'].forEach(id => {
+            	var elem = document.getElementById(id)
+                data[id] = elem.value;
+                elem.addEventListener('input', event => {
+                	data[id] = elem.value;
+                	recalc();
+                })
+            });
+            recalc();
+		}
+    </script>
+    <style>
+        .info {border-collapse: collapse;}
+        .info td {border: thin solid black; padding: 2px 5px; }
+    </style>
 </head>
 <body>
-$END$
+    <table>
+        <tr>
+            <td></td>
+            <td>x</td>
+            <td>y</td>
+        </tr>
+        <tr>
+            <td>P0</td>
+            <td><input type="text" id="x0" size="3" value="0" autofocus /></td>
+            <td><input type="text" id="y0" size="3" value="1" /></td>
+        </tr>
+        <tr>
+            <td>P1</td>
+            <td><input type="text" id="x1" size="3" value="1" /></td>
+            <td><input type="text" id="y1" size="3" value="0" /></td>
+        </tr>
+    </table>
+    <div>
+        dist = <span id="res"></span>
+    </div>
+    <table class="info">
+        <tr><td></td><td>L</td><td>dX</td><td>dY</td></tr>
+        <tr><td>01 - 10</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>01 - 11</td><td>1</td><td>1</td><td>0</td></tr>
+    </table>
 </body>
 </html>

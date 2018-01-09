@@ -77,4 +77,51 @@ describe('Hex', () => {
 			expect(current).to.be.equal(target)
 		}
 	})
+
+	//   __    __
+	//  /00\__/20\__
+	//  \__/10\__/30\
+	//  /01\__/21\__/
+	//  \__/11\__/31\
+	//  /02\__/22\__/
+	//  \__/12\__/32\
+	//     \__/  \__/
+	it('actualDistance', () => {
+		expect(Hex.actualDistance({x: 0, y: 0}, {x: 0, y: 0})).to.be.equal(0)
+		// dist=1 to direction=0
+		expect(Hex.actualDistance({x: 0, y: 1}, {x: 0, y: 0})).to.be.equal(1)
+		expect(Hex.actualDistance({x: 1, y: 1}, {x: 1, y: 0})).to.be.equal(1)
+		// dist=1 to direction=1
+		expect(Hex.actualDistance({x: 0, y: 1}, {x: 1, y: 0})).to.be.equal(1)
+		expect(Hex.actualDistance({x: 1, y: 1}, {x: 2, y: 1})).to.be.equal(1)
+		// dist=1 to direction=2
+		expect(Hex.actualDistance({x: 0, y: 1}, {x: 1, y: 1})).to.be.equal(1)
+		expect(Hex.actualDistance({x: 1, y: 1}, {x: 2, y: 2})).to.be.equal(1)
+		// dist=1 to direction=3
+		expect(Hex.actualDistance({x: 0, y: 1}, {x: 0, y: 2})).to.be.equal(1)
+		expect(Hex.actualDistance({x: 1, y: 1}, {x: 1, y: 2})).to.be.equal(1)
+		// dist=1 to direction=4
+		expect(Hex.actualDistance({x: 2, y: 0}, {x: 1, y: 0})).to.be.equal(1)
+		expect(Hex.actualDistance({x: 1, y: 1}, {x: 0, y: 2})).to.be.equal(1)
+		// dist=1 to direction=5
+		expect(Hex.actualDistance({x: 2, y: 1}, {x: 1, y: 0})).to.be.equal(1)
+		expect(Hex.actualDistance({x: 1, y: 1}, {x: 0, y: 1})).to.be.equal(1)
+		// dist=2, direction=0
+		expect(Hex.actualDistance({x: 0, y: 2}, {x: 0, y: 0})).to.be.equal(2)
+		expect(Hex.actualDistance({x: 1, y: 2}, {x: 1, y: 0})).to.be.equal(2)
+		expect(Hex.actualDistance({x: 1, y: 2}, {x: 2, y: 1})).to.be.equal(2)
+		// dist=2, dir=1
+		expect(Hex.actualDistance({x: 0, y: 1}, {x: 2, y: 0})).to.be.equal(2)
+		expect(Hex.actualDistance({x: 1, y: 2}, {x: 3, y: 1})).to.be.equal(2)
+		// dist=2, dir=2
+		expect(Hex.actualDistance({x: 0, y: 0}, {x: 2, y: 1})).to.be.equal(2)
+		expect(Hex.actualDistance({x: 1, y: 0}, {x: 3, y: 1})).to.be.equal(2)
+		// dist=2, dir=3
+		expect(Hex.actualDistance({x: 0, y: 0}, {x: 0, y: 2})).to.be.equal(2)
+		expect(Hex.actualDistance({x: 1, y: 0}, {x: 1, y: 2})).to.be.equal(2)
+		// dist=3 in areaB
+		expect(Hex.actualDistance({x: 3, y: 0}, {x: 0, y: 0})).to.be.equal(3)
+		// dist=4 in area C
+		expect(Hex.actualDistance({x: 2, y: 0}, {x: 1, y: 3})).to.be.equal(4)
+	})
 })

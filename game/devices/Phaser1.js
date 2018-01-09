@@ -7,13 +7,13 @@
  *
  * Created by PeterWin on 07.01.2018.
  */
-const {Device} = require('./Device')
+const {Phaser} = require('./Phaser')
 
-class Phaser1 extends Device {
+class Phaser1 extends Phaser {
 	constructor() {
 		super()
 		this.name = 'Phaser-1'
-		this.weap = 'PH-1'
+		this.weapon = 'PH-1'
 		this.ecost = 1
 	}
 }

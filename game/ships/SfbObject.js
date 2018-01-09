@@ -139,6 +139,15 @@ class SfbObject extends StateObject {
 		return !!game.movChart[game.curImp][intSpeed]
 	}
 
+	/**
+	 * Ship can fire
+	 * @param {Game} game	Main game object
+	 * @return {boolean} true, id can fire
+	 */
+	isCanFire(game) {
+		return false
+	}
+
 	isTractored() {
 		return false	// TODO: заглушка
 	}
