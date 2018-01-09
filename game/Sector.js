@@ -17,6 +17,7 @@ const RR = 0x04
 const LR = 0x08
 const L =  0x10
 const LF = 0x20
+const FullMask = 0x3F
 
 class Snowflake {
 	/**
@@ -84,7 +85,6 @@ const Sector = Object.freeze({
 	 * Проверка попадания
 	 * @param {{x,y,dir:number}} center *
 	 * @param {{x,y:number}} target *
-	 * @param {boolean} true, если в секторе
 	 * @return {boolean} true, if in sector
 	 */
 	inSector(center, target) {
@@ -128,7 +128,7 @@ const Sector = Object.freeze({
 		},
 		// 3 = LR
 		(snow, pos) => {
-			return snow.isLeft(pos) && snow.isRightDown(pos)
+			return snow.isLeft(pos) && snow.isLeftDown(pos)
 		},
 		// 4 = L
 		(snow, pos) => {
@@ -139,6 +139,47 @@ const Sector = Object.freeze({
 			return snow.isLeft(pos) && snow.isRightUp(pos)
 		},
 	],
+	/**
+	 * Проверка попадания точки target в сектора, указанные arcMap, относительно center
+	 * @param {number} arcMap	Одно из значений Sector.arc
+	 * @param {{x,y:number}} center		Центральная точка
+	 * @param {{x,y:number}} target		Проверяемая точка
+	 * @return {boolean}	true, если точка попадает в сектора
+	 */
+	testArc(arcMap, center, target) {
+		if (arcMap === Sector.arc['360']) {
+			return true		// Чтобы не выполнять много лишних вычислений
+		}
+		const snow = new Snowflake(center)
+		let mask = 1
+		for (let sectorIndex = 0; sectorIndex < 6; sectorIndex++, mask <<= 1) {
+			// если текущий сектор попадает в карту
+			if (mask & arcMap) {
+				// Если проверяемая точка попала в текущий сектор, значит успешный выход
+				if (Sector.testPart[sectorIndex](snow, target)) {
+					return true
+				}
+			}
+		}
+		// точка не попала ни в один из секторов
+		return false
+	},
+
+	/**
+	 * Вращать указанный набор секторов на соответствующее направление
+	 * @param {number} arcMap	карта секторов, соответствующая Sector.arc.*
+	 * @param {number} dir	Направление 0-5
+	 * @return {number}	новая карта секторов
+	 */
+	rotateArc(arcMap, dir) {
+		//           |A|B|C|D|E|F|
+		// dir = 1  A|B|C|D|E|F| |
+		//           | | | | | |A|B|C|D|E|F
+		if (!dir) {
+			return arcMap
+		}
+		return ((arcMap << dir) & FullMask) | ((arcMap >> (6 - dir)) & FullMask)
+	},
 })
 
 module.exports = {Sector, Snowflake}
