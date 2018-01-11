@@ -14,7 +14,7 @@ const ShipState = {
 
 const objectFields = ['state', 'x', 'y', 'dir', 'uid', 'speed', 'turnMode', 'name', 'type', 'img']
 
-class SfbObject extends StateObject {
+class Counter extends StateObject {
 	constructor() {
 		super(ShipState.Active)
 		this.x = 0
@@ -38,12 +38,12 @@ class SfbObject extends StateObject {
 			/**
 			 * @param {Object} params	Parameters
 			 * @param {Game} params.game	main game object
-			 * @param {SfbObject} params.ship	current ship
+			 * @param {Counter} params.ship	current ship
 			 * @returns {boolean} Может ли данный корабль совершить поворот в текущий момент
 			 */
 			isCanChangeDir(params) {
 				return false
-			}
+			},
 		}
 	}
 
@@ -160,7 +160,7 @@ class SfbObject extends StateObject {
 	 * Создать объект из описания
 	 * @param {Object} description Описание, которое используется в сценариях
 	 * @param {function} description.type Конструктор объекта
-	 * @returns {SfbObject} Корабль или другой объект
+	 * @returns {Counter} Корабль или другой объект
 	 */
 	static create(description) {
 		// У описания обязательно должен быть указан тип
@@ -174,4 +174,4 @@ class SfbObject extends StateObject {
 	}
 }
 
-module.exports = {SfbObject, ShipState}
+module.exports = {Counter, ShipState}

@@ -5,6 +5,6 @@
 const cadetSimple = {
 	isCanChangeDir(params) {
 		return true
-	}
+	},
 }
 module.exports = {cadetSimple}

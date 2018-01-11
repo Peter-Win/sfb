@@ -7,7 +7,7 @@ const {Game} = require('../Game')
 const {first} = require('../scenarios/first')
 const {ActionState} = require('../agents/ActionState')
 const {execAction} = require('../agents/AgentsMap')
-const {ShipState} = require('../ships/SfbObject')
+const {ShipState} = require('../ships/Counter')
 
 describe('movAgent', () => {
 	it('createAction', () => {

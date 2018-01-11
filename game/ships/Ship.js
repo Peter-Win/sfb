@@ -2,12 +2,12 @@
  * Корабль или объект с похожим поведением
  * Created by PeterWin on 09.12.2017.
  */
-const {SfbObject} = require('./SfbObject')
+const {Counter} = require('./Counter')
 const {TurnPhase} = require('../TurnChart')
 const {Device} = require('../devices/Device')
 const {PhaserCapacitor} = require('../devices/PhaserCapacitor')
 
-class Ship extends SfbObject {
+class Ship extends Counter {
 	constructor() {
 		super()
 		// warp, impulse, APR, btty
@@ -33,7 +33,7 @@ class Ship extends SfbObject {
 		}
 
 		this.devs = {
-			PhCap: Device.create(PhaserCapacitor)
+			PhCap: Device.create(PhaserCapacitor),
 		}
 	}
 

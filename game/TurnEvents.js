@@ -40,7 +40,7 @@ const TurnEvents = {
 		} else {
 			Events.toGame(curProcId, game)
 		}
-	}
+	},
 }
 
 module.exports = {TurnEvents}

@@ -9,7 +9,7 @@ const {ShipFCC} = require('../ships/ShipFCC')
 const {Missile} = require('../ships/Missile')
 const {CtrlSimple} = require('../ctrls/CtrlSimple')
 const {cadetSimple} = require('../handlers/cadetSimple')
-const {ShipState} = require('../ships/SfbObject')
+const {ShipState} = require('../ships/Counter')
 const {GameState} = require('../GameState')
 const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('../consts')
 
@@ -54,7 +54,7 @@ const first = {
 		if (game.objects.Con.state !== ShipState.Active) {
 			game.setState(GameState.Fail)
 		}
-	}
+	},
 }
 
 module.exports = {first}

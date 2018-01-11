@@ -14,7 +14,7 @@ class MovAgent extends Agent {
 	 * Создание возможных вариантов перемещения для указанного корабля
 	 * @param {Object} params	Parameters
 	 * @param {Game} params.game	main game object
-	 * @param {SfbObject} params.ship	ship object
+	 * @param {Counter} params.ship	ship object
 	 * @return {Object|null} possible action object
 	 */
 	createAction(params) {

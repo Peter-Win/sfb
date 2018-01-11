@@ -7,7 +7,7 @@ const {TurnChart, TurnPhase} = require('./TurnChart')
 const {TurnEvents} = require('./TurnEvents')
 const {MovChart32} = require('./MovChart')
 const {Side} = require('./Side')
-const {SfbObject} = require('./ships/SfbObject')
+const {Counter} = require('./ships/Counter')
 const {Events} = require('./Events')
 const {ActionState} = require('./agents/ActionState')
 const {execAction, mergeAction} = require('./agents/AgentsMap')
@@ -37,7 +37,7 @@ class Game extends StateObject {
 		this.sides = []
 		/**
 		 * Игровые объекты
-		 * @type {Object<string, SfbObject>}
+		 * @type {Object<string, Counter>}
 		 */
 		this.objects = {}
 		/**
@@ -96,7 +96,7 @@ class Game extends StateObject {
 		this.sides = scenario.sides.map(sideData => new Side(sideData))
 		// Объекты, участвующие в игре
 		scenario.objects.forEach(objectData => {
-			const ship = SfbObject.create(objectData)
+			const ship = Counter.create(objectData)
 			this.insertShip(ship)
 		})
 		this.actions.clear()
@@ -141,7 +141,7 @@ class Game extends StateObject {
 	}
 
 	/**
-	 * @param {SfbObject} ship Inserting ship or same object
+	 * @param {Counter} ship Inserting ship or same object
 	 * @returns {void}
 	 */
 	insertShip(ship) {
@@ -155,7 +155,7 @@ class Game extends StateObject {
 	/**
 	 * Get ship by uid
 	 * @param {string} uid	ship id
-	 * @returns {SfbObject} ship
+	 * @returns {Counter} ship
 	 */
 	getShip(uid) {
 		return this.objects[uid]
@@ -353,7 +353,7 @@ class Game extends StateObject {
 	/**
 	 * Создать акции для всех объектов, которые удовлетворяют указанному условию
 	 * @param {Agent} agent агент
-	 * @param {function(game:Game, ship:SfbObject):boolean} condition Условие
+	 * @param {function(game:Game, ship:Counter):boolean} condition Условие
 	 * @return {void}
 	 */
 	beginGlbActionIf(agent, condition) {

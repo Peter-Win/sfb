@@ -1,9 +1,9 @@
 /**
  * Created by PeterWin on 06.01.2018.
  */
-const {SfbObject} = require('./SfbObject')
+const {Counter} = require('./Counter')
 
-class Missile extends SfbObject {
+class Missile extends Counter {
 	constructor() {
 		super()
 		this.img = 'Drone'
