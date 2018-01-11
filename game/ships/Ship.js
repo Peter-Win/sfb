@@ -43,6 +43,14 @@ class Ship extends SfbObject {
 	init(description) {
 		super.init(description)
 	}
+
+	/**
+	 * Корабль может стрелять, если он в активном состоянии
+	 * @override
+	 */
+	isCanFire(game) {
+		return this.isActive()
+	}
 }
 
 module.exports = {Ship}

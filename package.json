@@ -4,7 +4,8 @@
   "description": "Star Fleet Battle prototype",
   "main": "start.js",
   "scripts": {
-    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json"
+    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json",
+    "lint": "eslint game/**/*.js --ext .js"
   },
   "repository": {
     "type": "git",
