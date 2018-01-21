@@ -38,7 +38,7 @@ class Events {
 		Object.keys(game.objects).forEach(key => {
 			const ship = game.objects[key]
 			const side = game.sides[ship.side]
-			Events.toShip({game, side, ship})
+			Events.toShip({evid, game, side, ship})
 		})
 	}
 

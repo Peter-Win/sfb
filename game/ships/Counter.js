@@ -3,6 +3,7 @@
  */
 const {Rules} = require('../Rules')
 const {StateObject} = require('../StateObject')
+const {Hex} = require('../Hex')
 
 const ShipState = {
 	Active: 'Active',
@@ -60,6 +61,14 @@ class Counter extends StateObject {
 		if (dir !== undefined) {
 			this.dir = dir
 		}
+	}
+
+	/**
+	 * Получить объект с координатами корабля
+	 * @return {{x:number, y:number}}	координаты
+	 */
+	getPos() {
+		return {x: this.x, y: this.y}
 	}
 
 	// Экспорт в простой объект
@@ -141,11 +150,22 @@ class Counter extends StateObject {
 
 	/**
 	 * Ship can fire
+	 * Это просто способность стрелять. Без учета наличия готовых орудий или попадания противника в сектор обстрела.
+	 * Например, ракеты не могут стрелять, а корабли потенциально могут.
 	 * @param {Game} game	Main game object
 	 * @return {boolean} true, id can fire
 	 */
 	isCanFire(game) {
 		return false
+	}
+
+	/**
+	 * Получить список реальных целей для стрельбы с учетом всех возможных факторов и с оценкой вероятности поражения
+	 * @param {Game} game	Main game object
+	 * @return {{devId,targetId:string, arcMap:number, pos,targetPos:{x,y:number}}[]}	Targets list
+	 */
+	buildFireTargets(game) {
+		return []
 	}
 
 	isTractored() {
@@ -154,6 +174,35 @@ class Counter extends StateObject {
 
 	isHaveMinCrew() {
 		return true	// TODO: заглушка
+	}
+
+	/**
+	 * Получение кораблём указанного количества повреждений
+	 * @param {Counter} source	*
+	 * @param {number} value	*
+	 * @return {Object<string,number>}	Статистика полученных типов повреждения
+	 */
+	onDamage(source, value) {
+		const direction = Hex.inverseDir(source.dir)
+		const result = {}
+		for (let i = 0; i < value; i++) {
+			const type = this.onDamagePoint(direction)
+			result[type] = (result[type] || 0) + 1
+		}
+		return result
+	}
+
+	/**
+	 * Переопределяемая функция, которая получает единицу повреждения
+	 *   _5/B \1  if A strike to B, then direction = 4
+	 *  /A \__/2
+	 *      3
+	 * @abstract
+	 * @param {number} direction	Direction of strike
+	 * @return {string}	'lost' | 'shield' | 'internal'	Тип полученного повреждения
+	 */
+	onDamagePoint(direction) {
+		return 'lost'
 	}
 
 	/**

@@ -6,6 +6,10 @@ const {Counter} = require('./Counter')
 const {TurnPhase} = require('../TurnChart')
 const {Device} = require('../devices/Device')
 const {PhaserCapacitor} = require('../devices/PhaserCapacitor')
+const {fireAgent} = require('../agents/fireAgent')
+const {Events} = require('../Events')
+const {Energy} = require('../utils/Energy')
+const {Hex} = require('../Hex')
 
 class Ship extends Counter {
 	constructor() {
@@ -27,14 +31,26 @@ class Ship extends Counter {
 		this.fsm = {}
 		this.fsm.All = {
 			[TurnPhase.BeginOfTurn]: params => {
-				const ep = this.energyPool
+				const ep = params.ship.energyPool
 				ep.A = ep.B = ep.I = ep.W = 0
+			},
+			[TurnPhase.AutoEAlloc]: params => {
+				params.ship.handlers.autoEAlloc(params)
 			},
 		}
 
-		this.devs = {
-			PhCap: Device.create(PhaserCapacitor),
-		}
+		this.devs = {}
+		Device.create(this.devs, PhaserCapacitor.id, PhaserCapacitor)
+
+		this.handlers.autoEAlloc = Energy.shipAutoEAlloc
+	}
+
+	/**
+	 * @param {string} devId device identifier
+	 * @return {Device} *
+	 */
+	getDevice(devId) {
+		return this.devs[devId]
 	}
 
 	/**
@@ -45,11 +61,69 @@ class Ship extends Counter {
 	}
 
 	/**
+	 * Является ли врагом указанный корабль
+	 * @param {Game} game	Main game object
+	 * @param {Counter} ship	target counter
+	 * @return {boolean}	true, if enemy
+	 */
+	isEnemy(game, ship) {
+		// Врагом считается юнит, который активен и не принадлежит той же стороне
+		return ship.isActive() && this.side !== ship.side
+	}
+
+	/**
+	 * Сформировать список вражеских юнитов
+	 * @param {Game} game Main game object
+	 * @return {Array<Counter>} enemies list
+	 */
+	buildEnemiesList(game) {
+		const {objects} = game
+		return Object.keys(objects).reduce((list, key) => {
+			const ship = objects[key]
+			if (this.isEnemy(game, ship)) {
+				list.push(ship)
+			}
+			return list
+		}, [])
+	}
+
+	/**
 	 * Корабль может стрелять, если он в активном состоянии
 	 * @override
 	 */
 	isCanFire(game) {
 		return this.isActive()
+	}
+
+	/**
+	 * @override
+	 */
+	buildFireTargets(game) {
+		// Получить список готовых к стрельбе устройств
+		const params = {evid: 'CanFire', game, ship: this, devList: []}
+		Events.toShip(params)
+		// Получить список врагов, по которым можно стрелять
+		const enemies = this.buildEnemiesList(game)
+		// Сформировать список возможных вариантов стрельбы, который станет частью акции
+		const result = []
+		params.devList.forEach(dev => {
+			enemies.forEach(target => {
+				if (dev.isValidTarget(this, target)) {
+					result.push(fireAgent.createTrace({game, ship: this, dev, target}))
+				}
+			})
+		})
+		return result
+	}
+
+	/**
+	 * Вычислить эффективное расстояние до цели
+	 * @param {Counter} target	Цель
+	 * @return {number}	расстояние
+	 */
+	distanceTo(target) {
+		// TODO: нужно вычислять эффективное расстояние. А пока используем актуальное
+		return Hex.actualDistance(this.getPos(), target.getPos())
 	}
 }
 

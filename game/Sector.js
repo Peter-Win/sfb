@@ -83,11 +83,15 @@ class Snowflake {
 const Sector = Object.freeze({
 	/**
 	 * Проверка попадания
+	 * @param {string} arc	One of Sector.arc id
 	 * @param {{x,y,dir:number}} center *
 	 * @param {{x,y:number}} target *
 	 * @return {boolean} true, if in sector
 	 */
-	inSector(center, target) {
+	inSector(arc, center, target) {
+		const arcMapSrc = Sector.arc[arc]
+		const arcMapAbs = Sector.rotateArc(arcMapSrc, center.dir)
+		return Sector.testArc(arcMapAbs, center, target)
 	},
 
 	// (D2.2) COMBINED FIRING ARCS For simplicity, some firing arc designations are combined into a shorthand version.

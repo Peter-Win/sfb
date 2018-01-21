@@ -4,6 +4,9 @@
 
 const {expect} = require('chai')
 const {Events} = require('./Events')
+const {Game} = require('./Game')
+const {first} = require('./scenarios/first')
+const {PhaserCapacitor} = require('./devices/PhaserCapacitor')
 
 describe('Events', () => {
 	it('onFsm', () => {
@@ -22,5 +25,28 @@ describe('Events', () => {
 		const params2 = {evid: 'Last'}
 		Events.onFsm(demoFsm, 'End', params2)
 		expect(params2).to.have.property('all', 33)
+	})
+	it('toGame', () => {
+		const game = new Game()
+		game.create(first)
+		const {Con} = game.objects
+		Con.fsm = {
+			Active: {
+				TestEvent: params => {
+					params.ship.testValue = 123
+				},
+			},
+		}
+		const phCap = Con.devs[PhaserCapacitor.id]
+		phCap.fsm = {
+			Begin: {
+				TestEvent: params => {
+					params.dev.testValue = 'hello'
+				},
+			},
+		}
+		Events.toGame('TestEvent', game)
+		expect(Con.testValue).to.be.equal(123)
+		expect(phCap.testValue).to.be.equal('hello')
 	})
 })

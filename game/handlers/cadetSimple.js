@@ -6,5 +6,9 @@ const cadetSimple = {
 	isCanChangeDir(params) {
 		return true
 	},
+	autoEAlloc(params) {
+		const {ship} = params
+		ship.devs.PhCap.energyIn = 3
+	},
 }
 module.exports = {cadetSimple}

@@ -2,7 +2,7 @@
  * (H6.0) PHASER CAPACITORS
  * Created by PeterWin on 08.01.2018.
  */
-const {Device} = require('./Device')
+const {Device, EAllocPrior} = require('./Device')
 const {TurnPhase} = require('../TurnChart')
 
 const phCapFsm = Object.freeze({
@@ -28,15 +28,14 @@ const phCapFsm = Object.freeze({
 })
 
 class PhaserCapacitor extends Device {
-	constructor() {
-		super()
+	constructor(devId) {
+		super(devId)
 		this.name = 'Phaser Capacitors'
 		this.capacity = 0
 		this.energy = 0
 		this.hp = 0
-		this.energyIn = 0
 		this.energyLim = '*0'
-		this.eAllocPrior = '09'
+		this.eAllocPrior = EAllocPrior.PhaserCapacitor
 		this.eTypePrior = 'AIWB'
 		this.fsm = phCapFsm
 	}
@@ -45,4 +44,6 @@ class PhaserCapacitor extends Device {
 		this.energy = Math.min(this.energy, this.capacity)
 	}
 }
+PhaserCapacitor.id = Device.ids.PhCap
+
 module.exports = {PhaserCapacitor}

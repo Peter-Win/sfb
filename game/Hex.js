@@ -23,6 +23,15 @@ const Hex = Object.freeze({
 		return mod < 0 ? 6 + mod : mod
 	},
 
+	/**
+	 * Вычислить противоположное направление
+	 * @param {number} dir	source direction [0;5]
+	 * @return {number}		inversed direction
+	 */
+	inverseDir(dir) {
+		return (dir + 3) % 6
+	},
+
 	// step to change direction [to][from]: -1, 0 or 1
 	rotStep: [
 		[ 0, -1, -1, -1,  1,  1],

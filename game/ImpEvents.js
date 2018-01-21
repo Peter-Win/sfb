@@ -16,6 +16,9 @@ const ImpEvents = {
 	[ImpPhase.FireDirect]: game => {
 		game.beginGlbActionIf(fireAgent, (game, ship) => ship.isCanFire(game))
 	},
+	[ImpPhase.ResolveDirect]: game => {
+		fireAgent.resolve(game)
+	},
 }
 
 module.exports = {ImpEvents}

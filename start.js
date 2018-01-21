@@ -18,6 +18,9 @@ const htmlHeaders = {
 const server = http.createServer(app)
 const webSocketServer = new WebSocket.Server({server})
 
+/**
+ * @type {Game}
+ */
 const game = createTestGame(webSocketServer)
 
 app.get('/', (request, response) => {
@@ -38,7 +41,7 @@ app.get('/img/:name', (request, response) => {
  */
 const broadcast = msg => {
 	try {
-		msgText = JSON.stringify(msg)
+		const msgText = JSON.stringify(msg)
 		webSocketServer.clients.forEach(client => {
 			if (client.readyState === WebSocket.OPEN) {
 				client.send(msgText)

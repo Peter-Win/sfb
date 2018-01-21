@@ -124,4 +124,13 @@ describe('Hex', () => {
 		// dist=4 in area C
 		expect(Hex.actualDistance({x: 2, y: 0}, {x: 1, y: 3})).to.be.equal(4)
 	})
+
+	it('inverseDir', () => {
+		expect(Hex.inverseDir(0)).to.be.equal(3)
+		expect(Hex.inverseDir(1)).to.be.equal(4)
+		expect(Hex.inverseDir(2)).to.be.equal(5)
+		expect(Hex.inverseDir(3)).to.be.equal(0)
+		expect(Hex.inverseDir(4)).to.be.equal(1)
+		expect(Hex.inverseDir(5)).to.be.equal(2)
+	})
 })

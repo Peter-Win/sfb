@@ -20,10 +20,23 @@ class Agent {
 		return {name: this.name, state: ActionState.Begin, uid}
 	}
 
+	/**
+	 * Создание возможных вариантов перемещения для указанного корабля
+	 * @param {Object} params	Parameters
+	 * @param {Game} params.game	main game object
+	 * @param {Counter} params.ship	ship object
+	 * @return {Object|null} possible action object
+	 */
 	createAction(params) {
 		throw new Error('Abstract method Agent.createAction')
 	}
 
+	/**
+	 * Выполнить акцию, которая уже обработана
+	 * @param {Game} game	Main game object
+	 * @param {Object<{name,uid:string}>} action *
+	 * @return {void}
+	 */
 	execAction(game, action) {
 		throw new Error('Abstract method Agent.execAction')
 	}

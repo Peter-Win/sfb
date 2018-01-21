@@ -18,6 +18,7 @@
       "tab",
       { "SwitchCase": 1 }
     ],
+    "no-undef": "error",
     "no-var": "error",
     "object-curly-spacing": [
       0,

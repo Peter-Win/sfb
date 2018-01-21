@@ -45,6 +45,11 @@ class Game extends StateObject {
 		 * @type {Map<string,{name:string, state:string}>}
 		 */
 		this.actions = new Map()
+		/**
+		 * Список выстрелов, которые приходят из FireDirect в ResolveDirect
+		 * @type {Array<{uid:string, traces:Array<{devId,targetId:string, damages:number[6]}>}>}
+		 */
+		this.fires = []
 
 		this.impChart = []
 		this.turnChart = []
@@ -91,7 +96,6 @@ class Game extends StateObject {
 		this.impChart = scenario.impChart || ImpChart.Advanced
 		this.turnChart = scenario.turnChart || TurnChart.Advanced
 		this.movChart = scenario.movChart || MovChart32
-		// onCheckState = ''
 		// Стороны, участвующие в игре
 		this.sides = scenario.sides.map(sideData => new Side(sideData))
 		// Объекты, участвующие в игре
@@ -300,6 +304,16 @@ class Game extends StateObject {
 		ctrls.forEach(ctrl => ctrl.onStep(this))
 	}
 
+	/**
+	 * Отправить информационное сообщение всем контроллерам.
+	 * @param {{type:string}} info	JSON-структура
+	 * @return {void}
+	 */
+	sendInfo(info) {
+		const ctrls = this.getAllCtrls()
+		ctrls.forEach(ctrl => ctrl.onInfo(this, info))
+	}
+
 	switchProc() {
 		if (this.curTurn === 0) {
 			// Самый первый ход
@@ -348,6 +362,27 @@ class Game extends StateObject {
 		}
 		// Для предотвращения бесконечного цикла
 		throw new Error('Dead loop in Game.idle()')
+	}
+
+	/**
+	 * Отладочная функция для перемещения на указанную импульсную процедуру
+	 * @param {string} impProcId		one of ImpPhase value
+	 * @return {void}
+	 * @throws {Error}	if dead loop
+	 */
+	goToImpProc(impProcId) {
+		let guard = 100
+		while (guard > 0 && this.impChart[this.curProc] !== impProcId) {
+			this.switchProc()
+			if (this.actions.size > 0) {
+				this.actions.clear()
+			}
+			this.nextStep()
+			guard--
+		}
+		if (!guard) {
+			throw new Error('Dead loop in Game.goToImpProc')
+		}
 	}
 
 	/**

@@ -3,12 +3,14 @@
  */
 const assert = require('assert')
 const {movAgent} = require('./movAgent')
+const {fireAgent} = require('./fireAgent')
 
 /**
  * @type {Object<string,Agent>}
  */
 const AgentsMap = {}
 AgentsMap[movAgent.name] = movAgent
+AgentsMap[fireAgent.name] = fireAgent
 
 /**
  * Поиск агента для акции

@@ -12,9 +12,10 @@ class ShipFCC extends Ship {
 		super()
 		this.img = 'FCC'
 
-		this.devs.PH1 = Device.create(Phaser1, {id: '1', dir: 'FA'})
-		this.devs.PH2 = Device.create(Phaser1, {id: '2', dir: 'LS'})
-		this.devs.PH3 = Device.create(Phaser1, {id: '3', dir: 'RS'})
+		const {devs} = this
+		Device.create(devs, 'PH1', Phaser1, {id: '1', arc: 'FA'})
+		Device.create(devs, 'PH2', Phaser1, {id: '2', arc: 'LS'})
+		Device.create(devs, 'PH3', Phaser1, {id: '3', arc: 'RS'})
 	}
 }
 

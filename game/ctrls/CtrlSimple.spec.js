@@ -11,7 +11,7 @@ const {ActionState} = require('../agents/ActionState')
 
 describe('CtrlSimple', () => {
 	it('Interaction of Simple controller with Game', () => {
-		game = new Game()
+		const game = new Game()
 		game.create(first)
 		const ship = game.objects.Con
 		ship.ctrl = new CtrlSimple()

@@ -70,7 +70,7 @@ describe('Game', () => {
 		// Генерация акции для всех игровых объектов, которые могут двигаться
 		game.beginGlbActionIf(movAgent, (game, ship) => ship.isCanMove(game))
 		const {actions} = game
-		expect(actions.size).to.be.equal(2)
+		expect(actions.size).to.be.equal(6)	// cadet cruiser and 5 drones
 		const conAction = actions.get('Con')
 		expect(conAction).to.be.instanceOf(Object)
 		expect(conAction.uid).to.be.equal('Con')
@@ -125,9 +125,10 @@ describe('Game', () => {
 			game.idle()
 			if (game.isNotActive()) {
 				const {log} = ship.ctrl
-				expect(log).to.have.lengthOf(2)
+				expect(log).to.have.lengthOf(3)
 				expect(log[0]).to.be.equal('name=Move; uid=Con; y=1')
-				expect(log[1]).to.be.equal('name=Move; uid=Con; y=0')
+				expect(log[1]).to.be.equal('name=Fire; uid=Con; y=0')
+				expect(log[2]).to.be.equal('name=Move; uid=Con; y=0')
 				return	// success finish
 			}
 			game.sendActions()

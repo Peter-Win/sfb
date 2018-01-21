@@ -79,6 +79,36 @@
             text-anchor: middle;
             alignment-baseline: middle;
         }
+
+        .btn-target {cursor: pointer;}
+        .btn-target rect {
+            fill: #C00;
+            stroke: none;
+        }
+        .btn-target:hover rect { fill: #E00;}
+        .btn-target.active rect {fill: #F55; }
+        .btn-target text {
+            fill: #333;
+            font-size: 90%;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
+        .btn-target:hover text {fill: #000;}
+        .btn-target.active text {font-weight: bold;}
+        .btn-target circle {visibility: hidden; fill: none; stroke: rgba(255, 0, 0, 0.6); stroke-width: 5px;}
+        .btn-target.active circle {visibility: visible;}
+
+        .btn-weapon {cursor: pointer;}
+        .btn-weapon rect {fill: #CC0;}
+        .btn-weapon.checked rect {fill: #FF0;}
+        .btn-weapon.checked-out rect {fill: #FA0;}
+        .btn-weapon text {fill: #333;
+            font-size: 90%;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
+        .btn-weapon.checked text {font-weight: bold;}
+        .fire-line {fill: none; stroke: #F00; stroke-width: 2;}
     </style>
 
     <script>
@@ -100,12 +130,12 @@
 		function createNode(tag, owner, params) {
 			return createNodeNS("http://www.w3.org/2000/svg", tag, owner, params);
 		}
-		var hexHalf = 10, hexW = hexHalf * 2, worldSpace = 26;
+		var hexHalf = 10, hexW = hexHalf * 2, worldSpace = 26, worldSpaceTop = 50;
 		var hexHalfHeight = Math.sqrt(3) * hexHalf;
 		function calcViewPos(worldPos) {
 			return {
 				x: worldPos.x * hexHalf * 3 + hexHalf * 2 + worldSpace,
-				y: worldPos.y * hexHalfHeight * 2 + hexHalfHeight + worldSpace + (worldPos.x & 1) * hexHalfHeight,
+				y: worldPos.y * hexHalfHeight * 2 + hexHalfHeight + worldSpaceTop + (worldPos.x & 1) * hexHalfHeight,
 			}
 		}
 		function drawHex(pos, owner, cls) {
@@ -130,26 +160,26 @@
 		}
 		function drawHexFrame(board, wWidth, wHeight) {
 			var vWidth = (wWidth * 3 + 1) * hexHalf + worldSpace * 2;
-			var vHeight = (wHeight * 2 + 1) * hexHalfHeight + worldSpace * 2;
+			var vHeight = (wHeight * 2 + 1) * hexHalfHeight + worldSpace + worldSpaceTop;
 
 			var x, y, d = '';
 			for (x = 0; x < wWidth; x++) {
 				var x0 = x * hexHalf * 3 + worldSpace;
 				var x1 = x0 + hexHalf, x2 = x1 + hexHalf + hexHalf, x3 = x2 + hexHalf;
-				var yt = (x & 1) * hexHalfHeight + worldSpace;
+				var yt = (x & 1) * hexHalfHeight + worldSpaceTop;
 				d += `M${x1} ${yt}h${hexW}`;
 				for (y = 0; y < wHeight; y++) {
-					var y0 = (y * 2 + (x & 1)) * hexHalfHeight + worldSpace;
+					var y0 = (y * 2 + (x & 1)) * hexHalfHeight + worldSpaceTop;
 					var y1 = y0 + hexHalfHeight, y2 = y1 + hexHalfHeight;
 					d += `M${x2} ${y0}L${x3} ${y1}L${x2} ${y2}L${x1} ${y2}`;
 				}
 				if (x & 1) {
 					d += `M${x0} ${y1}L${x1} ${y2}`;
 				} else {
-					d += `M${x0} ${hexHalfHeight + worldSpace}l${hexHalf} ${-hexHalfHeight}`;
+					d += `M${x0} ${hexHalfHeight + worldSpaceTop}l${hexHalf} ${-hexHalfHeight}`;
 				}
 			}
-			d += `M${worldSpace} ${hexHalfHeight + worldSpace}`;
+			d += `M${worldSpace} ${hexHalfHeight + worldSpaceTop}`;
 			for (y = 0; y < wHeight; y++) {
 				if (y) d += `l${-hexHalf} ${hexHalfHeight}`;
 				d += `l${hexHalf} ${hexHalfHeight}`;
@@ -159,6 +189,12 @@
 		}
 		var ws = null;
 		var bHex = false;
+
+		function middle(array) {
+            var sum = 0, i=0;
+            for (; i<array.length; i++) sum += array[i];
+            return Math.round(10 * sum / array.length) / 10;
+		}
 
 		function sendRequest(msgObj) {
 			ws.send(JSON.stringify(msgObj));
@@ -179,9 +215,9 @@
 				btn.addEventListener('click', function (event) {
 					event.preventDefault();
 					if (curAction) {
+						curAction.close();
 						var result = curAction.getResult();
 						sendRequest({type: 'actionResult', action: result});
-						curAction.close();
 						curAction = null;
 						updateNextButton();
 					}
@@ -225,8 +261,117 @@
 								boardContainer.removeChild(hexNodes[j]);
 							}
 						}
-					}
+					};
 				},
+                Fire(action) {
+					return new function () {
+						var nodes = [], curTarget = null;
+						// Собрать список целей
+                        var targets = {}, i, x = 20, y = 30, w = 100, h = 28;
+                        var weapons = {};
+                        function updateWeapons() {
+                        	for (var targetId in targets) targets[targetId].dmg = 0;
+                        	for (var devId in weapons) {
+                        		var w = weapons[devId];
+                        		if (!w.trace) continue;
+                        		if (w.ln) {boardContainer.removeChild(w.ln)}
+                        		var p1 = calcViewPos(w.trace.pos), p2 = calcViewPos(w.trace.targetPos)
+                        		w.ln = createNode('line', boardContainer,
+                                    {'class': 'fire-line', x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y});
+                        		targets[w.trace.targetId].dmg += middle(w.trace.damages);
+                            }
+                            for (targetId in targets) {
+                        		var tx = targets[targetId].counter.name;
+                        		var dmg = targets[targetId].dmg;
+                        		if (dmg) tx += ': '+dmg;
+                        		targets[targetId].tx.innerHTML = tx;
+                            }
+                        }
+                        for (i=0; i<action.traces.length; i++) {
+                        	var trace = action.traces[i];
+                        	trace.index = i;
+                        	var targetId = trace.targetId;
+                        	weapons[trace.devId] = {}
+                        	if (!targets[targetId]) createTargetButton(trace);
+                        	function createTargetButton(trace) {
+								var targetId = trace.targetId;
+								var targetCounter = curGame.objects[targetId]
+                        		var node = createNode('g', boardContainer, {
+                        			'class': 'btn-target'});
+								var btnX = x;
+                        		var rect = createNode('rect', node, {x: x, y: y, width: w, height: h});
+                        		var text = createNode('text', node, {x: x+w/2, y: y+h/2});
+                        		text.innerHTML = targetCounter.name;
+                        		var vpos = calcViewPos(targetCounter)
+                        		var center = createNode('circle', node, {cx: vpos.x, cy: vpos.y, r: hexHalfHeight})
+                        		var targetRec = {node: node, tx: text, counter: targetCounter, traces: []}
+                        		targets[targetId] = targetRec
+                        		x += w + 10;
+                        		node.addEventListener('click', function (event) {
+                        			event.preventDefault();
+                                    clear();
+                                    if (curTarget) {
+                                    	curTarget.node.classList.remove('active');
+                                    }
+                                    curTarget = targetRec;
+                                    curTarget.node.classList.add('active');
+                                    // Вывод списка орудий
+                                    var devX = btnX, devY = 65, devW = 110, devH = 20;
+                                    for (var k=0; k<targetRec.traces.length; k++) onTrace(targetRec.traces[k])
+                                    function onTrace(trace) {
+                                    	var c = 'btn-weapon';
+                                    	if (weapons[trace.devId].trace === trace) c += ' checked';
+                                    	else if (weapons[trace.devId].trace) c += ' checked-out';
+                                    	var g = createNode('g', boardContainer, {'class': c});
+                                    	nodes.push(g);
+                                    	var r = createNode('rect', g, {x: devX, y: devY, width: devW, height: devH});
+                                    	var t = createNode('text', g, {x: devX + devW/2, y: devY + devH/2});
+                                        t.innerHTML = trace.devId + '(' + trace.arc0 + '): ' + middle(trace.damages);
+                                        devX += devW + 5;
+                                        g.addEventListener('click', function (event) {
+                                            event.preventDefault();
+                                            if (weapons[trace.devId].trace === trace) {
+                                            	weapons[trace.devId].trace = null;
+                                            	g.classList.remove('checked');
+                                            } else {
+												weapons[trace.devId].trace = trace;
+												g.classList.add('checked');
+												g.classList.remove('checked-out');
+											}
+											updateWeapons();
+										})
+                                    }
+								})
+                            }
+                            targets[targetId].traces.push(trace)
+                        }
+						function clear() {
+							for (var j in nodes) {
+								boardContainer.removeChild(nodes[j]);
+                            }
+                            nodes.length = 0;
+                        }
+						this.getResult = function () {
+                            return action;
+						}
+                        this.close = function () {
+                        	// Убрать визуальные элементы
+                        	clear();
+                        	for (var id in targets) {
+                        		boardContainer.removeChild(targets[id].node);
+                            }
+							for (var id in weapons) {
+								if (weapons[id].ln) {
+									boardContainer.removeChild(weapons[id].ln);
+								}
+								var trace = weapons[id].trace;
+								if (trace) {
+									action.choices.push(trace.index);
+                                }
+							}
+						}
+					};
+                }
 			}
 			var msgHandlers = {
 				game(msg) {
