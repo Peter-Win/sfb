@@ -3,6 +3,7 @@
  * Created by PeterWin on 09.12.2017.
  */
 const {Counter} = require('./Counter')
+const {CounterType} = require('./CounterType')
 const {TurnPhase} = require('../TurnChart')
 const {Device} = require('../devices/Device')
 const {PhaserCapacitor} = require('../devices/PhaserCapacitor')
@@ -13,13 +14,12 @@ const {Hex} = require('../Hex')
 
 class Ship extends Counter {
 	constructor() {
-		super()
+		super(CounterType.Ship)
 		// warp, impulse, APR, btty
 		this.energyPool = {W: 0, I: 0, A: 0, B: 0}
 		this.moveCost = 1
 		this.bFire = true
 		this.lockOn = 1
-		this.type = 'Ship'
 		this.moveAction = 'MoveShips'
 		this.squads = {}
 		this.crewMin = 1	// minimum crew for moving ship

@@ -16,8 +16,9 @@ const ShipState = {
 const objectFields = ['state', 'x', 'y', 'dir', 'uid', 'speed', 'turnMode', 'name', 'type', 'img']
 
 class Counter extends StateObject {
-	constructor() {
+	constructor(type) {
 		super(ShipState.Active)
+		this.type = type
 		this.x = 0
 		this.y = 0
 		this.dir = 0
@@ -25,7 +26,6 @@ class Counter extends StateObject {
 		this.speed = 1
 		this.turnMode = 1
 		this.name = ''
-		this.type = ''
 		this.side = 0
 		this.tractorSrc = ''	// UID of tractor beam source
 		this.canBeTractored = 1	// 2 if unit can be towed from map
@@ -177,19 +177,54 @@ class Counter extends StateObject {
 	}
 
 	/**
+	 * Возможно ли повреждение данного типа игровых объектов указанным врагом и его оружием, если это корабль
+	 * Учитываются только типы объектов. Без учета расстояния и возможности врага совершить удар.
+	 * @abstract
+	 * @param {Counter} ship	May be ship, drone, plasma torp, etc...
+	 * @param {Device=} device	for ships only
+	 * @return {boolean}
+	 */
+	canDamagedBy(ship, device) {
+		return false
+	}
+
+	/**
 	 * Получение кораблём указанного количества повреждений
 	 * @param {Counter} source	*
+	 * @param {Device=} device	* Only for ship source
 	 * @param {number} value	*
 	 * @return {Object<string,number>}	Статистика полученных типов повреждения
 	 */
-	onDamage(source, value) {
-		const direction = Hex.inverseDir(source.dir)
+	onDamage(source, device, value) {
 		const result = {}
-		for (let i = 0; i < value; i++) {
-			const type = this.onDamagePoint(direction)
-			result[type] = (result[type] || 0) + 1
+		if (!this.canDamagedBy(source, device)) {
+			result.lost = value
+		} else {
+			const direction = Hex.inverseDir(source.dir)
+			for (let i = 0; i < value; i++) {
+				const type = this.onDamagePoint(direction)
+				result[type] = (result[type] || 0) + 1
+			}
 		}
 		return result
+	}
+
+	/**
+	 * Вызывается в случае уничтожения объекта
+	 * @param {string} newState	Новое состояние
+	 * @return {void}
+	 */
+	onDestroyed(newState = ShipState.Exploded) {
+		this.setState(newState)
+	}
+
+	/**
+	 * @param {Game} game	Main Game object
+	 * @param {{sourceId,targetId:string}[]} hits *
+	 * @return {void}
+	 */
+	updateShotDescription(game, hits) {
+		hits.targetState = this.state
 	}
 
 	/**

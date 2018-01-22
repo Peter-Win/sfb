@@ -7,70 +7,6 @@ const {TurnPhase} = require('../TurnChart')
 const {Sector} = require('../Sector')
 const {Events} = require('../Events')
 
-const phaserFsm = Object.freeze({
-	All: {
-		/**
-		 * @param {Object} params event parameters
-		 * @param {Ship} params.ship	ship
-		 * @param {Device} params.dev 	device
-		 * @return {void}
-		 */
-		[Events.BeginOfGame]: params => {
-			const {ship, dev} = params
-			ship.devs[Device.ids.PhCap].capacity += dev.energyCost
-		},
-		/**
-		 * @param {Object} params	Parameters
-		 * @param {Phaser} params.dev	this device
-		 * @return {void}
-		 */
-		[ImpPhase.EndOfImp]: params => {
-			params.dev.wait--	// decrease impulse counter
-		},
-		/**
-		 * @param {{ship:Ship,dev:Phaser}} params	Parameters
-		 * @return {void}
-		 */
-		onDestroy: params => {
-			// decrease of ship phasers capasity
-			const {ship, dev} = params
-			ship.devs[Device.ids.PhCap].changeCapacity(-dev.ecost)
-		},
-	},
-	Begin: {
-		/**
-		 * @param {{ship:Ship,dev:Phaser}} params		event parameters
-		 * @param {Array<Device>} params.devList	Массив, в который собирается список орудий, готовых стрелять
-		 * @return {void}
-		 */
-		CanFire(params) {
-			const {dev, ship, devList} = params
-			if (dev.wait <= 0 && ship.devs[Device.ids.PhCap].energy >= dev.ecost) {
-				devList.push(dev)
-			}
-		},
-		/**
-		 * @param {{game:Game, ship:Ship, dev:Phaser}} params	event parameters
-		 * @return {void}
-		 */
-		FireEnd(params) {
-			const {dev, ship, game} = params
-			dev.wait = game.turnLength / 4
-			dev.setState('Used')
-			ship.devs[Device.ids.PhCap].energy -= dev.ecost
-		},
-	},
-	Used: {
-		/**
-		 * @param {{dev:Phaser}} params		Event parameters
-		 * @return {void}
-		 */
-		[TurnPhase.EndOfTurn]: params => {
-			params.dev.setState('Begin')
-		},
-	},
-})
-
 class Phaser extends Device {
 	constructor(devId) {
 		super(devId)
@@ -135,6 +71,12 @@ class Phaser extends Device {
 		return !dublicatedId
 	}
 
+	/**
+	 * @override
+	 */
+	calcDamage(game, ship, target) {
+		return 4
+	}
 
 	/**
 	 * Получить возможные варианты величины удара, в зависимости от расстояния
@@ -160,5 +102,69 @@ class Phaser extends Device {
 		return damages.reduce((sum, value) => sum + value, 0) / damages.length
 	}
 }
+
+const phaserFsm = Object.freeze({
+	All: {
+		/**
+		 * @param {Object} params event parameters
+		 * @param {Ship} params.ship	ship
+		 * @param {Device} params.dev 	device
+		 * @return {void}
+		 */
+		[Events.BeginOfGame]: params => {
+			const {ship, dev} = params
+			ship.devs[Device.ids.PhCap].capacity += dev.energyCost
+		},
+		/**
+		 * @param {Object} params	Parameters
+		 * @param {Phaser} params.dev	this device
+		 * @return {void}
+		 */
+		[ImpPhase.EndOfImp]: params => {
+			params.dev.wait--	// decrease impulse counter
+		},
+		/**
+		 * @param {{ship:Ship,dev:Phaser}} params	Parameters
+		 * @return {void}
+		 */
+		onDestroy: params => {
+			// decrease of ship phasers capasity
+			const {ship, dev} = params
+			ship.devs[Device.ids.PhCap].changeCapacity(-dev.ecost)
+		},
+	},
+	Begin: {
+		/**
+		 * @param {{ship:Ship,dev:Phaser}} params		event parameters
+		 * @param {Array<Device>} params.devList	Массив, в который собирается список орудий, готовых стрелять
+		 * @return {void}
+		 */
+		CanFire(params) {
+			const {dev, ship, devList} = params
+			if (dev.wait <= 0 && ship.devs[Device.ids.PhCap].energy >= dev.ecost) {
+				devList.push(dev)
+			}
+		},
+		/**
+		 * @param {{game:Game, ship:Ship, dev:Phaser}} params	event parameters
+		 * @return {void}
+		 */
+		FireEnd(params) {
+			const {dev, ship, game} = params
+			dev.wait = game.turnLength / 4
+			dev.setState('Used')
+			ship.devs[Device.ids.PhCap].energy -= dev.ecost
+		},
+	},
+	Used: {
+		/**
+		 * @param {{dev:Phaser}} params		Event parameters
+		 * @return {void}
+		 */
+		[TurnPhase.EndOfTurn]: params => {
+			params.dev.setState('Begin')
+		},
+	},
+})
 
 module.exports = {Phaser}

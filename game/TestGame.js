@@ -34,6 +34,9 @@ class CtrlWS extends CtrlBase {
 	onAction(game, action) {
 		this.sendToAll({type: 'action', action})
 	}
+	onInfo(game, info) {
+		this.sendToAll({type: 'info', info})
+	}
 
 	sendToAll(msg) {
 		try {
@@ -46,7 +49,6 @@ class CtrlWS extends CtrlBase {
 		} catch (e) {
 			console.error(e)
 		}
-
 	}
 }
 
