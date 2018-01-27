@@ -8,6 +8,7 @@ const assert = require('assert')
 const {Agent} = require('./Agent')
 const {Sector} = require('../Sector')
 const {DeviceIds} = require('../devices/DeviceIds')
+const {DeviceState} = require('../devices/DeviceState')
 
 class FireAgent extends Agent {
 
@@ -122,6 +123,7 @@ class FireAgent extends Agent {
 				const target = game.getShip(trace.targetId)
 				const device = sourceShip.getDevice(trace.devId)
 				const damage = device.calcDamage(game, sourceShip, target)
+				device.setState(DeviceState.Used)
 				const result = target.onDamage(sourceShip, device, damage)
 				const hit = {sourceId: shot.uid, targetId: trace.targetId, result}
 				device.updateShotDescription(game, hit)

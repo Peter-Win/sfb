@@ -3,11 +3,15 @@
  */
 const {expect} = require('chai')
 const {DeviceIds} = require('./DeviceIds')
+const {DeviceState} = require('./DeviceState')
 const {Phaser} = require('./Phaser')
 const {Game} = require('../Game')
 const {first} = require('../scenarios/first')
 const {Events} = require('../Events')
 const {TurnPhase} = require('../TurnChart')
+const {ImpPhase} = require('../ImpChart')
+const {CtrlBase} = require('../ctrls/CtrlBase')
+const {ActionState} = require('../agents/ActionState')
 
 describe('Phaser', () => {
 	it('isValidTarget', () => {
@@ -72,5 +76,59 @@ describe('Phaser', () => {
 			{devId: 'PH2', targetId: 'droneA', phaserEnergy: 1},
 		]
 		expect(phaser.checkFireTraces(game, ship, traces2, 0)).to.be.true
+	})
+
+	it('fire only once per turn', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.getShip('Con')
+		ship.dir = 1
+		const phaser = ship.getDevice('PH1')
+		class CtrlSpecial extends CtrlBase {
+			onAction(game, action) {
+				if (action.name !== 'Fire') {
+					action.state = ActionState.End
+					game.receiveActions()
+				}
+			}
+			onStep(game) {
+				// На всех импульсах, кроме первого, фазер должен быть использован
+				if (game.isImpulse()) {
+					if (game.curImp > 1) {
+						expect(phaser.state).to.be.equal(DeviceState.Used)
+					}
+				}
+			}
+		}
+		ship.ctrl = new CtrlSpecial()
+		expect(phaser.state).to.be.equal(DeviceState.Begin)
+		let guard = 200
+		let actionStep = 1
+		for (; guard > 0; guard--) {
+			game.idle()
+			expect(game.actions.size).to.be.equal(1)
+			const action = game.actions.get('Con')
+			expect(action).to.be.ok
+			expect(action).to.have.property('name', 'Fire')
+			if (actionStep === 1) {
+				// Это на первом ходу
+				expect(game.curTurn).to.be.equal(1)
+				action.state = ActionState.End
+				// Найти все типы орудий
+				const phasersMap = action.traces.reduce((map, trace, index) => {
+					map[trace.devId] = index
+					return map
+				}, {})
+				// Пальнуть из каждого орудия в любую цель
+				action.choices = Object.keys(phasersMap).map(devId => phasersMap[devId])
+				game.receiveActions()
+			} else {
+				// Так как все орудия уже стреляли на первом ходу, то следующий раз возможен только на втором ходу
+				expect(game.curTurn).to.be.equal(2)
+				break
+			}
+			actionStep++
+		}
+		expect(guard).to.be.above(0)
 	})
 })

@@ -4,6 +4,7 @@
 const {StateObject} = require('../StateObject')
 const {Energy} = require('../utils/Energy')
 const {DeviceIds} = require('./DeviceIds')
+const {DeviceState} = require('./DeviceState')
 
 // Приоритет распределения энергии (поле eAllocPrior)
 const EAllocPrior = Object.freeze({
@@ -13,7 +14,7 @@ const EAllocPrior = Object.freeze({
 
 class Device extends StateObject{
 	constructor(devId) {
-		super('Begin')
+		super(DeviceState.Begin)
 		this.devId = devId
 		this.fsm = {}
 		this.type = ''
@@ -127,5 +128,6 @@ class Device extends StateObject{
 	}
 }
 Device.ids = DeviceIds
+Device.states = DeviceState
 
 module.exports = {Device, EAllocPrior}

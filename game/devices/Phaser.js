@@ -1,6 +1,7 @@
 /**
  * Created by PeterWin on 08.01.2018.
  */
+const {DeviceState} = require('./DeviceState')
 const {Device} = require('./Device')
 const {ImpPhase} = require('../ImpChart')
 const {TurnPhase} = require('../TurnChart')
@@ -133,7 +134,7 @@ const phaserFsm = Object.freeze({
 			ship.devs[Device.ids.PhCap].changeCapacity(-dev.ecost)
 		},
 	},
-	Begin: {
+	[DeviceState.Begin]: {
 		/**
 		 * @param {{ship:Ship,dev:Phaser}} params		event parameters
 		 * @param {Array<Device>} params.devList	Массив, в который собирается список орудий, готовых стрелять
@@ -156,7 +157,7 @@ const phaserFsm = Object.freeze({
 			ship.devs[Device.ids.PhCap].energy -= dev.ecost
 		},
 	},
-	Used: {
+	[DeviceState.Used]: {
 		/**
 		 * @param {{dev:Phaser}} params		Event parameters
 		 * @return {void}
