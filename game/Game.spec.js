@@ -74,6 +74,14 @@ describe('Game', () => {
 		const conAction = actions.get('Con')
 		expect(conAction).to.be.instanceOf(Object)
 		expect(conAction.uid).to.be.equal('Con')
+		// Взорвем один дрон. Акций должно стать меньше.
+		actions.clear()
+		const droneA = game.getShip('droneA')
+		droneA.setState(ShipState.Exploded)
+		expect(droneA.isNotActive()).to.be.true
+		expect(droneA.isCanMove(game)).to.be.false
+		game.beginGlbActionIf(movAgent, (game, ship) => ship.isCanMove(game))
+		expect(actions.size).to.be.equal(5)	// cadet cruiser and 4 drones
 	})
 
 	it('switchProc', () => {

@@ -153,7 +153,6 @@ class Game extends StateObject {
 			ship.uid = `${ship.type}_${this.generateUid()}`
 		}
 		this.objects[ship.uid] = ship
-		this.sides[ship.side].objects.push(ship)
 	}
 
 	/**

@@ -12,7 +12,7 @@ class Missile extends Counter {
 		this.health = 4
 	}
 	isCanMove() {
-		return true
+		return this.isActive()
 	}
 	/**
 	 * @override

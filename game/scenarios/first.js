@@ -87,13 +87,21 @@ const first = {
 			game.setState(GameState.Fail)
 			return
 		}
+		let exploded = 0
 		// Проверить дроны. Если есть хотя бы один в состоянии Lost, то миссия провалена
 		const lostDrone = Object.keys(game.objects).find(key => {
 			const counter = game.objects[key]
+			if (counter.state === ShipState.Exploded) {
+				exploded++
+			}
 			return /^drone/.test(counter.uid) && counter.state === ShipState.Lost
 		})
 		if (lostDrone) {
 			game.setState(GameState.Fail)
+			return
+		}
+		if (exploded === 5) {
+			game.setState(GameState.End)
 			return
 		}
 	},
