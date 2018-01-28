@@ -7,6 +7,7 @@ const {ImpPhase} = require('../ImpChart')
 const {TurnPhase} = require('../TurnChart')
 const {Sector} = require('../Sector')
 const {Events} = require('../Events')
+const {Random} = require('../Random')
 
 class Phaser extends Device {
 	constructor(devId) {
@@ -76,7 +77,10 @@ class Phaser extends Device {
 	 * @override
 	 */
 	calcDamage(game, ship, target) {
-		return 4
+		const range = ship.distanceTo(target)
+		const damages = Phaser.findDamages(this.table, range)
+		const dieRoll = Random.int6()
+		return damages[dieRoll]
 	}
 
 	/**

@@ -12,7 +12,7 @@ const {Phaser} = require('./Phaser')
 class Phaser1 extends Phaser {
 	constructor(devId) {
 		super(devId)
-		this.name = 'Phaser-1'
+		this.type = 'Phaser-1'
 		this.weapon = 'PH-1'
 		this.energyCost = 1
 		this.table = Phaser1.table

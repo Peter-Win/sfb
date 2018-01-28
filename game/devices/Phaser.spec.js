@@ -131,4 +131,25 @@ describe('Phaser', () => {
 		}
 		expect(guard).to.be.above(0)
 	})
+
+	it('calcDamage', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.getShip('Con')
+		const phaser1 = ship.getDevice('PH1')
+		const droneA = game.getShip('droneA')
+		expect(ship.distanceTo(droneA)).to.be.equal(10)
+		// На расстоянии 10 фазер-1 бьёт от 0 до 3
+		for (let i = 0; i < 30; i++) {
+			const dmg = phaser1.calcDamage(game, ship, droneA)
+			expect(dmg).to.be.within(0, 3)
+		}
+		const droneB = game.getShip('droneB')
+		expect(ship.distanceTo(droneB)).to.be.equal(4)
+		// На расстоянии 4 фазер-1 бьёт от 2 до 5
+		for (let i = 0; i < 30; i++) {
+			const dmg = phaser1.calcDamage(game, ship, droneB)
+			expect(dmg).to.be.within(2, 5)
+		}
+	})
 })

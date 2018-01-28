@@ -70,6 +70,9 @@ class Counter extends StateObject {
 	getPos() {
 		return {x: this.x, y: this.y}
 	}
+	getPosDir() {
+		return {x: this.x, y: this.y, dir: this.dir}
+	}
 
 	// Экспорт в простой объект
 	toSimple() {

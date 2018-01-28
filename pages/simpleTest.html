@@ -108,10 +108,15 @@
             alignment-baseline: middle;
         }
         .btn-weapon.checked text {font-weight: bold;}
-        .fire-line {fill: none; stroke: #F00; stroke-width: 2;}
+        .fire-line {fill: none; stroke: #A00; stroke-width: 1;}
+        .dmg-internal {fill: red;}
+        .dmg-lost {fill: #950;}
+        .dmg-shield {fill: #0AF;}
+        .phaser-1 {fill: none; stroke: #0FF; stroke-width: 2;}
     </style>
 
     <script>
+        var startTime;
 		function setAttr(node, params) {
 			if (params) {
 				Object.keys(params).forEach(key => {
@@ -121,10 +126,10 @@
 		}
 		function createNodeNS(namespaceURI, tag, owner, params) {
 			var node = document.createElementNS(namespaceURI, tag);
+			setAttr(node, params)
 			if (owner) {
 				owner.appendChild(node);
 			}
-			setAttr(node, params)
 			return node;
 		}
 		function createNode(tag, owner, params) {
@@ -158,6 +163,61 @@
 			})
 			return node;
 		}
+
+		var tasksQueue = Promise.resolve();
+		function addTask(promise) {
+			tasksQueue = tasksQueue.then(promise)
+        }
+        // Функция выполняется в конце интервала
+        function delay(time, func) {
+			return new Promise(resolve => {
+				setTimeout(() => {
+					func();
+					resolve();
+                }, time);
+            })
+        }
+        // Сначала функция выполняется, затем ждет интервал
+        function wait(time, func) {
+			if (func) func();
+			return new Promise(resolve => {
+				setTimeout(() => {
+					resolve();
+				}, time);
+			})
+		}
+
+		function svgTime() {
+            var dt = +new Date() - startTime;
+            return dt+'ms';
+		}
+
+		var idIndex = 1;
+
+		function fly(pos, text, type, angle, board) {
+			var id = 'id' + idIndex++;
+			var infoNode = createNode('text', board,
+				{x: pos.x, y: pos.y, 'class': 'dmg-'+type, id: id});
+			infoNode.innerHTML = text;
+			var dist = 40
+			var A = angle * Math.PI / 180;
+			var x1 =  dist * Math.cos(A), y1 = dist * Math.sin(A)
+            var t = svgTime()
+			var anim = createNode('animateMotion', infoNode,
+				{path: `M0 0 L${x1} ${y1}`, begin: 'DOMNodeInserted', dur: '2s',
+					fill: 'freeze',
+					calcMode:"spline",
+					keyTimes:"0;1",
+					keySplines:"0.39 0.575 0.565 1"})
+			var anim1 = createNode('animation', infoNode, {attributeType:"CSS",
+				attributeName: 'opacity', from: '100%', to: '0', begin: t, dur: '2s',  fill: 'freeze'});
+			var anim2 = createNode('animate', infoNode, {attributeName: "font-size", additive:"sum",
+				attributeType: "CSS", from: '100%', to: '200%', begin: t, dur: '2s', fill:'freeze'})
+			setTimeout(() => {
+				 board.removeChild(infoNode)
+			}, 2000)
+		}
+
 		function drawHexFrame(board, wWidth, wHeight) {
 			var vWidth = (wWidth * 3 + 1) * hexHalf + worldSpace * 2;
 			var vHeight = (wHeight * 2 + 1) * hexHalfHeight + worldSpace + worldSpaceTop;
@@ -204,6 +264,7 @@
 			var boardContainer = document.getElementById('board');
 			var headerContainer = document.getElementById('header');
 			var mainContainer = document.getElementById('main');
+			startTime = +new Date()
 
 			function drawNextButton() {
 				var btn = createNode('g', mainContainer, {'class': 'btn-next'});
@@ -373,16 +434,71 @@
 					};
                 }
 			}
+			var infoHandlers = {
+				move: function (info) {
+                    updateShipState(info);
+				},
+				/**
+				 * @param {Object} info
+                 * @param {{sourseId,targetId,targetStatus:string,result:Object<string,number>}[]} info.hits
+				 */
+				hits: function (info) {
+					for (var i in info.hits) onHit(info.hits[i]);
+					function onHit(hit) {
+                        var targetObject = curGame.objects[hit.targetId]
+                        if (targetObject) {
+							var vpos1 = calcViewPos(targetObject)
+                            function showDmg(type, angle, dt) {
+								var value = hit.result[type]
+                                if (!value) return dt
+                                setTimeout(() => {
+									fly(vpos1, value, type, angle, boardContainer);
+                                }, dt)
+                                return dt + 500
+                            }
+                            // Вывод эффекта, изображающего выстрела
+                            var srcObject = curGame.objects[hit.sourceId]
+                            if (srcObject) {
+								var vpos0 = calcViewPos(srcObject)
+                                var shape = null;
+								switch (hit.type) {
+                                    case 'Phaser-1':
+                                    	shape = createNode('line', boardContainer, {'class': 'phaser-1',
+                                            x1: vpos0.x, y1: vpos0.y, x2: vpos1.x, y2: vpos1.y})
+                                    	break;
+                                }
+                                if (shape) addTask(delay(1000, () => {
+									boardContainer.removeChild(shape);
+								}));
+                                var dt = 0
+                                dt = showDmg('shield', -40, dt)
+                                dt = showDmg('internal', -10, dt);
+                                dt = showDmg('lost', 30, dt);
+                                addTask(wait(dt + 2000))
+                                if (hit.targetState !== 'Active') addTask(wait(100, function () {
+                                	var node = shipNodes[hit.targetId];
+                                    boardContainer.removeChild(node);
+                                    delete shipNodes[hit.targetId]
+								}));
+                            }
+                        }
+                    } // for
+				} // hits
+            }
 			var msgHandlers = {
 				game(msg) {
 					var game = msg.game;
 					curGame = game;
+					var bFirst = !bHex;
 					if (!bHex) {
 						bHex = true;
 						drawHexFrame(boardContainer, game.width, game.height)
 					}
-					drawGameHeader(game);
-					updateShips(game.objects)
+					addTask(delay(1, function () {
+						drawGameHeader(game);
+						if (bFirst)
+						    updateShips(game.objects)
+					}))
 				},
 				action(msg) {
 					var action = msg.action;
@@ -396,6 +512,11 @@
 				},
                 info(msg) {
 					console.log('Info: ', msg);
+					const {info} = msg
+					const handler = infoHandlers[info.type]
+                    if (handler) {
+						handler(info)
+                    }
                 },
 			}
 
@@ -414,6 +535,15 @@
 					msg = 'Game state: ' + game.state;
 				}
 				drawHeader(msg);
+			}
+			
+			function updateShipState(info) {
+				var vpos = calcViewPos(info.to);
+				var a = info.to.dir * 60;
+				var shipNode = shipNodes[info.uid];
+				if (shipNode) addTask(delay(300, () => {
+					setAttr(shipNode, {'transform': 'translate(' + vpos.x + ',' + vpos.y + '),rotate(' + a + ')'});
+                }));
 			}
 
 			function updateShips(ships) {
