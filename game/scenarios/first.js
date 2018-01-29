@@ -98,7 +98,7 @@ const first = {
 			return /^drone/.test(counter.uid) && counter.state === ShipState.Lost
 		})
 		if (lostDrone) {
-			game.finish(1, {text: '{name} left the map', params: lostDrone})
+			game.finish(1, {text: '{name} left the map', params: game.getShip(lostDrone)})
 			return
 		}
 		if (exploded === 5) {

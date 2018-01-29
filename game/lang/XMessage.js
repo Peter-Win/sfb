@@ -46,6 +46,9 @@ class XMessage {
 	 * @return {Array} *
 	 */
 	static split(text, params) {
+		if (!params) {
+			return [text]
+		}
 		const list = text.split('{')
 		for (let i = 1; i < list.length; i++) {
 			const chunk = list[i]

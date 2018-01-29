@@ -116,6 +116,18 @@
     </style>
 
     <script>
+        function translate(xmsg) {
+        	var textId, params;
+        	textId = xmsg.text;
+        	params = xmsg.params;
+        	var text = textId;
+        	if (params) {
+                for (var pid in params) {
+                	text = text.replace('{'+pid+'}', params[pid]);
+                }
+			}
+			return text;
+        }
         var startTime;
 		function setAttr(node, params) {
 			if (params) {
@@ -539,7 +551,7 @@
 						msg += ', Impulse ' + (game.curImp + 1) + '/' + game.turnLength;
 					}
 				} else if (game.reasonMessage) {
-					msg = game.reasonMessage.text;
+					msg = translate(game.reasonMessage);
 				} else {
 					msg = 'Game state: ' + game.state;
 				}
