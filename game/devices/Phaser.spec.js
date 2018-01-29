@@ -12,6 +12,7 @@ const {TurnPhase} = require('../TurnChart')
 const {ImpPhase} = require('../ImpChart')
 const {CtrlBase} = require('../ctrls/CtrlBase')
 const {ActionState} = require('../agents/ActionState')
+const {ShipState} = require('../ships/Counter')
 
 describe('Phaser', () => {
 	it('isValidTarget', () => {
@@ -86,26 +87,43 @@ describe('Phaser', () => {
 		const phaser = ship.getDevice('PH1')
 		class CtrlSpecial extends CtrlBase {
 			onAction(game, action) {
+				// console.log('onAction: ', JSON.stringify(action))
 				if (action.name !== 'Fire') {
 					action.state = ActionState.End
 					game.receiveActions()
 				}
 			}
+			onInfo(game, info) {
+				// console.log('onInfo: ', JSON.stringify(info))
+			}
 			onStep(game) {
 				// На всех импульсах, кроме первого, фазер должен быть использован
+				// console.log('onStep: ', game.curStepInfo(), ', actions: ', JSON.stringify(game.actions))
 				if (game.isImpulse()) {
-					if (game.curImp > 1) {
+					expect(ship.isCanFire(game)).to.be.true
+					if (game.curImp > 0) {
 						expect(phaser.state).to.be.equal(DeviceState.Used)
+					} else if (game.impChart[game.curProc] === ImpPhase.FireDirect) {
+						expect(phaser.state).to.be.equal(DeviceState.Begin)
+						const phCap = ship.getDevice(DeviceIds.PhCap)
+						expect(phCap.energy).to.be.equal(3)
+						const traces = ship.buildFireTargets(game)
+						expect(traces).to.be.ok
 					}
 				}
 			}
 		}
 		ship.ctrl = new CtrlSpecial()
 		expect(phaser.state).to.be.equal(DeviceState.Begin)
+		// Drone D, если по нему не попасть, выхоодит за пределы карты на первом ходу.
+		// Поэтому отодвигаем на 2 гекса назад
+		game.getShip('droneD').setPos(9, 10)
 		let guard = 200
 		let actionStep = 1
+		expect(game.state).to.be.equal('Active')
 		for (; guard > 0; guard--) {
 			game.idle()
+			expect(game.state).to.be.equal('Active')
 			expect(game.actions.size).to.be.equal(1)
 			const action = game.actions.get('Con')
 			expect(action).to.be.ok

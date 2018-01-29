@@ -13,6 +13,7 @@ const {ActionState} = require('./agents/ActionState')
 const {execAction, mergeAction} = require('./agents/AgentsMap')
 const {StateObject} = require('./StateObject')
 const {GameState} = require('./GameState')
+const {XMessage} = require('./lang/XMessage')
 
 const gameFields = ['actions', 'curImp', 'curTurn', 'height', 'state', 'turnLength', 'userSpeed', 'width']
 
@@ -109,6 +110,30 @@ class Game extends StateObject {
 	}
 
 	/**
+	 * Закончить игру
+	 * @param {number} winnerSide	Номер победившей стороны или -1, если проиграли все
+	 * @param {string|XMessage|{test:string,params:Object}} reasonMessage *
+	 * @return {void}
+	 * @throws {Error}
+	 */
+	finish(winnerSide, reasonMessage) {
+		if (!this.isActive()) {
+			throw new Error('Invalid game finish with state = ' + this.state)
+		}
+		this.sides.forEach((side, index) => {
+			side.setState(index === winnerSide ? Side.states.Winner : Side.states.Loser)
+		})
+		this.setState(GameState.End)
+		this.reasonMessage = new XMessage(reasonMessage)
+		this.sendInfo({
+			type: 'finish',
+			state: this.state,
+			winner: winnerSide,
+			reason: this.reasonMessage.toSimple(),
+		})
+	}
+
+	/**
 	 * @return {boolean} true, если выполняется фаза импульса (это большая часть игрового времени)
 	 */
 	isImpulse() {
@@ -129,10 +154,14 @@ class Game extends StateObject {
 		if (this.isImpulse()) {
 			result.curProcId = this.impChart[this.curProc]
 		}
+		// reason message
+		result.reasonMessage = this.reasonMessage
 		// Корабли и др. объекты
 		Object.keys(this.objects).forEach(uid => {
 			result.objects[uid] = this.objects[uid].toSimple()
 		})
+		// Стороны
+		result.sides = this.sides.map(side => side.toSimple())
 		return result
 	}
 
@@ -274,6 +303,9 @@ class Game extends StateObject {
 	 * @return {void}
 	 */
 	nextStep() {
+		if (this.isNotActive()) {
+			return
+		}
 		this.sendStepToAll()
 		const evid = this.turnChart[this.turnStep]
 		// Сообщение рассылается всем
@@ -287,7 +319,9 @@ class Game extends StateObject {
 		// Если появились акции - отправить на обработку
 		this.sendActions()
 		// Проверить, не закончена ли игра
-		this.checkState(this)
+		if (this.isActive()) {
+			this.checkState(this)
+		}
 		// Если закончилась, то сообщить контроллерам
 		if (this.isNotActive()) {
 			this.sendStepToAll()

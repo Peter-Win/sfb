@@ -20,7 +20,7 @@ describe('Game', () => {
 		const game = new Game()
 		game.create(first)
 
-		expect(game.width).to.be.equal(mapSectorWidth * 2)
+		expect(game.width).to.be.equal(mapSectorWidth)
 		expect(game.height).to.be.equal(mapSectorHeight)
 		expect(game.turnLength).to.be.equal(turnLengthShort)
 		expect(game.state).to.be.equal(GameState.Active)
@@ -42,7 +42,7 @@ describe('Game', () => {
 
 		const simple = game.toSimple()
 		expect(simple).to.have.property('turnLength', turnLengthShort)
-		expect(simple).to.have.property('width', mapSectorWidth * 2)
+		expect(simple).to.have.property('width', mapSectorWidth)
 		expect(simple).to.have.property('height', mapSectorHeight)
 		expect(simple).to.have.property('state', GameState.Active)
 		expect(simple).to.have.property('curTurn', 0)

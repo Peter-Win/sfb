@@ -4,6 +4,7 @@
 const {Rules} = require('../Rules')
 const {StateObject} = require('../StateObject')
 const {Hex} = require('../Hex')
+const {TurnMode} = require('../utils/TurnMode')
 
 const ShipState = {
 	Active: 'Active',
@@ -24,7 +25,11 @@ class Counter extends StateObject {
 		this.dir = 0
 		this.uid = ''
 		this.speed = 1
-		this.turnMode = 1
+		/**
+		 * Examples: 'D' or [6, 16]. If 'D', then TurnMode.D.	If null, then always = 1
+		 * @type {null|string|number[]}
+		 */
+		this.turnMode = null
 		this.name = ''
 		this.side = 0
 		this.tractorSrc = ''	// UID of tractor beam source
@@ -152,6 +157,22 @@ class Counter extends StateObject {
 	}
 
 	/**
+	 * Получить режим поворота
+	 * @return {number} integer value from 1
+	 */
+	getTurnMode() {
+		const {turnMode} = this
+		if (!turnMode) {
+			return 1
+		}
+		const table = Array.isArray(turnMode) ? turnMode : TurnMode[turnMode]
+		if (!table) {
+			throw new Error(`Invalid turnMode ${turnMode} for ${this.getSignature()}`)
+		}
+		return TurnMode.calc(this.speed, table)
+	}
+
+	/**
 	 * Ship can fire
 	 * Это просто способность стрелять. Без учета наличия готовых орудий или попадания противника в сектор обстрела.
 	 * Например, ракеты не могут стрелять, а корабли потенциально могут.
@@ -185,7 +206,7 @@ class Counter extends StateObject {
 	 * @abstract
 	 * @param {Counter} ship	May be ship, drone, plasma torp, etc...
 	 * @param {Device=} device	for ships only
-	 * @return {boolean}
+	 * @return {boolean}	true, if can damaged
 	 */
 	canDamagedBy(ship, device) {
 		return false

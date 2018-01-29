@@ -15,7 +15,7 @@ const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('../consts')
 
 const first = {
 	name: 'Cadet scenario #1: Battle Drill',
-	width: mapSectorWidth * 2,
+	width: mapSectorWidth,
 	height: mapSectorHeight,
 	turnLength: turnLengthShort,
 	turnChart: TurnChart.Basic,
@@ -83,8 +83,9 @@ const first = {
 	 */
 	checkState: (game) => {
 		// Если Con выходит за границу карты - это проигрыш
-		if (game.objects.Con.state !== ShipState.Active) {
-			game.setState(GameState.Fail)
+		const Con = game.getShip('Con')
+		if (Con.isNotActive()) {
+			game.finish(1, {text: '{name} left the map', params: Con})
 			return
 		}
 		let exploded = 0
@@ -97,11 +98,11 @@ const first = {
 			return /^drone/.test(counter.uid) && counter.state === ShipState.Lost
 		})
 		if (lostDrone) {
-			game.setState(GameState.Fail)
+			game.finish(1, {text: '{name} left the map', params: lostDrone})
 			return
 		}
 		if (exploded === 5) {
-			game.setState(GameState.End)
+			game.finish(0, 'All targets are destroyed')
 			return
 		}
 	},

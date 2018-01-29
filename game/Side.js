@@ -4,9 +4,13 @@
 const {StateObject} = require('./StateObject')
 
 class Side extends StateObject{
-	constructor() {
+	constructor(name = '', lang = null) {
 		super(Side.states.Active)
-		this.name = ''
+		this.name = name
+		this.lang = lang
+	}
+	toSimple() {
+		return {state: this.state}
 	}
 }
 Side.states = Object.freeze({

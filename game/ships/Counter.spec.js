@@ -99,4 +99,22 @@ describe('Counter', () => {
 		game.curImp = game.turnLength - 1
 		expect(Con.isCanMove(game)).to.be.true
 	})
+
+	it('getTurnMode', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.getShip('Con')
+		expect(ship.speed).to.be.equal(8)
+		expect(ship.turnMode).to.be.eql([6, 16])
+		// При скорости 7 и выше - режим поворота учебного крейсера = 2
+		expect(ship.getTurnMode()).to.be.equal(2)
+		ship.speed = 7
+		expect(ship.getTurnMode()).to.be.equal(2)
+		ship.speed = 6
+		expect(ship.getTurnMode()).to.be.equal(1)
+		ship.speed = 5
+		expect(ship.getTurnMode()).to.be.equal(1)
+		ship.speed = 0
+		expect(ship.getTurnMode()).to.be.equal(1)
+	})
 })

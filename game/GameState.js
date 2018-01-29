@@ -4,7 +4,6 @@
 
 const GameState = Object.freeze({
 	Active: 'Active',
-	Fail: 'Fail',
 	End: 'End',
 	InvalidEndHandler: 'InvalidEndHandler',
 })
