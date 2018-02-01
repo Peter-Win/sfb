@@ -1,0 +1,1099 @@
+{
+	"title": "Federation Cadet Cruiser",
+	"width": 32,
+	"height": 32,
+	"items": [
+		{
+			"Cells": [
+				{
+					"Path": "Devs.APR.HP",
+					"Val": 1
+				},
+				{
+					"Path": "Devs.APR.HP",
+					"Val": 2
+				}
+			],
+			"Height": 1,
+			"Name": "APR",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 1
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "APR",
+			"Text": "APR",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 0
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.Imp.HP",
+					"Val": 1
+				},
+				{
+					"Path": "Devs.Imp.HP",
+					"Val": 2
+				}
+			],
+			"Height": 1,
+			"Name": "Imp",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -1,
+			"Y0": -2
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Imp",
+			"Text": "IMPULSE",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -1,
+			"Y0": -3
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.Hull.HP",
+					"Val": 1
+				},
+				{
+					"Path": "Devs.Hull.HP",
+					"Val": 4
+				}
+			],
+			"Height": 2,
+			"Name": "Hull(L)",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Hull(L)",
+			"Text": "HULL",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -6
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.Hull.HP",
+					"Val": 2
+				},
+				{
+					"Path": "Devs.Hull.HP",
+					"Val": 5
+				}
+			],
+			"Height": 2,
+			"Name": "Hull(R)",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Hull(R)",
+			"Text": "HULL",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -6
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.Hull.HP",
+					"Val": 3
+				},
+				{
+					"Path": "Devs.Hull.HP",
+					"Val": 6
+				}
+			],
+			"Height": 1,
+			"Name": "Hull(Low)",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Hull(Low)",
+			"Text": "HULL",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 4
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.BTTY.HP",
+					"Val": 1
+				},
+				{
+					"Path": "Devs.BTTY.HP",
+					"Val": 2
+				}
+			],
+			"Height": 1,
+			"Name": "BTTY",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 3
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "BTTY",
+			"Text": "BTTY",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 2
+		},
+		{
+			"Cells": [
+			],
+			"Height": 1,
+			"Name": "Bridge",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -4.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Bridge",
+			"Text": "BRIDGE",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -5.5
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.PH1.HP",
+					"Text": "1",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "PH-1",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -6.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "PH-1",
+			"Text": "PH-1",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -7.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "FA",
+			"Text": "FA",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -1.4,
+			"Y0": -6.5
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.Transp.HP",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "Tran",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Tran",
+			"Text": "TRAN",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -8
+		},
+		{
+			"Cells": [
+			],
+			"Height": 1,
+			"Name": "LAB",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "LAB",
+			"Text": "LAB",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -8
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.PhotA.HP",
+					"Text": "A",
+					"Val": 1
+				},
+				{
+					"Path": "Devs.PhotB.HP",
+					"Text": "B",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "PHOT",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -1,
+			"Y0": -8.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "PHOT",
+			"Text": "PHOT",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -1,
+			"Y0": -9.5
+		},
+		{
+			"CX": 0,
+			"CY": -5,
+			"Name": "",
+			"QFlags": 0,
+			"RX": 5,
+			"RY": 4.5,
+			"Type": "Ellipse"
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.PH2.HP",
+					"Text": "2",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "PH-2",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -4.5,
+			"Y0": -5.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "PH-1(L)",
+			"Text": "PH-1",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -4.5,
+			"Y0": -6.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "LS",
+			"Text": "LS",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -4.5,
+			"Y0": -4.5
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.PH3.HP",
+					"Text": "3",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "PH-3",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 3.5,
+			"Y0": -5.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "PH-1(R)",
+			"Text": "PH-1",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 3.5,
+			"Y0": -6.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "RS",
+			"Text": "RS",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 3.5,
+			"Y0": -4.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "FA",
+			"Text": "FA",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -10.5
+		},
+		{
+			"Cells": [
+			],
+			"Height": 1,
+			"Name": "SHTL",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHTL",
+			"Text": "SHTL",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -1,
+			"Y0": 6
+		},
+		{
+			"Items": [
+				{
+					"X": 1.5,
+					"Y": -0.65
+				},
+				{
+					"X": 1.5,
+					"Y": 8.5
+				},
+				{
+					"X": -1.5,
+					"Y": 8.5
+				},
+				{
+					"X": -1.5,
+					"Y": -0.65
+				}
+			],
+			"Name": "Main",
+			"Type": "Polygon"
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 3
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 1
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 7
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 5
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 11
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 9
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 15
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 13
+				}
+			],
+			"Height": 4,
+			"Name": "L-Warp",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -5,
+			"Y0": 4
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "L-Warp",
+			"Text": "L WARP",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -5,
+			"Y0": 3
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 2
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 4
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 6
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 8
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 10
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 12
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 14
+				},
+				{
+					"Path": "Devs.Warp.HP",
+					"Val": 16
+				}
+			],
+			"Height": 4,
+			"Name": "R-Warp",
+			"Type": "Table",
+			"Width": 2,
+			"X0": 3,
+			"Y0": 4
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "R-Warp",
+			"Text": "R WARP",
+			"Type": "Text",
+			"Width": 2,
+			"X0": 3,
+			"Y0": 3
+		},
+		{
+			"Items": [
+				{
+					"X": -5.5,
+					"Y": 2.5
+				},
+				{
+					"X": -2.5,
+					"Y": 2.5
+				},
+				{
+					"X": -2.5,
+					"Y": 8.5
+				},
+				{
+					"X": -5.5,
+					"Y": 8.5
+				},
+				{
+					"X": -5.5,
+					"Y": 2.5
+				}
+			],
+			"Name": "Left Rect",
+			"Type": "Polygon"
+		},
+		{
+			"Items": [
+				{
+					"X": 2.5,
+					"Y": 2.5
+				},
+				{
+					"X": 5.5,
+					"Y": 2.5
+				},
+				{
+					"X": 5.5,
+					"Y": 8.5
+				},
+				{
+					"X": 2.5,
+					"Y": 8.5
+				},
+				{
+					"X": 2.5,
+					"Y": 2.5
+				}
+			],
+			"Name": "Right Rect",
+			"Type": "Polygon"
+		},
+		{
+			"Items": [
+				{
+					"X": -1.5,
+					"Y": 5
+				},
+				{
+					"X": -2.5,
+					"Y": 5
+				},
+				{
+					"X": -2.5,
+					"Y": 5.5
+				},
+				{
+					"X": -1.5,
+					"Y": 5.5
+				}
+			],
+			"Name": "Left hand",
+			"Type": "Polygon"
+		},
+		{
+			"Items": [
+				{
+					"X": 1.5,
+					"Y": 5
+				},
+				{
+					"X": 2.5,
+					"Y": 5
+				},
+				{
+					"X": 2.5,
+					"Y": 5.5
+				},
+				{
+					"X": 1.5,
+					"Y": 5.5
+				}
+			],
+			"Name": "Right hand",
+			"Type": "Polygon"
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Shield.1",
+					"Val": 15
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 13
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 9
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 5
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 6
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 10
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 14
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 16
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 11
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 7
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 3
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 1
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 2
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 4
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 8
+				},
+				{
+					"Path": "Shield.1",
+					"Val": 12
+				}
+			],
+			"Height": 2,
+			"Name": "Shield1",
+			"Type": "Table",
+			"Width": 8,
+			"X0": -4,
+			"Y0": -13
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Shield1",
+			"Text": "SHIELD #1",
+			"Type": "Text",
+			"Width": 8,
+			"X0": -4,
+			"Y0": -14
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Shield.2",
+					"Val": 12
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 16
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 8
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 14
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 4
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 10
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 2
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 6
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 1
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 5
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 3
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 9
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 7
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 13
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 11
+				},
+				{
+					"Path": "Shield.2",
+					"Val": 15
+				}
+			],
+			"Height": 8,
+			"Name": "Shield2",
+			"Type": "Table",
+			"Width": 2,
+			"X0": 6,
+			"Y0": -10
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Shield.3",
+					"Val": 9
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 7
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 5
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 3
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 1
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 2
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 4
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 6
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 8
+				},
+				{
+					"Path": "Shield.3",
+					"Val": 10
+				}
+			],
+			"Height": 10,
+			"Name": "Shield3",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 7,
+			"Y0": -0.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Shield2",
+			"Text": "SHIELD #2",
+			"Type": "Text",
+			"Width": 2,
+			"X0": 6,
+			"Y0": -11
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Shield3",
+			"Text": "SHIELD #3",
+			"Type": "Text",
+			"Width": 2,
+			"X0": 6,
+			"Y0": -1.5
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Shield.4",
+					"Val": 9
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 7
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 5
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 3
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 1
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 2
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 4
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 6
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 8
+				},
+				{
+					"Path": "Shield.4",
+					"Val": 10
+				}
+			],
+			"Height": 1,
+			"Name": "Shield4",
+			"Type": "Table",
+			"Width": 10,
+			"X0": -5,
+			"Y0": 10
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Shield4",
+			"Text": "SHIELD#4",
+			"Type": "Text",
+			"Width": 10,
+			"X0": -5,
+			"Y0": 9
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Shield.5",
+					"Val": 9
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 7
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 5
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 3
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 1
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 2
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 4
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 6
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 8
+				},
+				{
+					"Path": "Shield.5",
+					"Val": 10
+				}
+			],
+			"Height": 10,
+			"Name": "Shield5",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -8,
+			"Y0": -0.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Shield5",
+			"Text": "SHIELD#5",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -8,
+			"Y0": -1.5
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Shield.6",
+					"Val": 16
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 12
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 14
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 8
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 10
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 4
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 6
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 2
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 5
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 1
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 9
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 3
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 13
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 7
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 15
+				},
+				{
+					"Path": "Shield.6",
+					"Val": 11
+				}
+			],
+			"Height": 8,
+			"Name": "Shield6",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -8,
+			"Y0": -10
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "Shield6",
+			"Text": "SHIELD#6",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -8,
+			"Y0": -11
+		},
+		{
+			"Cells": [
+				{
+					"Path": "Devs.ExDmg.HP",
+					"Val": 1
+				},
+				{
+					"Path": "Devs.ExDmg.HP",
+					"Val": 2
+				},
+				{
+					"Path": "Devs.ExDmg.HP",
+					"Val": 3
+				}
+			],
+			"Height": 1,
+			"Name": "ExDam",
+			"Type": "Table",
+			"Width": 3,
+			"X0": -8,
+			"Y0": 12
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "ExDam",
+			"Text": "EX DAM",
+			"Type": "Text",
+			"Width": 3,
+			"X0": -8,
+			"Y0": 11
+		}
+	]
+}

@@ -4,6 +4,7 @@
 const assert = require('assert')
 const {Agent} = require('./Agent')
 const {Hex} = require('../Hex')
+const {ActionState} = require('../agents/ActionState')
 
 class MovAgent extends Agent {
 	constructor() {
@@ -19,20 +20,22 @@ class MovAgent extends Agent {
 	 */
 	createAction(params) {
 		const {ship} = params
-		const bCanRotate = ship.handlers.isCanChangeDir(params.game)
-		if (bCanRotate) {
-			const {dir} = ship
-			const action = this.newActionObject(ship.uid)
-			action.list = [0, -1, 1].map(phi => {
-				const curDir = Hex.normalDir(dir + phi)
-				const pos = Hex.nearPos[curDir](ship)
-				pos.dir = curDir
-				return pos
-			})
-			action.current = 0
-			return action
+		const {dir} = ship
+		const action = this.newActionObject(ship.uid)
+		const canRotate = ship.isCanRotate()
+		const deltaDir = canRotate ? [0, -1, 1] : [0]
+		action.list = deltaDir.map(phi => {
+			const curDir = Hex.normalDir(dir + phi)
+			const pos = Hex.nearPos[curDir](ship)
+			pos.dir = curDir
+			return pos
+		})
+		action.current = 0
+		if (!canRotate) {
+			// Если невозможно поворачивать, то движение вперёд без обращения к контроллеру
+			action.state = ActionState.End
 		}
-		return null
+		return action
 	}
 
 	/**
@@ -58,8 +61,14 @@ class MovAgent extends Agent {
 		this.checkAction(action)
 		const pos = action.list[action.current]
 		const ship = game.getShip(action.uid)
+		if (ship.dir !== pos.dir) {
+			// Выполнен поворот. Необходимо установить счетчик
+			ship.turnModeCounter = ship.getTurnMode()
+		}
 		const oldPos = ship.getPosDir()
 		ship.setPos(pos.x, pos.y, pos.dir)
+		// После каждого перемещения уменьшается turnModeCounter
+		ship.turnModeCounter--
 		ship.updateState(game)
 		game.sendInfo({type: 'move', uid: ship.uid, from: oldPos, to: pos})
 	}

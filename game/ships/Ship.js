@@ -31,7 +31,8 @@ class Ship extends Counter {
 		this.fsm = {}
 		this.fsm.All = {
 			[TurnPhase.BeginOfTurn]: params => {
-				const ep = params.ship.energyPool
+				const {ship} = params
+				const ep = ship.energyPool
 				ep.A = ep.B = ep.I = ep.W = 0
 			},
 			[TurnPhase.AutoEAlloc]: params => {

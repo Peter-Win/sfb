@@ -30,6 +30,7 @@ class Counter extends StateObject {
 		 * @type {null|string|number[]}
 		 */
 		this.turnMode = null
+		this.turnModeCounter = 0	// decrement after each move, set after rotate
 		this.name = ''
 		this.side = 0
 		this.tractorSrc = ''	// UID of tractor beam source
@@ -41,15 +42,6 @@ class Counter extends StateObject {
 		this.ctrl = null
 		// Вместо методов используются обработчики, позволяющие гибко агрегировать нужное поведение
 		this.handlers = {
-			/**
-			 * @param {Object} params	Parameters
-			 * @param {Game} params.game	main game object
-			 * @param {Counter} params.ship	current ship
-			 * @returns {boolean} Может ли данный корабль совершить поворот в текущий момент
-			 */
-			isCanChangeDir(params) {
-				return false
-			},
 		}
 	}
 
@@ -154,6 +146,10 @@ class Counter extends StateObject {
 		}
 		const intSpeed = ~~this.speed
 		return !!game.movChart[game.curImp][intSpeed]
+	}
+
+	isCanRotate() {
+		return this.turnModeCounter <= 0
 	}
 
 	/**
