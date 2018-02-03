@@ -63,18 +63,32 @@
         .btn-next {
             cursor: pointer;
         }
-
         .btn-next rect {
             fill: #FFFF33;
             stroke: none;
         }
-
         .btn-next rect:hover {
             fill: #FFFFAA;
             stroke: none;
         }
-
         .btn-next text {
+            fill: #000;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
+
+        .btn-ssd {
+            cursor: pointer;
+        }
+        .btn-ssd rect {
+            fill: #FFFF33;
+            stroke: none;
+        }
+        .btn-ssd rect:hover {
+            fill: #FFFFAA;
+            stroke: none;
+        }
+        .btn-ssd text {
             fill: #000;
             text-anchor: middle;
             alignment-baseline: middle;
@@ -113,9 +127,25 @@
         .dmg-lost {fill: #950;}
         .dmg-shield {fill: #0AF;}
         .phaser-1 {fill: none; stroke: #0FF; stroke-width: 2;}
+
+        .ssd-box {fill: #333; stroke: #CCC; stroke-width: 2;}
+        .ssd-line {fill: none; stroke: #CCC; stroke-width: 1;}
+        .ssd-text {
+            fill: #CCC;
+            stroke: none;
+            font-size: 60%;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
+        .ssd-shield {
+            fill: #0AF;
+            stroke: none;
+        }
     </style>
 
     <script>
+        var ssdMap = {} // counter.ssd => SSD JSON
+
         function translate(xmsg) {
         	var textId, params;
         	textId = xmsg.text;
@@ -281,9 +311,7 @@
 			function drawNextButton() {
 				var btn = createNode('g', mainContainer, {'class': 'btn-next'});
 				var x = 500, y = 0, w = 100, h = 26;
-				createNode('rect', btn, {
-					x: x, y: y, width: w, height: h,
-				});
+				createNode('rect', btn, {x: x, y: y, width: w, height: h});
 				createNode('text', btn, {x: x + w / 2, y: y + h / 2}).innerHTML = 'Next';
 				btn.addEventListener('click', function (event) {
 					event.preventDefault();
@@ -297,11 +325,87 @@
 				})
 				return btn;
 			}
+			function drawSsdButton() {
+				var btn = createNode('g', mainContainer, {'class': 'btn-ssd'});
+				var x = 400, y = 0, w = 80, h = 26;
+				createNode('rect', btn, {x: x, y: y, width: w, height: h});
+				createNode('text', btn, {x: x + w / 2, y: y + h / 2}).innerHTML = 'SSD';
+				btn.addEventListener('click', function (event) {
+					event.preventDefault();
+					var ssdNode = document.getElementById('ssd');
+					if (ssdNode.firstChild) {
+						while (ssdNode.firstChild) ssdNode.removeChild(ssdNode.firstChild);
+						return;
+                    }
+                    // Найти первый подходящий корабль
+                    var ship = null;
+                    for (var uid in curGame.objects) {
+                    	ship = curGame.objects[uid];
+                    	if (ship.side === curSideIndex && ship.ssd) break;
+                    }
+                    if (!ship || !ship.ssd) return;
+                    drawSsd(ssdNode, ship);
+				})
+				return btn;
+            }
 
 			var nextButton = drawNextButton();
+			var ssdButton = drawSsdButton();
 			var shipNodes = {}
 			var curGame = null;
 			var curAction = null;
+			var curSideIndex = 0;
+
+			function drawSsd(mainNode, ship) {
+				var mainWidth = 500, mainHeight = 500, k=15;
+                var popupNode = createNode('rect', mainNode, {x: 1, y: 1, width: mainWidth, height: mainHeight, 'class': 'ssd-box'});
+                var ssdNode = createNode('g', mainNode, {transform: `translate(${mainWidth/2},${mainHeight/2})`})
+                var ssdData = ssdMap[ship.ssd];
+                if (!ssdData) return;
+                var ssdItems = ssdData.items;
+                var drawers = {
+                	Table: function (item) {
+                        var i = 0, x0 = item.X0, y0=item.Y0, path=item.Path;
+                        for (var iy=0; iy<item.Height; iy++) {
+                        	var ry = k*(y0+iy);
+                        	for (var ix=0; ix<item.Width; ix++) {
+                        		var rx = k*(x0+ix);
+                        		var cell = item.Cells[i++];
+                        		if (cell) {
+                        			if (cell.Hidden) continue;
+                        			if (cell.Path) {
+                                        var path = cell.Path.split('.');
+                                        if (path[0]=='Shield')
+                                            createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': 'ssd-shield'});
+                                    }
+                        		}
+								createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': 'ssd-line'});
+                            }
+                        }
+					},
+                    Ellipse: function (item) {
+                        createNode('ellipse', ssdNode, {cx: k*item.CX, cy: k*item.CY, rx: k*item.RX, ry: k*item.RY, 'class': 'ssd-line'})
+					},
+                    Polygon: function (item) {
+                		var d = '', points=item.Items;
+                		for (var i=0; i< points.length; i++) {
+                			var p = points[i];
+                			d += i?'L':'M';
+                            d += (k*p.X) + ' ' + (k*p.Y) + ' ';
+                        }
+                        createNode('path', ssdNode, {d: d, 'class': 'ssd-line'});
+					},
+                    Text: function (item) {
+                		var x = k*(item.X0 + item.Width/2), y = k*(item.Y0 + item.Height/2);
+                        createNode('text', ssdNode, {x: x, y: y, 'class': 'ssd-text'}).innerHTML = item.Text;
+					},
+                }
+                for (var i in ssdItems) {
+                	var item = ssdItems[i];
+                	var drawer = drawers[item.Type];
+                	if (drawer) drawer(item);
+                }
+			}
 
 			function updateNextButton() {
 				nextButton.style.visibility = curAction ? 'visible' : 'hidden';
@@ -516,8 +620,25 @@
 						drawGameHeader(game);
 						if (bFirst)
 						    updateShips(game.objects)
-					}))
+					}));
+					// Загрузка SSD
+                    var uid, objects = game.objects;
+                    for (uid in objects) {
+                    	var counter = objects[uid];
+                    	if (counter.side === curSideIndex && counter.ssd && !ssdMap[counter.ssd]) {
+                    		ssdMap[counter.ssd] = 1;    // Отметка о старте загрузки. Чтобы не слать дубли
+                    		sendRequest({type: 'askSsd', ssd: counter.ssd});
+                        }
+                    }
 				},
+				/**
+				 * @param {{type:string, key:string, data:Object}} msg
+				 */
+				ssd(msg) {
+					if (msg.data) {
+						ssdMap[msg.key] = msg.data
+                    }
+                },
 				action(msg) {
 					var action = msg.action;
 					var handler = actionHandlers[action.name];
@@ -625,6 +746,7 @@
 <svg id="main" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="board"></g>
     <text id="header" x="10" y="20"></text>
+    <g id="ssd"></g>
 </svg>
 </body>
 </html>

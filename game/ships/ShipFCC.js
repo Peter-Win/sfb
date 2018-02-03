@@ -11,6 +11,7 @@ class ShipFCC extends Ship {
 	constructor() {
 		super()
 		this.img = 'FCC'
+		this.ssd = 'kcbc' // 'fcc'
 		this.turnMode = [6, 16]
 
 		const {devs} = this

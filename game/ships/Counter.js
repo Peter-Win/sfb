@@ -14,7 +14,7 @@ const ShipState = {
 	Wait: 'Wait',
 }
 
-const objectFields = ['state', 'x', 'y', 'dir', 'uid', 'speed', 'turnMode', 'name', 'type', 'img']
+const objectFields = ['state', 'x', 'y', 'dir', 'uid', 'speed', 'turnMode', 'name', 'type', 'img', 'ssd', 'side']
 
 class Counter extends StateObject {
 	constructor(type) {

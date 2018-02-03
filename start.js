@@ -9,6 +9,7 @@ const WebSocket = new require('ws')
 const {createTestGame} = require('./game/TestGame')
 const {ActionState} = require('./game/agents/ActionState')
 const {execAction} = require('./game/agents/AgentsMap')
+const {loadSsd} = require('./server/loadSsd')
 
 const app = express()
 const htmlHeaders = {
@@ -31,6 +32,9 @@ app.get('/game', (request, response) => {
 })
 app.get('/img/:name', (request, response) => {
 	response.sendFile(path.join(__dirname, `/img/${request.params.name}`))
+})
+app.get('/ssd/:name', (request, response) => {
+	response.sendFile(path.join(__dirname, `/ssd/${request.params.name}`))
 })
 
 /**
@@ -73,6 +77,13 @@ webSocketServer.on('connection', ws => {
 					break
 				case 'actionResult':
 					game.onActionIncome(obj.action)
+					break
+				case 'askSsd':
+					loadSsd(obj.ssd).then(ssdData => {
+						ws.send(JSON.stringify({type: 'ssd', key: obj.ssd, data: ssdData}))
+					}).catch(err => {
+						console.error(err)
+					})
 					break
 				default:
 					throw new Error('Invalid message type: ' + obj.type)
