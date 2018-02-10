@@ -5,7 +5,10 @@
 const WebSocket = new require('ws')
 const {Game} = require('./Game')
 const {first} = require('./scenarios/first')
+const {second} = require('./scenarios/second')
 const {CtrlBase} = require('./ctrls/CtrlBase')
+
+const scenario = second
 
 /**
  * @param {WebSocket} webSocketServer WebSocket
@@ -13,7 +16,7 @@ const {CtrlBase} = require('./ctrls/CtrlBase')
  */
 const createTestGame = (webSocketServer) => {
 	const game = new Game()
-	game.create(first)
+	game.create(scenario)
 	game.objects.Con.ctrl = new CtrlWS(webSocketServer)
 	game.idle()
 	return game

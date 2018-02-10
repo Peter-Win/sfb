@@ -11,7 +11,6 @@ const path = require('path')
 const loadSsd = (ssdId) => {
 	return new Promise((resolve, reject) => {
 		const fullName = path.normalize(`${__dirname}/../ssd/${ssdId}.json`)
-		console.log('loadSsd: ', fullName)
 		fs.readFile(fullName, {encoding: 'utf8'}, (err, data) => {
 			if (err) {
 				reject(err)
