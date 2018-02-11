@@ -11,7 +11,13 @@ const ImpEvents = {
 		Events.toGame(ImpPhase.BeginOfImp, game)
 	},
 	[ImpPhase.MoveShips]: game => {
-		game.beginGlbActionIf(movAgent, (game, ship) => ship.isCanMove(game))
+		game.beginGlbActionIf(movAgent, (game, ship) => !ship.isSeeking && ship.isCanMove(game))
+	},
+	[ImpPhase.MoveSeeking]: game => {
+		game.beginGlbActionIf(movAgent, (game, ship) => ship.isSeeking && ship.isCanMove(game))
+	},
+	[ImpPhase.ResolveSeeking]: game => {
+		fireAgent.resolveSeeking(game)
 	},
 	[ImpPhase.FireDirect]: game => {
 		game.beginGlbActionIf(fireAgent, (game, ship) => ship.isCanFire(game))

@@ -26,6 +26,11 @@ class Ship extends Counter {
 		this.crewHP = 0		// hit points, striked to crew/boarding parties
 		this.armor = 0
 		this.srcSide = 0	// Source side (side in begin of combat)
+		/**
+		 * Если length = 0, значит нет щитов. Если 1, значит щит общий. Но типичная длина - 6
+		 * @type {number[]}
+		 */
+		this.shields = []
 
 		// TODO: пока события не доделаны...
 		this.fsm = {}
@@ -125,6 +130,21 @@ class Ship extends Counter {
 	distanceTo(target) {
 		// TODO: нужно вычислять эффективное расстояние. А пока используем актуальное
 		return Hex.actualDistance(this.getPos(), target.getPos())
+	}
+
+	/**
+	 * @override
+	 */
+	canDamagedBy(ship, device) {
+		// TODO: Пока считаем, что по кораблю можно бить любым оружием
+		return true
+	}
+
+	/**
+	 * @override
+	 */
+	onDamagePoint(direction) {
+		return 'shield'
 	}
 }
 

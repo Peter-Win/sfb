@@ -13,20 +13,23 @@ describe('CtrlSimple', () => {
 	it('Interaction of Simple controller with Game', () => {
 		const game = new Game()
 		game.create(first)
-		const ship = game.objects.Con
+		game.bIdleBreak = true
+		const ship = game.getShip('Con')
 		ship.ctrl = new CtrlSimple()
 		const expectedY = ship.y - 1
 		const action = movAgent.createAction({game, ship})
 		game.addAction(action)
+		game.sendActions()
+		expect(action.state, ActionState.End)
+		expect(ship.y).to.be.equal(expectedY)
 
-		return new Promise((resolve, reject) => {
-			game.onceStepEnd(() => {
-				expect(action.state, ActionState.End)
-				expect(ship.y).to.be.equal(expectedY)
-				game.setState(GameState.End) // прекратить игру, чтобы избежать зацикливания
-				resolve()
-			})
-			game.sendActions()
-		})
+		// return new Promise((resolve, reject) => {
+		// 	game.onceStepEnd(() => {
+		// 		expect(action.state, ActionState.End)
+		// 		expect(ship.y).to.be.equal(expectedY)
+		// 		game.setState(GameState.End) // прекратить игру, чтобы избежать зацикливания
+		// 		resolve()
+		// 	})
+		// })
 	})
 })

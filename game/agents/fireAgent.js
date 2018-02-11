@@ -6,7 +6,7 @@
  */
 const assert = require('assert')
 const {Agent} = require('./Agent')
-const {Sector} = require('../Sector')
+const {FiringArc} = require('../utils/FiringArc')
 const {DeviceIds} = require('../devices/DeviceIds')
 const {DeviceState} = require('../devices/DeviceState')
 
@@ -35,7 +35,7 @@ class FireAgent extends Agent {
 	 */
 	createTrace(params) {
 		const {ship, dev, target} = params
-		const sourceArcMap = Sector.arc[dev.arc]
+		const sourceArcMap = FiringArc.arc[dev.arc]
 		if (!sourceArcMap) {
 			throw new Error(`Invalid arc for device ${dev.devId} in ship ${ship.uid}`)
 		}
@@ -43,7 +43,7 @@ class FireAgent extends Agent {
 			devId: dev.devId,
 			arc0: dev.arc,
 			// Сектор обстрела, повернутый в направлении движения корабля
-			arcMap: Sector.rotateArc(sourceArcMap, ship.dir),
+			arcMap: FiringArc.rotateArc(sourceArcMap, ship.dir),
 			pos: ship.getPos(),
 			targetId: target.uid,
 			targetPos: target.getPos(),
@@ -111,6 +111,30 @@ class FireAgent extends Agent {
 	}
 
 	/**
+	 * Описание удара
+	 * @param {Game} game *
+	 * @param {Object<string,number>} result	lost|internal|shield => value
+	 * @param {Counter} targetShip *
+	 * @param {Counter} sourceShip *
+	 * @param {Device=} device	null for seeking weapon
+	 * @return {{sourceId,targetId,targetState,type:string, result:Object}} hit
+	 */
+	createHit(game, result, targetShip, sourceShip, device) {
+		const hit = {
+			sourceId: sourceShip.uid,
+			targetId: targetShip.uid,
+			targetState: targetShip.state,
+			result,
+			type: device ? device.type : null,
+		}
+		if (device) {
+			device.updateShotDescription(game, hit)
+		}
+		targetShip.updateShotDescription(game, hit)
+		return hit
+	}
+
+	/**
 	 * Применить все сделанные выстрелы
 	 * @param {Game} game	Main game object
 	 * @return {void}
@@ -125,20 +149,36 @@ class FireAgent extends Agent {
 				const damage = device.calcDamage(game, sourceShip, target)
 				device.setState(DeviceState.Used)
 				const result = target.onDamage(sourceShip, device, damage)
-				const hit = {
-					sourceId: shot.uid,
-					targetId: trace.targetId,
-					targetState: target.state,
-					result,
-					type: device.type,
-				}
-				device.updateShotDescription(game, hit)
-				target.updateShotDescription(game, hit)
-				hits.push(hit)
+				// const hit = {
+				// 	sourceId: shot.uid,
+				// 	targetId: trace.targetId,
+				// 	targetState: target.state,
+				// 	result,
+				// 	type: device.type,
+				// }
+				// device.updateShotDescription(game, hit)
+				// target.updateShotDescription(game, hit)
+				hits.push(this.createHit(game, result, target, sourceShip, device))
 			})
 		})
-		game.sendInfo({type: 'hits', hits})
+		if (hits.length) {
+			game.sendInfo({type: 'hits', hits})
+		}
 		game.fires.length = 0
+	}
+
+	resolveSeeking(game) {
+		const hits = []
+		Object.keys(game.objects).forEach(uid => {
+			const unit = game.getShip(uid)
+			const hit = unit.onResolveSeeking(game)
+			if (hit) {
+				hits.push(hit)
+			}
+		})
+		if (hits.length) {
+			game.sendInfo({type: 'hits', hits})
+		}
 	}
 }
 

@@ -35,6 +35,7 @@ class Counter extends StateObject {
 		this.side = 0
 		this.tractorSrc = ''	// UID of tractor beam source
 		this.canBeTractored = 1	// 2 if unit can be towed from map
+		this.isSeeking = false
 		this.fsm = {}
 		/**
 		 * @type {CtrlBase}
@@ -69,6 +70,14 @@ class Counter extends StateObject {
 	}
 	getPosDir() {
 		return {x: this.x, y: this.y, dir: this.dir}
+	}
+
+	/**
+	 * Прогноз позиции юнита после выполнения перемещения
+	 * @return {{x,y:number}}	unit position after move in current direction
+	 */
+	getNextPos() {
+		return Hex.nearPos[this.dir](this)
 	}
 
 	// Экспорт в простой объект
@@ -201,11 +210,19 @@ class Counter extends StateObject {
 	 * Учитываются только типы объектов. Без учета расстояния и возможности врага совершить удар.
 	 * @abstract
 	 * @param {Counter} ship	May be ship, drone, plasma torp, etc...
-	 * @param {Device=} device	for ships only
+	 * @param {Device=} device	for ships only. null for seeking weapon
 	 * @return {boolean}	true, if can damaged
 	 */
 	canDamagedBy(ship, device) {
 		return false
+	}
+
+	/**
+	 * Обработка процедуры ResolveSeeking
+	 * @param {Game} game 	Main game object
+	 * @return {{sourceId,targetId,targetState,type:string, result:Object<string,number>}} Hit structure
+	 */
+	onResolveSeeking(game) {
 	}
 
 	/**

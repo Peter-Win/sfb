@@ -117,4 +117,18 @@ describe('Counter', () => {
 		ship.speed = 0
 		expect(ship.getTurnMode()).to.be.equal(1)
 	})
+
+	it('getNextPos', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.getShip('Con')
+		expect(ship.getPosDir()).to.be.eql({x: 0, y: 10, dir: 0})
+		expect(ship.getNextPos()).to.be.eql({x: 0, y: 9})
+		ship.dir = 1
+		expect(ship.getNextPos()).to.be.eql({x: 1, y: 9})
+		ship.dir = 2
+		expect(ship.getNextPos()).to.be.eql({x: 1, y: 10})
+		ship.dir = 3
+		expect(ship.getNextPos()).to.be.eql({x: 0, y: 11})
+	})
 })

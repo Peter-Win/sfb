@@ -133,4 +133,92 @@ describe('Hex', () => {
 		expect(Hex.inverseDir(4)).to.be.equal(1)
 		expect(Hex.inverseDir(5)).to.be.equal(2)
 	})
+
+	/**
+	 * /00\__/20\__/40\__/60\__/80\
+	 * \__/10\__/30\__/50\__/70\__/
+	 * /01\__/21\__/41\__/61\__/81\
+	 * \__/11\__/31\__/51\__/71\__/
+	 * /02\__/22\__/42\__/62\__/
+	 * \__/12\__/32\__/52\__/72
+	 * /03\__/23\__/43\__/63\__
+	 * \__/13\__/33\__/53\__/73
+	 * /04\__/24\__/44\__/64\__
+	 * \__/14\__/34\__/54\__/
+	 * /05\__/25\__/45\__/
+	 * \__/15\__/35\__/
+	 * /06\__/26\__/46\
+	 * \__/16\__/36\__/
+	 * /07\__/27\__/
+	 * \__/17\__/37\
+	 * /08\__/28\__/
+	 * \__/18\__/
+	 * /09\__/29\
+	 * \__/19\__/
+	 * /0A\__/
+	 * \__/1A\
+	 * /0B\__/
+	 */
+	it('locateDir', () => {
+		// Для совпадающих точек - пустой список
+		expect(Hex.locateDir({x: 3, y: 2}, {x: 3, y: 2})).to.be.eql([])
+		// Для точек с одинаковым Y
+		// если dX четный, то попадание в 2 сектора
+		expect(Hex.locateDir({x: 3, y: 1}, {x: 5, y: 1})).to.be.eql([1, 2])
+		expect(Hex.locateDir({x: 2, y: 2}, {x: 6, y: 2})).to.be.eql([1, 2])
+		expect(Hex.locateDir({x: 5, y: 1}, {x: 3, y: 1})).to.be.eql([4, 5])
+		expect(Hex.locateDir({x: 6, y: 2}, {x: 2, y: 2})).to.be.eql([4, 5])
+		// Если dX нечетный, то сектор 1
+		expect(Hex.locateDir({x: 1, y: 0}, {x: 4, y: 0})).to.be.eql([1])
+		expect(Hex.locateDir({x: 2, y: 1}, {x: 3, y: 1})).to.be.eql([2])
+		expect(Hex.locateDir({x: 4, y: 1}, {x: 3, y: 1})).to.be.eql([4])
+		expect(Hex.locateDir({x: 5, y: 1}, {x: 4, y: 1})).to.be.eql([5])
+		// Попадание строго в сектор 0
+		expect(Hex.locateDir({x: 3, y: 2}, {x: 3, y: 0})).to.be.eql([0]) // Вертикаль
+		expect(Hex.locateDir({x: 3, y: 4}, {x: 5, y: 0})).to.be.eql([0]) // Четная dX справа
+		expect(Hex.locateDir({x: 4, y: 4}, {x: 2, y: 0})).to.be.eql([0]) // четная dX слева
+		expect(Hex.locateDir({x: 0, y: 8}, {x: 3, y: 2})).to.be.eql([0])
+		// Попадание в соседние сектора 0 и 1
+		expect(Hex.locateDir({x: 3, y: 3}, {x: 5, y: 0})).to.be.eql([0, 1])
+		expect(Hex.locateDir({x: 0, y: 8}, {x: 3, y: 3})).to.be.eql([0, 1])
+		expect(Hex.locateDir({x: 1, y: 8}, {x: 5, y: 2})).to.be.eql([0, 1])
+		expect(Hex.locateDir({x: 4, y: 3}, {x: 2, y: 0})).to.be.eql([0, 5])
+		expect(Hex.locateDir({x: 4, y: 4}, {x: 3, y: 2})).to.be.eql([0, 5])
+		expect(Hex.locateDir({x: 5, y: 6}, {x: 2, y: 2})).to.be.eql([0, 5])
+		expect(Hex.locateDir({x: 4, y: 6}, {x: 1, y: 1})).to.be.eql([0, 5])
+		expect(Hex.locateDir({x: 5, y: 6}, {x: 2, y: 2})).to.be.eql([0, 5])
+		// Попадание строго в сектор 1
+		expect(Hex.locateDir({x: 1, y: 4}, {x: 7, y: 1})).to.be.eql([1])	// Прямо на оси (чет)
+		expect(Hex.locateDir({x: 1, y: 4}, {x: 7, y: 0})).to.be.eql([1])	// Выше оси
+		expect(Hex.locateDir({x: 1, y: 4}, {x: 7, y: 3})).to.be.eql([1])	// ниже оси
+		expect(Hex.locateDir({x: 0, y: 8}, {x: 5, y: 4})).to.be.eql([1])
+		expect(Hex.locateDir({x: 1, y: 7}, {x: 4, y: 4})).to.be.eql([1])
+		// Строго в сектор 2
+		expect(Hex.locateDir({x: 2, y: 0}, {x: 6, y: 2})).to.be.eql([2])	// На оси (чет)
+		expect(Hex.locateDir({x: 1, y: 0}, {x: 7, y: 1})).to.be.eql([2])	// Выше оси (чет)
+		expect(Hex.locateDir({x: 4, y: 0}, {x: 6, y: 2})).to.be.eql([2])	// Ниже оси (чет)
+		expect(Hex.locateDir({x: 0, y: 0}, {x: 5, y: 6})).to.be.eql([2])
+		expect(Hex.locateDir({x: 1, y: 0}, {x: 4, y: 4})).to.be.eql([2])
+		// 2, 3
+		expect(Hex.locateDir({x: 0, y: 0}, {x: 5, y: 7})).to.be.eql([2, 3])
+		expect(Hex.locateDir({x: 1, y: 0}, {x: 4, y: 5})).to.be.eql([2, 3])
+		// Попадание строго в сектор 3
+		expect(Hex.locateDir({x: 5, y: 1}, {x: 5, y: 10})).to.be.eql([3])
+		expect(Hex.locateDir({x: 2, y: 0}, {x: 4, y: 4})).to.be.eql([3])	// четный dX, справа
+		expect(Hex.locateDir({x: 6, y: 0}, {x: 4, y: 4})).to.be.eql([3])	// четный dX, слева
+		expect(Hex.locateDir({x: 0, y: 0}, {x: 5, y: 8})).to.be.eql([3])
+		expect(Hex.locateDir({x: 1, y: 0}, {x: 4, y: 6})).to.be.eql([3])
+		expect(Hex.locateDir({x: 6, y: 0}, {x: 1, y: 8})).to.be.eql([3])
+		// [3, 4]
+		expect(Hex.locateDir({x: 6, y: 0}, {x: 1, y: 7})).to.be.eql([3, 4])
+		// Попадание строго в сектор 4
+		expect(Hex.locateDir({x: 7, y: 0}, {x: 1, y: 3})).to.be.eql([4])	// на оси, чет dX
+		expect(Hex.locateDir({x: 6, y: 0}, {x: 0, y: 4})).to.be.eql([4])	// ниже оси, чет dX
+		expect(Hex.locateDir({x: 6, y: 1}, {x: 2, y: 4})).to.be.eql([4])	// выше оси, чет dX
+		expect(Hex.locateDir({x: 6, y: 0}, {x: 1, y: 6})).to.be.eql([4])
+		// Попадание строго в сектор 5
+		expect(Hex.locateDir({x: 6, y: 4}, {x: 2, y: 2})).to.be.eql([5])	// на оси, чет dX
+		expect(Hex.locateDir({x: 6, y: 4}, {x: 2, y: 0})).to.be.eql([5])	// выше оси, чет dX
+		expect(Hex.locateDir({x: 5, y: 3}, {x: 1, y: 2})).to.be.eql([5])	// ниже оси, чет dX
+	})
 })

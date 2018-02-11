@@ -59,6 +59,7 @@ class MovAgent extends Agent {
 	execAction(game, action) {
 		assert(game, 'Invalid game object')
 		this.checkAction(action)
+		assert(action.current >=0 && action.current < action.list.length, `Invalid current index = ${action.current}`)
 		const pos = action.list[action.current]
 		const ship = game.getShip(action.uid)
 		if (ship.dir !== pos.dir) {
@@ -75,5 +76,8 @@ class MovAgent extends Agent {
 }
 
 const movAgent = new MovAgent()
+movAgent.Center = 0
+movAgent.Left = 1
+movAgent.Right = 2
 
 module.exports = {movAgent}

@@ -5,7 +5,7 @@ const {DeviceState} = require('./DeviceState')
 const {Device} = require('./Device')
 const {ImpPhase} = require('../ImpChart')
 const {TurnPhase} = require('../TurnChart')
-const {Sector} = require('../Sector')
+const {FiringArc} = require('../utils/FiringArc')
 const {Events} = require('../Events')
 const {Random} = require('../Random')
 
@@ -23,7 +23,7 @@ class Phaser extends Device {
 	 * @override
 	 */
 	isValidTarget(ship, target) {
-		return Sector.inSector(this.arc, ship, target)
+		return FiringArc.inSector(this.arc, ship, target)
 	}
 
 	/**

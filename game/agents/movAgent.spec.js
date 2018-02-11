@@ -3,11 +3,14 @@
  */
 const {expect} = require('chai')
 const {movAgent} = require('./movAgent')
+const {fireAgent} = require('./fireAgent')
 const {Game} = require('../Game')
+const {GameState} = require('../GameState')
 const {first} = require('../scenarios/first')
 const {ActionState} = require('../agents/ActionState')
 const {execAction} = require('../agents/AgentsMap')
 const {ShipState} = require('../ships/Counter')
+const {CtrlStop} = require('../ctrls/CtrlStop')
 
 describe('movAgent', () => {
 	it('createAction', () => {
@@ -64,6 +67,46 @@ describe('movAgent', () => {
 			action2.current = 1	// Повернуть влево и выйти за пределы карты
 			execAction(game, action2)
 			expect(ship.state).to.be.equal(ShipState.Lost)	// Выход за пределы карты
+		}
+	})
+	// Правильность обработки автоматического хода в случае поворота с turnMode > 1
+	it('Turn mode process', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.objects.Con
+		ship.ctrl = new CtrlStop()
+		game.idle()
+		// Шаг на импульсе 0
+		{
+			expect(game.state).to.be.equal(GameState.Active)
+			const action = game.actions.get(ship.uid)
+			expect(game.isImpulse()).to.be.true
+			expect(game.curImp).to.be.equal(0)
+			expect(action).to.be.ok
+			expect(action.name).to.be.equal(movAgent.name)
+			// Выполнить поворот направо, чтобы на следующем импульсе не иметь возможности выбора
+			action.current = movAgent.Right
+			game.onActionIncome(action)
+		}
+		// Процедура стрельбы на импульсе 0 (игнорируем)
+		{
+			expect(game.state).to.be.equal(GameState.Active)
+			const action = game.actions.get(ship.uid)
+			expect(game.isImpulse()).to.be.true
+			expect(game.curImp).to.be.equal(0)
+			expect(action).to.be.ok
+			expect(action.name).to.be.equal(fireAgent.name)
+			game.onActionIncome(action)
+		}
+		// Следующая акция - стрельба на импульсе 1. Потому что выбор направления отсутствует
+		{
+			expect(game.state).to.be.equal(GameState.Active)
+			const action = game.actions.get(ship.uid)
+			expect(game.isImpulse()).to.be.true
+			expect(game.curImp).to.be.equal(1)
+			expect(action).to.be.ok
+			expect(action.name).to.be.equal(fireAgent.name)
+			game.onActionIncome(action)
 		}
 	})
 })

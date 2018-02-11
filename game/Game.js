@@ -55,11 +55,7 @@ class Game extends StateObject {
 		this.impChart = []
 		this.turnChart = []
 		this.movChart = []
-
-		/**
-		 * @type {function(game:Game)[]}
-		 */
-		this.fnStepEnd = []
+		this.bIdleBreak = false	// Отладочный режим. Если true, то idle заканчивается без цикла
 
 		this.checkState = game => {
 			// Эта функцтя должна быть перезаписана сценарием
@@ -244,17 +240,15 @@ class Game extends StateObject {
 	}
 
 	/**
-	 * Вызывается после обработки акции контроллером.
-	 * Акции, обработанные контроллером, имеют состояние End.
-	 * Передача на обработку агентам происходит только после закрытия всех акций.
-	 * @returns {void}
+	 * Проверить список акций
+	 * @return {boolean}	true, if all actions finished
 	 */
-	receiveActions() {
+	checkActions() {
 		const actionsList = []
 		for (const [uid, action] of this.actions) {
 			if (action.state !== ActionState.End) {
 				// Если есть незаконченная акция - дальше ничего не делать (будет новый вызов receiveActions)
-				return
+				return false
 			}
 			actionsList.push(action)
 		}
@@ -263,11 +257,20 @@ class Game extends StateObject {
 			execAction(this, action)
 			this.actions.delete(action.uid)
 		})
-		// Обработчики конца хода
-		this.fnStepEnd.forEach(fn => fn(this))
-		this.fnStepEnd.length = 0
-		// Выполнить следующий ход
-		this.idle()
+		return true
+	}
+
+	/**
+	 * Вызывается после обработки акции контроллером.
+	 * Акции, обработанные контроллером, имеют состояние End.
+	 * Передача на обработку агентам происходит только после закрытия всех акций.
+	 * @returns {void}
+	 */
+	receiveActions() {
+		if (this.checkActions()) {
+			// Выполнить следующий ход
+			this.idle()
+		}
 	}
 
 	/**
@@ -381,17 +384,20 @@ class Game extends StateObject {
 	 * @return {void}
 	 */
 	idle() {
-		for (let j = 0; j < 100; j++) {
+		for (let j = 0; j < 300; j++) {
 			// Только для активного состояния игры...
 			if (this.isNotActive()) {
 				return
 			}
 			// Если появились акции, прекратить выполнять шаги
-			if (this.actions.size > 0) {
+			if (!this.checkActions()) {
 				return
 			}
 			this.switchProc()
 			this.nextStep()
+			if (this.bIdleBreak) {
+				return
+			}
 		}
 		// Для предотвращения бесконечного цикла
 		throw new Error('Dead loop in Game.idle()')

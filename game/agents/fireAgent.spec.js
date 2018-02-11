@@ -8,7 +8,7 @@ const {first} = require('../scenarios/first')
 const {Ship} = require('../ships/Ship')
 const {Phaser} = require('../devices/Phaser')
 const {Missile} = require('../ships/Missile')
-const {Sector} = require('../Sector')
+const {FiringArc} = require('../utils/FiringArc')
 const {Events} = require('../Events')
 const {ImpPhase} = require('../ImpChart')
 const {ImpEvents} = require('../ImpEvents')
@@ -35,7 +35,7 @@ describe('fireAgent', () => {
 		expect(trace).to.be.ok
 		// Общая инфа
 		expect(trace).to.have.property('devId', 'PH1')
-		expect(trace).to.have.property('arcMap', Sector.arc.FA)
+		expect(trace).to.have.property('arcMap', FiringArc.arc.FA)
 		expect(trace).to.have.property('arc0', 'FA')
 		expect(trace.pos).to.be.eql({x: 0, y: 10})
 		expect(trace).to.have.property('targetId', 'droneB')

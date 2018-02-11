@@ -288,6 +288,14 @@
 			}
 			var boardBk = createNode('rect', board, {'class': 'board-bk', x: 0, y: 0, width: vWidth, height: vHeight});
 			var rect = createNode('path', board, {'class': 'hex-border', d});
+
+			// Дебажный вывод координат
+//			for (x=0; x<wWidth; x++) {
+//				for (y=0; y<wHeight; y++) {
+//					var vpos = calcViewPos({x:x, y:y})
+//                    createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
+//                }
+//            }
 		}
 		var ws = null;
 		var bHex = false;
@@ -670,7 +678,10 @@
 					msg = 'Turn: ' + game.curTurn;
 					if (game.turnStepId === 'ImpulseProc') {
 						msg += ', Impulse ' + (game.curImp + 1) + '/' + game.turnLength;
-					}
+						msg += ' ' + game.curProcId;
+					} else {
+						msg += ' ' + game.turnStepId;
+                    }
 				} else if (game.reasonMessage) {
 					msg = translate(game.reasonMessage);
 				} else {
