@@ -1,0 +1,1476 @@
+Title = "Orion Raider Cruiser"
+Width = 32
+Height = 32
+Items {
+  0000 {
+    Cells {
+      0000 {
+        Path = "Devs.Cargo.HP"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.Cargo.HP"
+        Val = 2
+      }
+      0002 {
+        Path = "Devs.Cargo.HP"
+        Val = 3
+      }
+      0003 {
+        Path = "Devs.Cargo.HP"
+        Val = 4
+      }
+      0004 {
+        Path = "Devs.Cargo.HP"
+        Val = 5
+      }
+    }
+    Height = 1
+    Name = "Cargo"
+    Type = "Table"
+    Width = 5
+    X0 = -2.5
+    Y0 = -1
+  }
+  0001 {
+    Font = "std"
+    Height = 1
+    Name = "Cargo"
+    Text = "CARGO"
+    Type = "Text"
+    Width = 5
+    X0 = -2.5
+    Y0 = -2
+  }
+  0002 {
+    Cells {
+      0000 {
+        Path = "Devs.HullC.HP"
+        Val = 4
+      }
+      0001 {
+        Path = "Devs.HullC.HP"
+        Val = 2
+      }
+      0002 {
+        Path = "Devs.HullC.HP"
+        Val = 1
+      }
+      0003 {
+        Path = "Devs.HullC.HP"
+        Val = 3
+      }
+      0004 {
+        Path = "Devs.HullC.HP"
+        Val = 5
+      }
+    }
+    Height = 1
+    Name = "C HULL"
+    Type = "Table"
+    Width = 5
+    X0 = -2.5
+    Y0 = -3
+  }
+  0003 {
+    Font = "std"
+    Height = 1
+    Name = "C HULL"
+    Text = "C HULL"
+    Type = "Text"
+    Width = 5
+    X0 = -2.5
+    Y0 = -4
+  }
+  0004 {
+    Cells {
+      0000 {
+        Path = "Devs.Bridge.HP"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.Bridge.HP"
+        Val = 2
+      }
+    }
+    Height = 2
+    Name = "BRDG"
+    Type = "Table"
+    Width = 1
+    X0 = -0.5
+    Y0 = -6
+  }
+  0005 {
+    Font = "std"
+    Height = 1
+    Name = "BRDG"
+    Text = "BRDG"
+    Type = "Text"
+    Width = 1
+    X0 = -0.5
+    Y0 = -7
+  }
+  0006 {
+    Cells {
+      0000 {
+        Path = "Devs.PH1.HP"
+        Text = "1"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.PH2.HP"
+        Text = "2"
+        Val = 1
+      }
+    }
+    Height = 2
+    Name = "PH-1(L)"
+    Type = "Table"
+    Width = 1
+    X0 = -2.5
+    Y0 = -6
+  }
+  0007 {
+    Font = "std"
+    Height = 1
+    Name = "PH-1(L)"
+    Text = "PH-1"
+    Type = "Text"
+    Width = 1
+    X0 = -2.5
+    Y0 = -7
+  }
+  0008 {
+    Cells {
+      0000 {
+        Path = "Devs.PH3.HP"
+        Text = "3"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.PH4.HP"
+        Text = "4"
+        Val = 1
+      }
+    }
+    Height = 2
+    Name = "PH-1(R)"
+    Type = "Table"
+    Width = 1
+    X0 = 1.5
+    Y0 = -6
+  }
+  0009 {
+    Font = "std"
+    Height = 1
+    Name = "PH-1(R)"
+    Text = "PH-1"
+    Type = "Text"
+    Width = 1
+    X0 = 1.5
+    Y0 = -7
+  }
+  0010 {
+    Font = "std"
+    Height = 1
+    Name = "FA(L)"
+    Text = "FA"
+    Type = "Text"
+    Width = 1
+    X0 = -4
+    Y0 = -6
+  }
+  0011 {
+    Font = "std"
+    Height = 1
+    Name = "FA(R)"
+    Text = "FA"
+    Type = "Text"
+    Width = 1
+    X0 = 3
+    Y0 = -6
+  }
+  0012 {
+    Font = "std"
+    Height = 1
+    Name = "L"
+    Text = "L"
+    Type = "Text"
+    Width = 1
+    X0 = -4
+    Y0 = -5
+  }
+  0013 {
+    Font = "std"
+    Height = 1
+    Name = "R"
+    Text = "R"
+    Type = "Text"
+    Width = 1
+    X0 = 3
+    Y0 = -5
+  }
+  0014 {
+    Cells {
+      0000 {
+        Path = "Devs.PhotA.HP"
+        Text = "A"
+        Val = 1
+      }
+    }
+    Height = 1
+    Name = "PHOT"
+    Type = "Table"
+    Width = 1
+    X0 = -0.5
+    Y0 = -8
+  }
+  0015 {
+    Font = "std"
+    Height = 1
+    Name = "PHOT"
+    Text = "PHOT"
+    Type = "Text"
+    Width = 2
+    X0 = -1
+    Y0 = -9
+  }
+  0016 {
+    Font = "std"
+    Height = 1
+    Name = "FA(Top)"
+    Text = "FA"
+    Type = "Text"
+    Width = 1
+    X0 = -0.5
+    Y0 = -10
+  }
+  0017 {
+    Cells {
+      0000 {
+        Path = "Devs.BTTY.HP"
+        Val = 2
+      }
+    }
+    Height = 1
+    Name = "BTTY(1)"
+    Type = "Table"
+    Width = 1
+    X0 = -2.5
+    Y0 = 1
+  }
+  0018 {
+    Font = "std"
+    Height = 1
+    Name = "BTTY(1)"
+    Text = "BTTY"
+    Type = "Text"
+    Width = 1
+    X0 = -2.5
+    Y0 = 0
+  }
+  0019 {
+    Cells {
+      0000 {
+        Path = "Devs.Transp.HP"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.Transp.HP"
+        Val = 2
+      }
+      0002 {
+        Path = "Devs.Transp.HP"
+        Val = 3
+      }
+    }
+    Height = 3
+    Name = "TRAN"
+    Type = "Table"
+    Width = 1
+    X0 = -0.5
+    Y0 = 1
+  }
+  0020 {
+    Font = "std"
+    Height = 1
+    Name = "TRAN"
+    Text = "TRAN"
+    Type = "Text"
+    Width = 1
+    X0 = -0.5
+    Y0 = 0
+  }
+  0021 {
+    Cells {
+    }
+    Height = 1
+    Name = "AUX"
+    Type = "Table"
+    Width = 1
+    X0 = 1.5
+    Y0 = 1
+  }
+  0022 {
+    Font = "std"
+    Height = 1
+    Name = "AUX"
+    Text = "AUX"
+    Type = "Text"
+    Width = 1
+    X0 = 1.5
+    Y0 = 0
+  }
+  0023 {
+    Cells {
+    }
+    Height = 2
+    Name = "SHTL"
+    Type = "Table"
+    Width = 1
+    X0 = -2.5
+    Y0 = 3
+  }
+  0024 {
+    Font = "std"
+    Height = 1
+    Name = "SHTL"
+    Text = "SHTL"
+    Type = "Text"
+    Width = 1
+    X0 = -2.5
+    Y0 = 2
+  }
+  0025 {
+    Cells {
+      0000 {
+        Path = "Devs.BTTY.HP"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.BTTY.HP"
+        Val = 3
+      }
+    }
+    Height = 2
+    Name = "BTTY(2)"
+    Type = "Table"
+    Width = 1
+    X0 = 1.5
+    Y0 = 3
+  }
+  0026 {
+    Font = "std"
+    Height = 1
+    Name = "BTTY(2)"
+    Text = "BTTY"
+    Type = "Text"
+    Width = 1
+    X0 = 1.5
+    Y0 = 2
+  }
+  0027 {
+    Cells {
+      0000 {
+        Path = "Devs.Imp.HP"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.Imp.HP"
+        Val = 2
+      }
+      0002 {
+        Path = "Devs.Imp.HP"
+        Val = 3
+      }
+    }
+    Height = 3
+    Name = "Imp"
+    Type = "Table"
+    Width = 1
+    X0 = -0.5
+    Y0 = 5
+  }
+  0028 {
+    Font = "std"
+    Height = 1
+    Name = "Imp"
+    Text = "IMP"
+    Type = "Text"
+    Width = 1
+    X0 = -0.5
+    Y0 = 4
+  }
+  0029 {
+    Cells {
+      0000 {
+        Path = "Devs.PH5.HP"
+        Text = "5"
+        Val = 1
+      }
+    }
+    Height = 1
+    Name = "PH-3(L)"
+    Type = "Table"
+    Width = 1
+    X0 = -2.5
+    Y0 = 6
+  }
+  0030 {
+    Font = "std"
+    Height = 1
+    Name = "PH-3(L)"
+    Text = "PH-3"
+    Type = "Text"
+    Width = 1
+    X0 = -2.5
+    Y0 = 5
+  }
+  0031 {
+    Font = "std"
+    Height = 1
+    Name = "RA(L)"
+    Text = "RA"
+    Type = "Text"
+    Width = 1
+    X0 = -2
+    Y0 = 7
+  }
+  0032 {
+    Cells {
+      0000 {
+        Path = "Devs.PH6.HP"
+        Text = "6"
+        Val = 1
+      }
+    }
+    Height = 1
+    Name = "PH-3(R)"
+    Type = "Table"
+    Width = 1
+    X0 = 1.5
+    Y0 = 6
+  }
+  0033 {
+    Font = "std"
+    Height = 1
+    Name = "PH-3(R)"
+    Text = "PH-3"
+    Type = "Text"
+    Width = 1
+    X0 = 1.5
+    Y0 = 5
+  }
+  0034 {
+    Font = "std"
+    Height = 1
+    Name = "RA(R)"
+    Text = "RA"
+    Type = "Text"
+    Width = 1
+    X0 = 1
+    Y0 = 7
+  }
+  0035 {
+    Items {
+      0000 {
+        X = -2
+        Y = 8.5
+      }
+      0001 {
+        X = -3
+        Y = 7
+      }
+      0002 {
+        X = -3
+        Y = -7.5
+      }
+      0003 {
+        X = 0
+        Y = -10.5
+      }
+      0004 {
+        X = 3
+        Y = -7.5
+      }
+      0005 {
+        X = 3
+        Y = 7
+      }
+      0006 {
+        X = 2
+        Y = 8.5
+      }
+      0007 {
+        X = -2
+        Y = 8.5
+      }
+    }
+    Name = "Main"
+    Type = "Polygon"
+  }
+  0036 {
+    Cells {
+      0000 {
+        Path = "Devs.TRAC1.HP"
+        Val = 1
+      }
+    }
+    Height = 1
+    Name = "TRAC(L)"
+    Type = "Table"
+    Width = 1
+    X0 = -5
+    Y0 = 0
+  }
+  0037 {
+    Font = "std"
+    Height = 1
+    Name = "TRAC(L)"
+    Text = "TRAC"
+    Type = "Text"
+    Width = 1
+    X0 = -5
+    Y0 = -1
+  }
+  0038 {
+    Cells {
+      0000 {
+        Path = "Devs.DRN1.HP"
+        Text = "1"
+        Val = 1
+      }
+    }
+    Height = 1
+    Name = "DRN(L)"
+    Type = "Table"
+    Width = 1
+    X0 = -7
+    Y0 = 0
+  }
+  0039 {
+    Font = "std"
+    Height = 1
+    Name = "DRN(L)"
+    Text = "DRN"
+    Type = "Text"
+    Width = 1
+    X0 = -7
+    Y0 = -1
+  }
+  0040 {
+    Cells {
+      0000 {
+        Path = "Devs.TRAC2.HP"
+        Val = 1
+      }
+    }
+    Height = 1
+    Name = "TRAC(R)"
+    Type = "Table"
+    Width = 1
+    X0 = 4
+    Y0 = 0
+  }
+  0041 {
+    Font = "std"
+    Height = 1
+    Name = "TRAC(R)"
+    Text = "TRAC"
+    Type = "Text"
+    Width = 1
+    X0 = 4
+    Y0 = -1
+  }
+  0042 {
+    Cells {
+      0000 {
+        Path = "Devs.DRN2.HP"
+        Text = "2"
+        Val = 1
+      }
+    }
+    Height = 1
+    Name = "DRN(R)"
+    Type = "Table"
+    Width = 1
+    X0 = 6
+    Y0 = 0
+  }
+  0043 {
+    Font = "std"
+    Height = 1
+    Name = "DRN(R)"
+    Text = "DRN"
+    Type = "Text"
+    Width = 1
+    X0 = 6
+    Y0 = -1
+  }
+  0044 {
+    Items {
+      0000 {
+        X = -3
+        Y = 1.5
+      }
+      0001 {
+        X = -7.5
+        Y = 1.5
+      }
+      0002 {
+        X = -7.5
+        Y = -1
+      }
+      0003 {
+        X = -3
+        Y = -2
+      }
+    }
+    Name = "Left wing"
+    Type = "Polygon"
+  }
+  0045 {
+    Items {
+      0000 {
+        X = 3
+        Y = 1.5
+      }
+      0001 {
+        X = 7.5
+        Y = 1.5
+      }
+      0002 {
+        X = 7.5
+        Y = -1
+      }
+      0003 {
+        X = 3
+        Y = -2
+      }
+    }
+    Name = "Right wing"
+    Type = "Polygon"
+  }
+  0046 {
+    Cells {
+      0000 {
+        Path = "Devs.WarpL.HP"
+        Val = 2
+      }
+      0001 {
+        Path = "Devs.WarpL.HP"
+        Val = 1
+      }
+      0002 {
+        Path = "Devs.WarpL.HP"
+        Val = 4
+      }
+      0003 {
+        Path = "Devs.WarpL.HP"
+        Val = 3
+      }
+      0004 {
+        Path = "Devs.WarpL.HP"
+        Val = 6
+      }
+      0005 {
+        Path = "Devs.WarpL.HP"
+        Val = 5
+      }
+      0006 {
+        Path = "Devs.WarpL.HP"
+        Val = 8
+      }
+      0007 {
+        Path = "Devs.WarpL.HP"
+        Val = 7
+      }
+      0008 {
+        Path = "Devs.WarpL.HP"
+        Val = 10
+      }
+      0009 {
+        Path = "Devs.WarpL.HP"
+        Val = 9
+      }
+    }
+    Height = 5
+    Name = "L Warp"
+    Type = "Table"
+    Width = 2
+    X0 = -5.5
+    Y0 = 5
+  }
+  0047 {
+    Font = "std"
+    Height = 1
+    Name = "L Warp"
+    Text = "L WARP"
+    Type = "Text"
+    Width = 2
+    X0 = -5.5
+    Y0 = 4
+  }
+  0048 {
+    Cells {
+      0000 {
+        Path = "Devs.WarpR.HP"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.WarpR.HP"
+        Val = 2
+      }
+      0002 {
+        Path = "Devs.WarpR.HP"
+        Val = 3
+      }
+      0003 {
+        Path = "Devs.WarpR.HP"
+        Val = 4
+      }
+      0004 {
+        Path = "Devs.WarpR.HP"
+        Val = 5
+      }
+      0005 {
+        Path = "Devs.WarpR.HP"
+        Val = 6
+      }
+      0006 {
+        Path = "Devs.WarpR.HP"
+        Val = 7
+      }
+      0007 {
+        Path = "Devs.WarpR.HP"
+        Val = 8
+      }
+      0008 {
+        Path = "Devs.WarpR.HP"
+        Val = 9
+      }
+      0009 {
+        Path = "Devs.WarpR.HP"
+        Val = 10
+      }
+    }
+    Height = 5
+    Name = "R Warp"
+    Type = "Table"
+    Width = 2
+    X0 = 3.5
+    Y0 = 5
+  }
+  0049 {
+    Font = "std"
+    Height = 1
+    Name = "R Warp"
+    Text = "R WARP"
+    Type = "Text"
+    Width = 2
+    X0 = 3.5
+    Y0 = 4
+  }
+  0050 {
+    Items {
+      0000 {
+        X = -3
+        Y = 4
+      }
+      0001 {
+        X = -6
+        Y = 4
+      }
+      0002 {
+        X = -6
+        Y = 10.5
+      }
+      0003 {
+        X = -3
+        Y = 10.5
+      }
+      0004 {
+        X = -3
+        Y = 4
+      }
+    }
+    Name = "Left engine"
+    Type = "Polygon"
+  }
+  0051 {
+    Items {
+      0000 {
+        X = 3
+        Y = 4
+      }
+      0001 {
+        X = 6
+        Y = 4
+      }
+      0002 {
+        X = 6
+        Y = 10.5
+      }
+      0003 {
+        X = 3
+        Y = 10.5
+      }
+      0004 {
+        X = 3
+        Y = 4
+      }
+    }
+    Name = "Right engine"
+    Type = "Polygon"
+  }
+  0052 {
+    Cells {
+      0000 {
+        Path = "Shield.1"
+        Val = 17
+      }
+      0001 {
+        Path = "Shield.1"
+        Val = 14
+      }
+      0002 {
+        Path = "Shield.1"
+        Val = 10
+      }
+      0003 {
+        Path = "Shield.1"
+        Val = 6
+      }
+      0004 {
+        Path = "Shield.1"
+        Val = 3
+      }
+      0005 {
+        Path = "Shield.1"
+        Val = 7
+      }
+      0006 {
+        Path = "Shield.1"
+        Val = 11
+      }
+      0007 {
+        Path = "Shield.1"
+        Val = 15
+      }
+      0008 {
+        Path = "Shield.1"
+        Val = 18
+      }
+      0009 {
+        Path = "Shield.1"
+        Val = 13
+      }
+      0010 {
+        Path = "Shield.1"
+        Val = 9
+      }
+      0011 {
+        Path = "Shield.1"
+        Val = 5
+      }
+      0012 {
+        Path = "Shield.1"
+        Val = 2
+      }
+      0013 {
+        Path = "Shield.1"
+        Val = 1
+      }
+      0014 {
+        Path = "Shield.1"
+        Val = 4
+      }
+      0015 {
+        Path = "Shield.1"
+        Val = 8
+      }
+      0016 {
+        Path = "Shield.1"
+        Val = 12
+      }
+      0017 {
+        Path = "Shield.1"
+        Val = 16
+      }
+    }
+    Height = 2
+    Name = "Shield1"
+    Type = "Table"
+    Width = 9
+    X0 = -4.5
+    Y0 = -13
+  }
+  0053 {
+    Font = "std"
+    Height = 1
+    Name = "Shield1"
+    Text = "SHIELD#1"
+    Type = "Text"
+    Width = 9
+    X0 = -4.5
+    Y0 = -14
+  }
+  0054 {
+    Cells {
+      0000 {
+        Path = "Shield.2"
+        Val = 13
+      }
+      0001 {
+        Path = "Shield.2"
+        Val = 16
+      }
+      0002 {
+        Path = "Shield.2"
+        Val = 9
+      }
+      0003 {
+        Path = "Shield.2"
+        Val = 14
+      }
+      0004 {
+        Path = "Shield.2"
+        Val = 5
+      }
+      0005 {
+        Path = "Shield.2"
+        Val = 10
+      }
+      0006 {
+        Path = "Shield.2"
+        Val = 2
+      }
+      0007 {
+        Path = "Shield.2"
+        Val = 6
+      }
+      0008 {
+        Path = "Shield.2"
+        Val = 1
+      }
+      0009 {
+        Path = "Shield.2"
+        Val = 3
+      }
+      0010 {
+        Path = "Shield.2"
+        Val = 4
+      }
+      0011 {
+        Path = "Shield.2"
+        Val = 7
+      }
+      0012 {
+        Path = "Shield.2"
+        Val = 8
+      }
+      0013 {
+        Path = "Shield.2"
+        Val = 11
+      }
+      0014 {
+        Path = "Shield.2"
+        Val = 12
+      }
+      0015 {
+        Path = "Shield.2"
+        Val = 15
+      }
+    }
+    Height = 8
+    Name = "Shield2"
+    Type = "Table"
+    Width = 2
+    X0 = 9
+    Y0 = -11
+  }
+  0055 {
+    Font = "std"
+    Height = 1
+    Name = "Shield2"
+    Text = "SHIELD#2"
+    Type = "Text"
+    Width = 2
+    X0 = 9
+    Y0 = -12
+  }
+  0056 {
+    Font = "std"
+    Height = 1
+    Name = "Shield3"
+    Text = "SHIELD#3"
+    Type = "Text"
+    Width = 2
+    X0 = 9
+    Y0 = -2
+  }
+  0057 {
+    Cells {
+      0000 {
+        Path = "Shield.3"
+        Val = 12
+      }
+      0001 {
+        Path = "Shield.3"
+        Val = 11
+      }
+      0002 {
+        Path = "Shield.3"
+        Val = 9
+      }
+      0003 {
+        Path = "Shield.3"
+        Val = 7
+      }
+      0004 {
+        Path = "Shield.3"
+        Val = 5
+      }
+      0005 {
+        Path = "Shield.3"
+        Val = 3
+      }
+      0006 {
+        Path = "Shield.3"
+        Val = 1
+      }
+      0007 {
+        Path = "Shield.3"
+        Val = 2
+      }
+      0008 {
+        Path = "Shield.3"
+        Val = 4
+      }
+      0009 {
+        Path = "Shield.3"
+        Val = 6
+      }
+      0010 {
+        Path = "Shield.3"
+        Val = 8
+      }
+      0011 {
+        Path = "Shield.3"
+        Val = 10
+      }
+    }
+    Height = 12
+    Name = "Shield3"
+    Type = "Table"
+    Width = 1
+    X0 = 10
+    Y0 = -1
+  }
+  0058 {
+    Cells {
+      0000 {
+        Path = "Shield.4"
+        Val = 10
+      }
+      0001 {
+        Path = "Shield.4"
+        Val = 8
+      }
+      0002 {
+        Path = "Shield.4"
+        Val = 6
+      }
+      0003 {
+        Path = "Shield.4"
+        Val = 4
+      }
+      0004 {
+        Path = "Shield.4"
+        Val = 2
+      }
+      0005 {
+        Path = "Shield.4"
+        Val = 1
+      }
+      0006 {
+        Path = "Shield.4"
+        Val = 3
+      }
+      0007 {
+        Path = "Shield.4"
+        Val = 5
+      }
+      0008 {
+        Path = "Shield.4"
+        Val = 7
+      }
+      0009 {
+        Path = "Shield.4"
+        Val = 9
+      }
+      0010 {
+        Path = "Shield.4"
+        Val = 11
+      }
+    }
+    Height = 1
+    Name = "Shield4"
+    Type = "Table"
+    Width = 11
+    X0 = -5.5
+    Y0 = 11.5
+  }
+  0059 {
+    Font = "std"
+    Height = 1
+    Name = "Shield4"
+    Text = "SHIELD#4"
+    Type = "Text"
+    Width = 5
+    X0 = -2.5
+    Y0 = 10.5
+  }
+  0060 {
+    Cells {
+      0000 {
+        Path = "Shield.5"
+        Val = 12
+      }
+      0001 {
+        Path = "Shield.5"
+        Val = 10
+      }
+      0002 {
+        Path = "Shield.5"
+        Val = 8
+      }
+      0003 {
+        Path = "Shield.5"
+        Val = 6
+      }
+      0004 {
+        Path = "Shield.5"
+        Val = 4
+      }
+      0005 {
+        Path = "Shield.5"
+        Val = 2
+      }
+      0006 {
+        Path = "Shield.5"
+        Val = 1
+      }
+      0007 {
+        Path = "Shield.5"
+        Val = 3
+      }
+      0008 {
+        Path = "Shield.5"
+        Val = 5
+      }
+      0009 {
+        Path = "Shield.5"
+        Val = 7
+      }
+      0010 {
+        Path = "Shield.5"
+        Val = 9
+      }
+      0011 {
+        Path = "Shield.5"
+        Val = 11
+      }
+    }
+    Height = 12
+    Name = "Shield5"
+    Type = "Table"
+    Width = 1
+    X0 = -11
+    Y0 = -1
+  }
+  0061 {
+    Font = "std"
+    Height = 1
+    Name = "Shield5"
+    Text = "SHIELD#5"
+    Type = "Text"
+    Width = 2
+    X0 = -11
+    Y0 = -2
+  }
+  0062 {
+    Cells {
+      0000 {
+        Path = "Shield.6"
+        Val = 16
+      }
+      0001 {
+        Path = "Shield.6"
+        Val = 13
+      }
+      0002 {
+        Path = "Shield.6"
+        Val = 14
+      }
+      0003 {
+        Path = "Shield.6"
+        Val = 9
+      }
+      0004 {
+        Path = "Shield.6"
+        Val = 10
+      }
+      0005 {
+        Path = "Shield.6"
+        Val = 5
+      }
+      0006 {
+        Path = "Shield.6"
+        Val = 6
+      }
+      0007 {
+        Path = "Shield.6"
+        Val = 2
+      }
+      0008 {
+        Path = "Shield.6"
+        Val = 3
+      }
+      0009 {
+        Path = "Shield.6"
+        Val = 1
+      }
+      0010 {
+        Path = "Shield.6"
+        Val = 7
+      }
+      0011 {
+        Path = "Shield.6"
+        Val = 4
+      }
+      0012 {
+        Path = "Shield.6"
+        Val = 11
+      }
+      0013 {
+        Path = "Shield.6"
+        Val = 8
+      }
+      0014 {
+        Path = "Shield.6"
+        Val = 15
+      }
+      0015 {
+        Path = "Shield.6"
+        Val = 12
+      }
+    }
+    Height = 8
+    Name = "Shield6"
+    Type = "Table"
+    Width = 2
+    X0 = -11
+    Y0 = -11
+  }
+  0063 {
+    Font = "std"
+    Height = 1
+    Name = "Shield6"
+    Text = "SHIELD#6"
+    Type = "Text"
+    Width = 2
+    X0 = -11
+    Y0 = -12
+  }
+  0064 {
+    Cells {
+      0000 {
+        Text = "1"
+      }
+      0001 {
+        Path = "Devs.DRN1.Drones"
+        Val = 1
+      }
+      0002 {
+        Path = "Devs.DRN1.Drones"
+        Val = 2
+      }
+      0003 {
+        Path = "Devs.DRN1.Drones"
+        Val = 3
+      }
+      0004 {
+        Path = "Devs.DRN1.Drones"
+        Val = 4
+      }
+      0005 {
+        Text = "2"
+      }
+      0006 {
+        Path = "Devs.DRN2.Drones"
+        Val = 1
+      }
+      0007 {
+        Path = "Devs.DRN2.Drones"
+        Val = 2
+      }
+      0008 {
+        Path = "Devs.DRN2.Drones"
+        Val = 3
+      }
+      0009 {
+        Path = "Devs.DRN2.Drones"
+        Val = 4
+      }
+    }
+    Height = 2
+    Name = "Drone Racks"
+    Type = "Table"
+    Width = 5
+    X0 = 6
+    Y0 = 12
+  }
+  0065 {
+    Font = "std"
+    Height = 1
+    Name = "Drone Racks"
+    Text = "DRONE RACKS"
+    Type = "Text"
+    Width = 4
+    X0 = 6
+    Y0 = 11
+  }
+  0066 {
+    Cells {
+      0000 {
+        Text = "6"
+      }
+      0001 {
+        Text = "5"
+      }
+      0002 {
+        Text = "1"
+      }
+      0003 {
+        Text = "0"
+      }
+    }
+    Height = 1
+    Name = "Sensor"
+    Type = "Table"
+    Width = 4
+    X0 = -12
+    Y0 = 14.5
+  }
+  0067 {
+    Cells {
+      0000 {
+        Text = "0"
+      }
+      0001 {
+        Text = "1"
+      }
+      0002 {
+        Text = "5"
+      }
+      0003 {
+        Text = "9"
+      }
+    }
+    Height = 1
+    Name = "Scanner"
+    Type = "Table"
+    Width = 4
+    X0 = -7
+    Y0 = 14.5
+  }
+  0068 {
+    Cells {
+      0000 {
+        Text = "4"
+      }
+      0001 {
+        Text = "2"
+      }
+      0002 {
+        Text = "2"
+      }
+      0003 {
+        Text = "0"
+      }
+    }
+    Height = 1
+    Name = "Dam Con"
+    Type = "Table"
+    Width = 4
+    X0 = -2
+    Y0 = 14.5
+  }
+  0069 {
+    Cells {
+      0000 {
+        Path = "Devs.ExDmg.HP"
+        Val = 1
+      }
+      0001 {
+        Path = "Devs.ExDmg.HP"
+        Val = 2
+      }
+      0002 {
+        Path = "Devs.ExDmg.HP"
+        Val = 3
+      }
+      0003 {
+        Path = "Devs.ExDmg.HP"
+        Val = 4
+      }
+    }
+    Height = 1
+    Name = "ExDam"
+    Type = "Table"
+    Width = 4
+    X0 = 3
+    Y0 = 14.5
+  }
+  0070 {
+    Font = "std"
+    Height = 1
+    Name = "Sensor"
+    Text = "SENSOR"
+    Type = "Text"
+    Width = 4
+    X0 = -12
+    Y0 = 13.5
+  }
+  0071 {
+    Font = "std"
+    Height = 1
+    Name = "Scanner"
+    Text = "SCANNER"
+    Type = "Text"
+    Width = 4
+    X0 = -7
+    Y0 = 13.5
+  }
+  0072 {
+    Font = "std"
+    Height = 1
+    Name = "Dam Con"
+    Text = "DAM CON"
+    Type = "Text"
+    Width = 4
+    X0 = -2
+    Y0 = 13.5
+  }
+  0073 {
+    Font = "std"
+    Height = 1
+    Name = "ExDam"
+    Text = "EX DAM"
+    Type = "Text"
+    Width = 3
+    X0 = 3
+    Y0 = 13.5
+  }
+}

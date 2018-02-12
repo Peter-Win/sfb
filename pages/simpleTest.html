@@ -383,7 +383,7 @@
                         			if (cell.Hidden) continue;
                         			if (cell.Path) {
                                         var path = cell.Path.split('.');
-                                        if (path[0]=='Shield')
+                                        if (path[0]=='shield' && ship.shield && ship.shield[+path[1]] >= cell.Val)
                                             createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': 'ssd-shield'});
                                     }
                         		}
@@ -567,6 +567,7 @@
                  * @param {{sourseId,targetId,targetStatus:string,result:Object<string,number>}[]} info.hits
 				 */
 				hits: function (info) {
+					console.log('hits: ', info);
 					for (var i in info.hits) onHit(info.hits[i]);
 					function onHit(hit) {
                         var targetObject = curGame.objects[hit.targetId]

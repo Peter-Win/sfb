@@ -99,4 +99,18 @@ describe('Ship', () => {
 			expect(action2).to.have.property('name', movAgent.name)
 		}
 	})
+	it('onDamage', () => {
+		const game = new Game()
+		game.create(first)
+		const ship = game.getShip('Con')
+		const droneA = game.getShip('droneA')
+		const droneC = game.getShip('droneC')
+		expect(ship.dir).to.be.equal(0)
+		expect(droneC.dir).to.be.equal(3)
+		expect(ship.shield[0]).to.be.equal(16)
+
+		const res1 = ship.onDamage(droneC, null, 6)
+		expect(res1).to.be.eql({shield: 6})
+		expect(ship.shield[0]).to.be.equal(10)
+	})
 })

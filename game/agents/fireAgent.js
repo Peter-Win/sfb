@@ -10,6 +10,12 @@ const {FiringArc} = require('../utils/FiringArc')
 const {DeviceIds} = require('../devices/DeviceIds')
 const {DeviceState} = require('../devices/DeviceState')
 
+const DamageType = Object.freeze({
+	lost: 'lost',
+	internal: 'internal',
+	shield: 'shield',
+})
+
 class FireAgent extends Agent {
 
 	constructor() {
@@ -149,15 +155,6 @@ class FireAgent extends Agent {
 				const damage = device.calcDamage(game, sourceShip, target)
 				device.setState(DeviceState.Used)
 				const result = target.onDamage(sourceShip, device, damage)
-				// const hit = {
-				// 	sourceId: shot.uid,
-				// 	targetId: trace.targetId,
-				// 	targetState: target.state,
-				// 	result,
-				// 	type: device.type,
-				// }
-				// device.updateShotDescription(game, hit)
-				// target.updateShotDescription(game, hit)
 				hits.push(this.createHit(game, result, target, sourceShip, device))
 			})
 		})
@@ -184,4 +181,4 @@ class FireAgent extends Agent {
 
 const fireAgent = new FireAgent()
 
-module.exports = {fireAgent}
+module.exports = {fireAgent, DamageType}

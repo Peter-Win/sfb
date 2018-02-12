@@ -42,7 +42,7 @@ const Hex = Object.freeze({
 		[-1, -1, -1,  1,  1,  0],
 	],
 
-	relatoveDir: [
+	relativeDir: [
 		[0, 1, 2, 3, -2, -1],
 		[-1, 0, 1, 2, 3, -2],
 		[-2, -1, 0, 1, 2, 3],
@@ -50,6 +50,17 @@ const Hex = Object.freeze({
 		[2, 3, -2, -1, 0, 1],
 		[1, 2, 3, -2, -1, 0],
 	],
+
+	/**
+	 * Вычислить сторону, в которую приходится удар
+	 * @param {number} sourceDir	0-5	Направление удара
+	 * @param {number} targetDir	0-5 Направление цели
+	 * @return {number}	0-5	Номер стороны цели
+	 */
+	calcStrikeSide(sourceDir, targetDir) {
+		const inverseDir = Hex.inverseDir(sourceDir)
+		return Hex.normalDir(inverseDir - targetDir)
+	},
 
 	/**
 	 * Actual distance between two points.

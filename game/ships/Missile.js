@@ -58,8 +58,8 @@ class Missile extends Counter {
 		if (this.isActive() && this.isInTargetHex(game)) {
 			// Попадание в цель
 			const targetShip = game.getShip(this.target)
-			this.setState(ShipState.Exploded)
 			const result = this.makeStrike(targetShip)
+			this.onDestroyed()
 			return fireAgent.createHit(game, result, targetShip, this, null)
 		}
 		return null

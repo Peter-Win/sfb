@@ -221,4 +221,11 @@ describe('Hex', () => {
 		expect(Hex.locateDir({x: 6, y: 4}, {x: 2, y: 0})).to.be.eql([5])	// выше оси, чет dX
 		expect(Hex.locateDir({x: 5, y: 3}, {x: 1, y: 2})).to.be.eql([5])	// ниже оси, чет dX
 	})
+
+	it('calcStrikeSide', () => {
+		expect(Hex.calcStrikeSide(3, 0)).to.be.equal(0)
+		expect(Hex.calcStrikeSide(3, 1)).to.be.equal(5)
+		expect(Hex.calcStrikeSide(3, 5)).to.be.equal(1)
+		expect(Hex.calcStrikeSide(1, 0)).to.be.equal(4)
+	})
 })

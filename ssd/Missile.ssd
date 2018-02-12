@@ -1,0 +1,86 @@
+Title = "<ship name>"
+Width = 20
+Height = 20
+Items {
+  0000 {
+    CX = 0
+    CY = -5
+    Name = ""
+    QFlags = 5
+    RX = 0.5
+    RY = 0.5
+    Type = "Ellipse"
+  }
+  0001 {
+    Items {
+      0000 {
+        X = -0.5
+        Y = -5
+      }
+      0001 {
+        X = -1
+        Y = -3.5
+      }
+      0002 {
+        X = -1
+        Y = 2
+      }
+      0003 {
+        X = -1.5
+        Y = 4.5
+      }
+      0004 {
+        X = -1
+        Y = 5
+      }
+      0005 {
+        X = 1
+        Y = 5
+      }
+      0006 {
+        X = 1.5
+        Y = 4.5
+      }
+      0007 {
+        X = 1
+        Y = 2
+      }
+      0008 {
+        X = 1
+        Y = -3.5
+      }
+      0009 {
+        X = 0.5
+        Y = -5
+      }
+    }
+    Name = ""
+    Type = "Polygon"
+  }
+  0002 {
+    Cells {
+      0000 {
+        Path = "HitPts"
+        Val = 4
+      }
+      0001 {
+        Path = "HitPts"
+        Val = 3
+      }
+      0002 {
+        Path = "HitPts"
+        Val = 2
+      }
+      0003 {
+        Path = "HitPts"
+        Val = 1
+      }
+    }
+    Height = 4
+    Name = ""
+    Type = "Table"
+    Width = 1
+    X0 = -0.5
+    Y0 = -2
+  }
+}

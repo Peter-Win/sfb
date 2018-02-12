@@ -634,67 +634,67 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 15
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 13
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 9
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 10
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 14
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 16
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 11
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 12
 				}
 			],
@@ -718,71 +718,55 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.2",
-					"Val": 12
-				},
-				{
-					"Path": "Shield.2",
-					"Val": 16
-				},
-				{
-					"Path": "Shield.2",
-					"Val": 8
-				},
-				{
-					"Path": "Shield.2",
-					"Val": 14
-				},
-				{
-					"Path": "Shield.2",
-					"Val": 4
-				},
-				{
-					"Path": "Shield.2",
-					"Val": 10
-				},
-				{
-					"Path": "Shield.2",
-					"Val": 2
-				},
-				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.2",
-					"Val": 1
+					"Path": "shield.1",
+					"Val": 10
 				},
 				{
-					"Path": "Shield.2",
-					"Val": 5
-				},
-				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.2",
-					"Val": 9
-				},
-				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.2",
-					"Val": 13
+					"Path": "shield.1",
+					"Val": 1
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
+					"Val": 4
+				},
+				{
+					"Path": "shield.1",
+					"Val": 2
+				},
+				{
+					"Path": "shield.1",
+					"Val": 8
+				},
+				{
+					"Path": "shield.1",
+					"Val": 5
+				},
+				{
+					"Path": "shield.1",
 					"Val": 11
 				},
 				{
-					"Path": "Shield.2",
-					"Val": 15
+					"Path": "shield.1",
+					"Val": 9
+				},
+				{
+					"Path": "shield.1",
+					"Val": 12
 				}
 			],
-			"Height": 8,
+			"Height": 6,
 			"Name": "Shield2",
 			"Type": "Table",
 			"Width": 2,
@@ -792,43 +776,43 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 9
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 10
 				}
 			],
@@ -862,43 +846,43 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 9
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 10
 				}
 			],
@@ -922,43 +906,43 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 9
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 10
 				}
 			],
@@ -982,71 +966,55 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.6",
-					"Val": 16
+					"Path": "shield.5",
+					"Val": 11
 				},
 				{
-					"Path": "Shield.6",
-					"Val": 12
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 14
-				},
-				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.6",
-					"Val": 10
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 4
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 6
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 2
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 5
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 1
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 9
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 3
-				},
-				{
-					"Path": "Shield.6",
-					"Val": 13
-				},
-				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.6",
-					"Val": 15
+					"Path": "shield.5",
+					"Val": 4
 				},
 				{
-					"Path": "Shield.6",
-					"Val": 11
+					"Path": "shield.5",
+					"Val": 3
+				},
+				{
+					"Path": "shield.5",
+					"Val": 1
+				},
+				{
+					"Path": "shield.5",
+					"Val": 6
+				},
+				{
+					"Path": "shield.5",
+					"Val": 2
+				},
+				{
+					"Path": "shield.5",
+					"Val": 10
+				},
+				{
+					"Path": "shield.5",
+					"Val": 5
+				},
+				{
+					"Path": "shield.5",
+					"Val": 12
+				},
+				{
+					"Path": "shield.5",
+					"Val": 9
 				}
 			],
-			"Height": 8,
+			"Height": 6,
 			"Name": "Shield6",
 			"Type": "Table",
 			"Width": 2,

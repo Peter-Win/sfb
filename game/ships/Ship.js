@@ -7,7 +7,7 @@ const {CounterType} = require('./CounterType')
 const {TurnPhase} = require('../TurnChart')
 const {Device} = require('../devices/Device')
 const {PhaserCapacitor} = require('../devices/PhaserCapacitor')
-const {fireAgent} = require('../agents/fireAgent')
+const {fireAgent, DamageType} = require('../agents/fireAgent')
 const {Events} = require('../Events')
 const {Energy} = require('../utils/Energy')
 const {Hex} = require('../Hex')
@@ -30,11 +30,15 @@ class Ship extends Counter {
 		 * Если length = 0, значит нет щитов. Если 1, значит щит общий. Но типичная длина - 6
 		 * @type {number[]}
 		 */
-		this.shields = []
+		this.shield = []
+		this.shield0 = []
 
-		// TODO: пока события не доделаны...
 		this.fsm = {}
 		this.fsm.All = {
+			[Events.BeginOfGame]: params => {
+				const {ship} = params
+				ship.shield = [...ship.shield0]
+			},
 			[TurnPhase.BeginOfTurn]: params => {
 				const {ship} = params
 				const ep = ship.energyPool
@@ -49,6 +53,12 @@ class Ship extends Counter {
 		Device.create(this.devs, PhaserCapacitor.id, PhaserCapacitor)
 
 		this.handlers.autoEAlloc = Energy.shipAutoEAlloc
+	}
+
+	toSimple() {
+		const data = super.toSimple()
+		data.shield = [...this.shield]
+		return data
 	}
 
 	/**
@@ -144,7 +154,22 @@ class Ship extends Counter {
 	 * @override
 	 */
 	onDamagePoint(direction) {
-		return 'shield'
+		const {shield} = this
+		switch (shield.length) {
+			case 1:
+				if (shield[0] > 0) {
+					shield[0]--
+					return DamageType.shield
+				}
+				break
+			case 6:
+				if (shield[direction] > 0) {
+					shield[direction]--
+					return DamageType.shield
+				}
+				break
+		}
+		return this.handlers.onInternalDamage(this)
 	}
 }
 

@@ -13,6 +13,7 @@ class ShipFCC extends Ship {
 		this.img = 'FCC'
 		this.ssd = 'fcc'
 		this.turnMode = [6, 16]
+		this.shield0 = [16, 12, 10, 10, 10, 12]
 
 		const {devs} = this
 		Device.create(devs, 'PH1', Phaser1, {id: '1', arc: 'FA'})

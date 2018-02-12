@@ -237,7 +237,7 @@ class Counter extends StateObject {
 		if (!this.canDamagedBy(source, device)) {
 			result.lost = value
 		} else {
-			const direction = Hex.inverseDir(source.dir)
+			const direction = Hex.calcStrikeSide(source.dir, this.dir)
 			for (let i = 0; i < value; i++) {
 				const type = this.onDamagePoint(direction)
 				result[type] = (result[type] || 0) + 1

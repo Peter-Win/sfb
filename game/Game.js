@@ -108,7 +108,7 @@ class Game extends StateObject {
 	/**
 	 * Закончить игру
 	 * @param {number} winnerSide	Номер победившей стороны или -1, если проиграли все
-	 * @param {string|XMessage|{test:string,params:Object}} reasonMessage *
+	 * @param {string|XMessage|{text:string,params:Object}} reasonMessage *
 	 * @return {void}
 	 * @throws {Error}
 	 */

@@ -60,10 +60,26 @@ const second = {
 	 * @return {void}
 	 */
 	checkState: (game) => {
-		// Если Con выходит за границу карты - это проигрыш
+		// Если Con выходит за границу карты или получает повреждение - это проигрыш
 		const Con = game.getShip('Con')
 		if (Con.isNotActive()) {
-			game.finish(1, {text: '{name} left the map', params: Con})
+			const text = (Con.state === ShipState.Lost) ? '{name} left the map' : '{name} received critical damage'
+			game.finish(1, {text, params: Con})
+			return
+		}
+		let totalDrones = 0
+		let deadDrones = 0
+		Object.keys(game.objects).forEach(uid => {
+			if (/^drone/.test(uid)) {
+				totalDrones++
+				const drone = game.getShip(uid)
+				if (drone.isNotActive()) {
+					deadDrones++
+				}
+			}
+		})
+		if (deadDrones === totalDrones) {
+			game.finish(0, 'All targets are destroyed')
 			return
 		}
 	},

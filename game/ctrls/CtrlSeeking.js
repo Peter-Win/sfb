@@ -50,7 +50,7 @@ class CtrlSeeking extends CtrlBase {
 				return movAgent.Right
 			}
 			// Поворот на 180 гр. С учетом направления цели
-			const dirDiff = Hex.relatoveDir[sourceUnit.dir][targetUnit.dir]
+			const dirDiff = Hex.relativeDir[sourceUnit.dir][targetUnit.dir]
 			if (dirDiff < 0) {
 				return movAgent.Left
 			} else if (dirDiff > 0 && dirDiff < 3) {
