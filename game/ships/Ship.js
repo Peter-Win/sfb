@@ -74,6 +74,13 @@ class Ship extends Counter {
 	 */
 	init(description) {
 		super.init(description)
+
+		const {disabledDevices} = description
+		if (Array.isArray(disabledDevices)) {
+			disabledDevices.forEach(devId => {
+				this.getDevice(devId).setState(Device.states.Disabled)
+			})
+		}
 	}
 
 	/**
@@ -139,7 +146,8 @@ class Ship extends Counter {
 	 */
 	distanceTo(target) {
 		// TODO: нужно вычислять эффективное расстояние. А пока используем актуальное
-		return Hex.actualDistance(this.getPos(), target.getPos())
+		// return Hex.actualDistance(this.getPos(), target.getPos())
+		return Hex.actualDistance(this, target)
 	}
 
 	/**

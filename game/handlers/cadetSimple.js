@@ -3,11 +3,13 @@
  */
 const {DamageType} = require('../agents/fireAgent')
 const {ShipState} = require('../ships/Counter')
+const {Energy} = require('../utils/Energy')
 
 const cadetSimple = Object.freeze({
 	autoEAlloc(params) {
-		const {ship} = params
-		ship.devs.PhCap.energyIn = 3
+		// const {ship} = params
+		// ship.devs.PhCap.energyIn = 3
+		Energy.shipAutoEAlloc(params)
 	},
 	/**
 	 * Получение 1 единицы внутреннего повреждения

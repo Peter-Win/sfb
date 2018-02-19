@@ -48,6 +48,7 @@ describe('fireAgent', () => {
 	it('Action generator', () => {
 		const game = new Game()
 		game.create(first)
+		Events.toGame(TurnPhase.BeginOfTurn, game)
 		Events.toGame(TurnPhase.AutoEAlloc, game)
 		Events.toGame(TurnPhase.OnEnergyAlloc, game)
 		expect(game.objects.Con.devs.PhCap.energy).to.be.equal(3)

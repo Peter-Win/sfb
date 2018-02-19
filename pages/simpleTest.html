@@ -290,12 +290,12 @@
 			var rect = createNode('path', board, {'class': 'hex-border', d});
 
 			// Дебажный вывод координат
-//			for (x=0; x<wWidth; x++) {
-//				for (y=0; y<wHeight; y++) {
-//					var vpos = calcViewPos({x:x, y:y})
-//                    createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
-//                }
-//            }
+			for (x=0; x<wWidth; x++) {
+				for (y=0; y<wHeight; y++) {
+					var vpos = calcViewPos({x:x, y:y})
+                    createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
+                }
+            }
 		}
 		var ws = null;
 		var bHex = false;
@@ -511,7 +511,13 @@
                                     	nodes.push(g);
                                     	var r = createNode('rect', g, {x: devX, y: devY, width: devW, height: devH});
                                     	var t = createNode('text', g, {x: devX + devW/2, y: devY + devH/2});
-                                        t.innerHTML = trace.devId + '(' + trace.arc0 + '): ' + middle(trace.damages);
+                                    	var txt1 = trace.devId + '(' + trace.arc0 + '): ';
+                                    	if (trace.damages) {
+                                    		txt1 += middle(trace.damages);
+                                        } else if (trace.chance) {
+                                    		txt1 += trace.damage + '*' + trace.chance + '/6';
+                                        }
+                                        t.innerHTML = txt1;
                                         devX += devW + 5;
                                         g.addEventListener('click', function (event) {
                                             event.preventDefault();

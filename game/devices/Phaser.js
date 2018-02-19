@@ -62,13 +62,15 @@ class Phaser extends Device {
 		let dublicatedId = ''
 		const idSet = new Set()
 		traces.forEach(trace => {
-			const {devId} = trace
-			if (idSet.has(devId)) {
-				dublicatedId = devId
-			} else {
-				idSet.add(devId)
+			const {devId, phaserEnergy} = trace
+			if (phaserEnergy) {
+				if (idSet.has(devId)) {
+					dublicatedId = devId
+				} else {
+					idSet.add(devId)
+				}
+				trace.ok = true
 			}
-			trace.ok = true
 		})
 		return !dublicatedId
 	}

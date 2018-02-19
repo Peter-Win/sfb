@@ -45,10 +45,8 @@ class Energy {
 		let energy = Math.min(ship.energyPool[type], Math.min(limits.Lim, device.energyWanted) - device.energyIn)
 		if (type in limits) {
 			energy = Math.min(energy, limits[type])
-		} else {
-			if (device.energyLim !== `*${limits.Lim}`) {
-				energy = 0
-			}
+		} else if (device.energyLim !== `*${limits.Lim}`) {
+			energy = 0
 		}
 		return energy
 	}
@@ -68,6 +66,25 @@ class Energy {
 	}
 
 	/**
+	 * Получить список устройств, которые требуют энергии
+	 * @param {Counter} ship *
+	 * @return {Device[]}	список отсортирован по приоритетам eAllocPrior
+	 */
+	static getDevices(ship) {
+		const {devs} = ship
+		if (!devs) {
+			return []
+		}
+		const list = Object.keys(devs).filter(deviceId => {
+			const device = devs[deviceId]
+			return device.isActive() && !!device.eAllocPrior
+		}).map(deviceId => devs[deviceId])
+		// Отсортировать по увеличению приоритета
+		list.sort((devA, devB) => cmp(devA.eAllocPrior, devB.eAllocPrior))
+		return list
+	}
+
+	/**
 	 * Автоматическое распределение энергии для корабля
 	 * @param {{ship:Ship}} params	event parameters
 	 * @return {void}
@@ -75,11 +92,9 @@ class Energy {
 	static shipAutoEAlloc(params) {
 		const {ship} = params
 		// Выбрать устройства, для которых указан приоритет распределения энергии
-		const lst = Object.keys(ship.devs).filter(deviceId => !!ship.devs[deviceId].eAllocPrior)
-		// Отсортировать по увеличению приоритета
-		lst.sort((devA, devB) => cmp(devA.eAllocPrior, devB.eAllocPrior))
+		const list = Energy.getDevices(ship)
 		// распределить
-		lst.forEach(device => device.allocEnergy(ship))
+		list.forEach(device => device.allocEnergy(ship))
 	}
 
 }

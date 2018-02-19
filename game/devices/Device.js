@@ -9,6 +9,7 @@ const {DeviceState} = require('./DeviceState')
 // Приоритет распределения энергии (поле eAllocPrior)
 const EAllocPrior = Object.freeze({
 	PhaserCapacitor: 9,
+	PhotonTorpedo: 10,
 	Engine: 14,
 })
 
@@ -48,6 +49,10 @@ class Device extends StateObject{
 		return device
 	}
 
+	isActive() {
+		return this.state !== DeviceState.Disabled && this.state !== DeviceState.Dead
+	}
+
 	/**
 	 * Попадает ли указанная цель в зону обстрела
 	 * @param {{x,y,dir:number}} ship	Корабль-владелец устройства
@@ -85,11 +90,11 @@ class Device extends StateObject{
 	/**
 	 * Внести дополнительную информацию в трассировочный элемент акции стрельбы
 	 * @abstract
-	 * @param {{game:Game, ship:Ship}} params	in
-	 * @param {{targetId:string}} action	in/out
+	 * @param {{game:Game, ship:Ship, targetId:string}} params	in
+	 * @param {Object} trace	in/out
 	 * @return {void}
 	 */
-	updateFireTrace(params, action) {
+	updateFireTrace(params, trace) {
 	}
 
 	/**

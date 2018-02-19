@@ -34,6 +34,7 @@ const first = {
 			x: 0, y: 10, dir: 0,
 			speed: 8,
 			handlers: cadetSimple,
+			disabledDevices: ['PhotA', 'PhotB'],
 		},
 		{
 			uid: 'droneA',
