@@ -2,16 +2,19 @@
  * First scenario
  * Created by PeterWin on 03.12.2017.
  */
+const cloneDeep = require('lodash/cloneDeep')
 const {MovChart8} = require('../MovChart')
 const {TurnChart} = require('../TurnChart')
 const {ImpChart} = require('../ImpChart')
 const {ShipFCC} = require('../ships/ShipFCC')
+const KlingonCruiser = require('../ships/Klingon/CadetCruiser').CadetCruiser
 const {Missile} = require('../ships/Missile')
 const {CtrlSimple} = require('../ctrls/CtrlSimple')
 const {cadetSimple} = require('../handlers/cadetSimple')
 const {ShipState} = require('../ships/Counter')
 const {GameState} = require('../GameState')
 const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('../consts')
+const {RaceType} = require('../Race')
 
 const first = {
 	name: 'Cadet scenario #1: Battle Drill',
@@ -22,8 +25,8 @@ const first = {
 	impChart: ImpChart.Basic,
 	movChart: MovChart8,
 	sides: [
-		{},
-		{},
+		{race: RaceType.Federation},
+		{race: RaceType.Klingon},
 	],
 	objects: [
 		{
@@ -84,9 +87,9 @@ const first = {
 	 */
 	checkState: (game) => {
 		// Если Con выходит за границу карты - это проигрыш
-		const Con = game.getShip('Con')
-		if (Con.isNotActive()) {
-			game.finish(1, {text: '{name} left the map', params: Con})
+		const ship = game.getShip('Con')
+		if (ship.isNotActive()) {
+			game.finish(1, {text: '{name} left the map', params: ship})
 			return
 		}
 		let exploded = 0
@@ -109,4 +112,27 @@ const first = {
 	},
 }
 
-module.exports = {first}
+const firstMod = params => {
+	const {race} = params
+	const scenario = cloneDeep(first) // Object.assign({}, first)
+	const {objects} = scenario
+	if (race === RaceType.Klingon) {
+		scenario.sides = [
+			{race: RaceType.Klingon},
+			{race: RaceType.Federation},
+		]
+		objects.forEach((item, i) => {
+			objects[i] = Object.assign({}, item)
+			if (i === 0) {
+				Object.assign(objects[i], {
+					name: 'Destruction',
+					Type: KlingonCruiser,
+					disabledDevices: null,
+				})
+			}
+		})
+	}
+	return scenario
+}
+
+module.exports = {first, firstMod}
