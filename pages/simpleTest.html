@@ -246,7 +246,7 @@
 			var x1 =  dist * Math.cos(A), y1 = dist * Math.sin(A)
             var t = svgTime()
 			var anim = createNode('animateMotion', infoNode,
-				{path: `M0 0 L${x1} ${y1}`, begin: 'DOMNodeInserted', dur: '2s',
+				{path: 'M0 0 L'+x1+' '+y1, begin: 'DOMNodeInserted', dur: '2s',
 					fill: 'freeze',
 					calcMode:"spline",
 					keyTimes:"0;1",
@@ -269,33 +269,33 @@
 				var x0 = x * hexHalf * 3 + worldSpace;
 				var x1 = x0 + hexHalf, x2 = x1 + hexHalf + hexHalf, x3 = x2 + hexHalf;
 				var yt = (x & 1) * hexHalfHeight + worldSpaceTop;
-				d += `M${x1} ${yt}h${hexW}`;
+				d += 'M'+x1+' '+yt+' h'+hexW;
 				for (y = 0; y < wHeight; y++) {
 					var y0 = (y * 2 + (x & 1)) * hexHalfHeight + worldSpaceTop;
 					var y1 = y0 + hexHalfHeight, y2 = y1 + hexHalfHeight;
-					d += `M${x2} ${y0}L${x3} ${y1}L${x2} ${y2}L${x1} ${y2}`;
+					d += 'M'+x2+' '+y0+'L'+x3+' '+y1+'L'+x2+' '+y2+'L'+x1+' '+y2;
 				}
 				if (x & 1) {
-					d += `M${x0} ${y1}L${x1} ${y2}`;
+					d += 'M'+x0+' '+y1+'L'+x1+' '+y2;
 				} else {
-					d += `M${x0} ${hexHalfHeight + worldSpaceTop}l${hexHalf} ${-hexHalfHeight}`;
+					d += 'M'+x0+' '+(hexHalfHeight + worldSpaceTop)+'l'+hexHalf+' '+(-hexHalfHeight);
 				}
 			}
-			d += `M${worldSpace} ${hexHalfHeight + worldSpaceTop}`;
+			d += 'M'+worldSpace+' '+(hexHalfHeight + worldSpaceTop);
 			for (y = 0; y < wHeight; y++) {
-				if (y) d += `l${-hexHalf} ${hexHalfHeight}`;
-				d += `l${hexHalf} ${hexHalfHeight}`;
+				if (y) d += 'l'+(-hexHalf)+' '+hexHalfHeight;
+				d += 'l'+hexHalf+' '+hexHalfHeight;
 			}
 			var boardBk = createNode('rect', board, {'class': 'board-bk', x: 0, y: 0, width: vWidth, height: vHeight});
-			var rect = createNode('path', board, {'class': 'hex-border', d});
+			var rect = createNode('path', board, {'class': 'hex-border', d: d});
 
 			// Дебажный вывод координат
-			for (x=0; x<wWidth; x++) {
-				for (y=0; y<wHeight; y++) {
-					var vpos = calcViewPos({x:x, y:y})
-                    createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
-                }
-            }
+			// for (x=0; x<wWidth; x++) {
+			// 	for (y=0; y<wHeight; y++) {
+			// 		var vpos = calcViewPos({x:x, y:y})
+   //                  createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
+   //              }
+   //          }
 		}
 		var ws = null;
 		var bHex = false;
@@ -367,8 +367,9 @@
 			function drawSsd(mainNode, ship) {
 				var mainWidth = 500, mainHeight = 500, k=15;
                 var popupNode = createNode('rect', mainNode, {x: 1, y: 1, width: mainWidth, height: mainHeight, 'class': 'ssd-box'});
-                var ssdNode = createNode('g', mainNode, {transform: `translate(${mainWidth/2},${mainHeight/2})`})
+                var ssdNode = createNode('g', mainNode, {transform: 'translate('+(mainWidth/2)+','+(mainHeight/2)+')'})
                 var ssdData = ssdMap[ship.ssd];
+                console.log('ssdData: ', ssdData)
                 if (!ssdData) return;
                 var ssdItems = ssdData.items;
                 var drawers = {
@@ -421,7 +422,7 @@
 
 			updateNextButton();
 			var actionHandlers = {
-				Move(action) {
+				Move: function(action) {
 					return new function () {
 						var hexNodes = []
 						for (var j in action.list) createHex(+j);
@@ -448,7 +449,7 @@
 						}
 					};
 				},
-                Fire(action) {
+                Fire: function(action) {
 					return new function () {
 						var nodes = [], curTarget = null;
 						// Собрать список целей
@@ -623,7 +624,7 @@
                 },
             }
 			var msgHandlers = {
-				game(msg) {
+				game: function(msg) {
 					var game = msg.game;
 					curGame = game;
 					var bFirst = !bHex;
@@ -649,12 +650,12 @@
 				/**
 				 * @param {{type:string, key:string, data:Object}} msg
 				 */
-				ssd(msg) {
+				ssd: function(msg) {
 					if (msg.data) {
 						ssdMap[msg.key] = msg.data
                     }
                 },
-				action(msg) {
+				action: function(msg) {
 					var action = msg.action;
 					var handler = actionHandlers[action.name];
 					if (handler) {
@@ -664,7 +665,7 @@
 						console.warn('Unhandled action: ', action);
 					}
 				},
-                info(msg) {
+                info: function(msg) {
 					const {info} = msg
 					const handler = infoHandlers[info.type]
                     if (handler) {

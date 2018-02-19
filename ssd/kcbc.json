@@ -86,67 +86,67 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 15
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 13
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 9
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 10
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 14
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 16
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 11
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.1",
+					"Path": "shield.0",
 					"Val": 12
 				}
 			],
@@ -160,12 +160,12 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.PH1.HP",
+					"Path": "devs.PH1.hp",
 					"Text": "1",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.PH2.HP",
+					"Path": "devs.PH2.hp",
 					"Text": "2",
 					"Val": 1
 				}
@@ -178,8 +178,7 @@
 			"Y0": -9
 		},
 		{
-			"Cells": [
-			],
+			"Cells": [],
 			"Height": 1,
 			"Name": "Bridge",
 			"Type": "Table",
@@ -188,8 +187,7 @@
 			"Y0": -7
 		},
 		{
-			"Cells": [
-			],
+			"Cells": [],
 			"Height": 1,
 			"Name": "SCTY",
 			"Type": "Table",
@@ -200,7 +198,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Transp.HP",
+					"Path": "devs.Transp.hp",
 					"Val": 1
 				}
 			],
@@ -212,8 +210,7 @@
 			"Y0": -5
 		},
 		{
-			"Cells": [
-			],
+			"Cells": [],
 			"Height": 1,
 			"Name": "LAB",
 			"Type": "Table",
@@ -224,11 +221,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 3
 				}
 			],
@@ -242,11 +239,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 2
 				},
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 4
 				}
 			],
@@ -260,11 +257,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.BTTY.HP",
+					"Path": "devs.BTTY.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.BTTY.HP",
+					"Path": "devs.BTTY.hp",
 					"Val": 2
 				}
 			],
@@ -278,11 +275,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.APR.HP",
+					"Path": "devs.APR.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.APR.HP",
+					"Path": "devs.APR.hp",
 					"Val": 2
 				}
 			],
@@ -296,11 +293,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Imp.HP",
+					"Path": "devs.Imp.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.Imp.HP",
+					"Path": "devs.Imp.hp",
 					"Val": 2
 				}
 			],
@@ -314,7 +311,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.PH3.HP",
+					"Path": "devs.PH3.hp",
 					"Val": 1
 				}
 			],
@@ -328,7 +325,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.PH4.HP",
+					"Path": "devs.PH4.hp",
 					"Val": 1
 				}
 			],
@@ -340,8 +337,7 @@
 			"Y0": 5
 		},
 		{
-			"Cells": [
-			],
+			"Cells": [],
 			"Height": 1,
 			"Name": "SHTL",
 			"Type": "Table",
@@ -352,7 +348,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.DRN1.HP",
+					"Path": "devs.DRN1.hp",
 					"Val": 1
 				}
 			],
@@ -366,7 +362,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.DisrA.HP",
+					"Path": "devs.DisrA.hp",
 					"Text": "A",
 					"Val": 1
 				}
@@ -381,7 +377,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.DisrB.HP",
+					"Path": "devs.DisrB.hp",
 					"Text": "B",
 					"Val": 1
 				}
@@ -396,35 +392,35 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 3
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 7
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 5
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 11
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 9
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 15
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 13
 				}
 			],
@@ -438,35 +434,35 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 2
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 4
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 6
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 8
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 10
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 12
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 14
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 16
 				}
 			],
@@ -532,35 +528,35 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.4",
+					"Path": "shield.3",
 					"Val": 8
 				}
 			],
@@ -574,67 +570,67 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 10
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 3
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.2"
+					"Path": "shield.1"
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 6
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.2"
+					"Path": "shield.1"
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 9
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.2"
+					"Path": "shield.1"
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 11
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.2"
+					"Path": "shield.1"
 				},
 				{
-					"Path": "Shield.2",
+					"Path": "shield.1",
 					"Val": 12
 				}
 			],
@@ -648,35 +644,35 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.3",
+					"Path": "shield.2",
 					"Val": 7
 				}
 			],
@@ -690,68 +686,68 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 10
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 7
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 6
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.6"
+					"Path": "shield.5"
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 9
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.6"
+					"Path": "shield.5"
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 11
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.6"
+					"Path": "shield.5"
 				},
 				{
-					"Path": "Shield.6",
+					"Path": "shield.5",
 					"Val": 12
 				},
 				{
 					"Hidden": 1,
-					"Path": "Shield.6"
+					"Path": "shield.5"
 				}
 			],
 			"Height": 8,
@@ -764,35 +760,35 @@
 		{
 			"Cells": [
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 8
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 6
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 4
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 2
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 1
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 3
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 5
 				},
 				{
-					"Path": "Shield.5",
+					"Path": "shield.4",
 					"Val": 7
 				}
 			],
@@ -806,15 +802,15 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.ExDmg.HP",
+					"Path": "devs.ExDmg.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.ExDmg.HP",
+					"Path": "devs.ExDmg.hp",
 					"Val": 2
 				},
 				{
-					"Path": "Devs.ExDmg.HP",
+					"Path": "devs.ExDmg.hp",
 					"Val": 3
 				}
 			],
@@ -828,19 +824,19 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.DRN1.Drones",
+					"Path": "devs.DRN1.Drones",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.DRN1.Drones",
+					"Path": "devs.DRN1.Drones",
 					"Val": 2
 				},
 				{
-					"Path": "Devs.DRN1.Drones",
+					"Path": "devs.DRN1.Drones",
 					"Val": 3
 				},
 				{
-					"Path": "Devs.DRN1.Drones",
+					"Path": "devs.DRN1.Drones",
 					"Val": 4
 				}
 			],

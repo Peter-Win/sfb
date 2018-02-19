@@ -114,7 +114,7 @@ const first = {
 
 const firstMod = params => {
 	const {race} = params
-	const scenario = cloneDeep(first) // Object.assign({}, first)
+	const scenario = cloneDeep(first)
 	const {objects} = scenario
 	if (race === RaceType.Klingon) {
 		scenario.sides = [

@@ -21,8 +21,9 @@ describe('first scenario', () => {
 		expect(scenario).to.have.property('width', 14)
 		game.create(scenario)
 		expect(game.width).to.be.equal(14)
-		const ship = game.getShip('Des')
+		const ship = game.getShip('Con')
 		expect(ship).to.be.ok
 		expect(ship).to.have.property('speed', 8)
+		expect(ship).to.have.property('name', 'Destruction')
 	})
 })

@@ -6,6 +6,7 @@ const {Ship} = require('../Ship')
 const {DeviceIds} = require('../../devices/DeviceIds')
 const {Device} = require('../../devices/Device')
 const {Warp} = require('../../devices/Warp')
+const {Phaser2} = require('../../devices/Phaser2')
 
 class CadetCruiser extends Ship {
 	constructor() {
@@ -17,6 +18,10 @@ class CadetCruiser extends Ship {
 
 		const {devs} = this
 		Device.create(devs, DeviceIds.Warp, Warp, {hp: 16})
+		Device.create(devs, 'PH1', Phaser2, {id: '1', arc: 'FX'})
+		Device.create(devs, 'PH2', Phaser2, {id: '2', arc: 'FX'})
+		Device.create(devs, 'PH3', Phaser2, {id: '3', arc: 'LLR'})
+		Device.create(devs, 'PH4', Phaser2, {id: '4', arc: 'RRR'})
 	}
 }
 module.exports = {CadetCruiser}
