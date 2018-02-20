@@ -10,6 +10,7 @@ const {DeviceState} = require('./DeviceState')
 const EAllocPrior = Object.freeze({
 	PhaserCapacitor: 9,
 	PhotonTorpedo: 10,
+	Disruptor: 10,
 	Engine: 14,
 })
 
