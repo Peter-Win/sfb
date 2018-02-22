@@ -6,9 +6,11 @@ const WebSocket = new require('ws')
 const {Game} = require('./Game')
 const {first, firstMod} = require('./scenarios/first')
 const {second} = require('./scenarios/second')
+const {scenario03} = require('./scenarios/scenario03')
 const {CtrlBase} = require('./ctrls/CtrlBase')
 
-const scenario = firstMod({race: 'Klingon'})
+// const scenario = firstMod({race: 'Klingon'})
+const scenario = scenario03
 
 /**
  * @param {WebSocket} webSocketServer WebSocket

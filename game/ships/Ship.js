@@ -8,6 +8,7 @@ const {TurnPhase} = require('../TurnChart')
 const {Device} = require('../devices/Device')
 const {PhaserCapacitor} = require('../devices/PhaserCapacitor')
 const {fireAgent, DamageType} = require('../agents/fireAgent')
+const {speedAgent} = require('../agents/speedAgent')
 const {Events} = require('../Events')
 const {Energy} = require('../utils/Energy')
 const {Hex} = require('../Hex')
@@ -33,12 +34,16 @@ class Ship extends Counter {
 		this.shield = []
 		this.shield0 = []
 
+		this.canChangeSpeed = false	// uses in cadet scenario to direct speed changing
+
 		this.fsm = {}
 		this.fsm.All = {
 			[Events.BeginOfGame]: params => {
 				const {ship} = params
 				ship.shield = [...ship.shield0]
 			},
+		}
+		this.fsm.Active = {
 			[TurnPhase.BeginOfTurn]: params => {
 				const {ship} = params
 				const ep = ship.energyPool
@@ -46,6 +51,12 @@ class Ship extends Counter {
 			},
 			[TurnPhase.AutoEAlloc]: params => {
 				params.ship.handlers.autoEAlloc(params)
+			},
+			[TurnPhase.SpeedDeterm]: params => {
+				if (params.ship.canChangeSpeed) {
+					const action = speedAgent.createAction(params)
+					params.game.addAction(action)
+				}
 			},
 		}
 

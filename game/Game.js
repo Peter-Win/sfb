@@ -195,7 +195,9 @@ class Game extends StateObject {
 	 * @returns {void}
 	 */
 	addAction(action) {
-		this.actions.set(action.uid, action)
+		if (action) {
+			this.actions.set(action.uid, action)
+		}
 	}
 
 	/**
@@ -278,9 +280,9 @@ class Game extends StateObject {
 	 * @param {function(game:Game):void} handler Функция-обработчик конца хода
 	 * @returns {void}
 	 */
-	onceStepEnd(handler) {
-		this.fnStepEnd.push(handler)
-	}
+	// onceStepEnd(handler) {
+	// 	this.fnStepEnd.push(handler)
+	// }
 
 	/**
 	 * Получить список контроллеров (без повторений)
@@ -411,7 +413,13 @@ class Game extends StateObject {
 	 */
 	goToImpProc(impProcId) {
 		let guard = 100
-		while (guard > 0 && this.impChart[this.curProc] !== impProcId) {
+		const svIdleBreak = this.bIdleBreak
+		this.bIdleBreak = true
+		while (guard > 0) {
+			if (this.isImpulse() && this.impChart[this.curProc] === impProcId) {
+				break
+			}
+			// console.log(this.curStepInfo())
 			this.switchProc()
 			if (this.actions.size > 0) {
 				this.actions.clear()
@@ -419,6 +427,7 @@ class Game extends StateObject {
 			this.nextStep()
 			guard--
 		}
+		this.bIdleBreak = svIdleBreak
 		if (!guard) {
 			throw new Error('Dead loop in Game.goToImpProc')
 		}

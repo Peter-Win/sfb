@@ -141,6 +141,14 @@
             fill: #0AF;
             stroke: none;
         }
+        .speed-sel-text {
+            fill: #CCC;
+            cursor: pointer;
+            font-size: 120%;
+        }
+        .speed-sel-text.current {
+            fill: #FFF;
+        }
     </style>
 
     <script>
@@ -422,6 +430,37 @@
 
 			updateNextButton();
 			var actionHandlers = {
+                SpeedDeterm: function(action) {
+                    return new function () {
+                        var node = createNode('g', boardContainer, {id: 'Speed'});
+                        var allButtons = [];
+                        for (var speed=0; speed<=action.maxSpeed; speed++) addButton(speed);
+                        function addButton(speed) {
+                            // console.log('speed button ', speed)
+                            var w = 40, x = 20 + speed * w;
+                            var bt = createNode('text', node, {'class': 'speed-sel-text',
+                                x: x, y: 40
+                            })
+                            allButtons.push(bt);
+                            if (speed === action.speed) bt.classList.add('current')
+                            bt.innerHTML = ''+speed;
+                            bt.addEventListener('click', function(event){
+                                event.preventDefault();
+                                for (var i in allButtons) {
+                                    allButtons[i].classList.remove('current');
+                                }
+                                bt.classList.add('current');
+                                action.speed = speed;
+                            })
+                        }
+                        this.getResult = function () {
+                            return action;
+                        }
+                        this.close = function () {
+                            boardContainer.removeChild(node)
+                        }
+                    }
+                },
 				Move: function(action) {
 					return new function () {
 						var hexNodes = []

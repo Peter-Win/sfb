@@ -5,6 +5,7 @@ const {Rules} = require('../Rules')
 const {StateObject} = require('../StateObject')
 const {Hex} = require('../Hex')
 const {TurnMode} = require('../utils/TurnMode')
+const {CtrlBase} = require('../ctrls/CtrlBase')
 
 const ShipState = {
 	Active: 'Active',
@@ -119,7 +120,13 @@ class Counter extends StateObject {
 		// Контроллер
 		const {ctrl} = description
 		if (ctrl) {
-			this.ctrl = new ctrl
+			if (ctrl instanceof CtrlBase) {
+				// указан экземпляр контроллера
+				this.ctrl = ctrl
+			} else {
+				// указан конструктор контроллера
+				this.ctrl = new ctrl
+			}
 		}
 	}
 
