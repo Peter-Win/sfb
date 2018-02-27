@@ -19,7 +19,7 @@ const gameFields = ['actions', 'curImp', 'curTurn', 'height', 'state', 'turnLeng
 
 class Game extends StateObject {
 	constructor() {
-		super('')
+		super(GameState.New)
 		this.turnLength = -1
 		this.curTurn = -1
 		this.turnStep = -1
@@ -133,7 +133,21 @@ class Game extends StateObject {
 	 * @return {boolean} true, если выполняется фаза импульса (это большая часть игрового времени)
 	 */
 	isImpulse() {
-		return this.turnChart[this.turnStep] === TurnPhase.ImpulseProc
+		return this.getTurnPhase() === TurnPhase.ImpulseProc
+	}
+
+	getTurnPhase() {
+		return this.turnChart[this.turnStep]
+	}
+	getImpPhase() {
+		return this.impChart[this.curProc]
+	}
+	/**
+	 * @param {{x,y:number}} pos *
+	 * @return {boolean} true, if in map
+	 */
+	inMap(pos) {
+		return pos.x >=0 && pos.y >=0 && pos.x < this.width && pos.y < this.height
 	}
 
 	/**
@@ -311,7 +325,6 @@ class Game extends StateObject {
 		if (this.isNotActive()) {
 			return
 		}
-		this.sendStepToAll()
 		const evid = this.turnChart[this.turnStep]
 		// Сообщение рассылается всем
 		Events.toGame(evid, this)
@@ -327,10 +340,8 @@ class Game extends StateObject {
 		if (this.isActive()) {
 			this.checkState(this)
 		}
-		// Если закончилась, то сообщить контроллерам
-		if (this.isNotActive()) {
-			this.sendStepToAll()
-		}
+		// сообщить контроллерам
+		this.sendStepToAll()
 	}
 
 	/**

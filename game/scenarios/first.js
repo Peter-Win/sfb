@@ -112,7 +112,7 @@ const first = {
 	},
 }
 
-const firstMod = params => {
+const firstMod = (params = {}) => {
 	const {race} = params
 	const scenario = cloneDeep(first)
 	const {objects} = scenario

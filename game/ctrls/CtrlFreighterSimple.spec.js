@@ -11,7 +11,7 @@ const {Missile} = require('../ships/Missile')
 describe('CtrlFreighterSimple', () => {
 	it('selectTarget', () => {
 		const game = new Game()
-		game.create(scenario03)
+		game.create(scenario03())
 		const ctrl = new CtrlFreighterSimple({enemySide: 0})
 		const enemy = game.getShip('Main')
 		enemy.ctrl = new CtrlSimple()

@@ -14,8 +14,8 @@ class CtrlSeeking extends CtrlBase {
 	onAction(game, action) {
 		if (action.name === movAgent.name) {
 			const unit = game.getShip(action.uid)
-			if (unit.target) {
-				const targetShip = game.getShip(unit.target)
+			if (unit.targetId) {
+				const targetShip = game.getShip(unit.targetId)
 				const choice = this.selectDirection(unit, targetShip, action)
 				action.current = choice
 			}

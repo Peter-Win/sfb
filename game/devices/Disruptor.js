@@ -57,7 +57,7 @@ class Disruptor extends Device {
 	 */
 	calcDamage(game, ship, target) {
 		const {chance, damage} = this.calcFiringParams(ship, target)
-		const roll = Random.int6() + 1
+		let roll = Random.int6() + 1
 		// roll\chance 5 4 3 2
 		//           1 + + + +
 		//           2 + + + +
@@ -65,6 +65,7 @@ class Disruptor extends Device {
 		//           4 + + - -
 		//           5 + - - -
 		//           6 - - - -
+		roll += target.heavyWeaponPenalty
 		return roll <= chance ? damage : 0
 	}
 

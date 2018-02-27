@@ -5,9 +5,11 @@
 const {Counter} = require('./Counter')
 const {CounterType} = require('./CounterType')
 const {TurnPhase} = require('../TurnChart')
+const {ImpPhase} = require('../ImpChart')
 const {Device} = require('../devices/Device')
 const {PhaserCapacitor} = require('../devices/PhaserCapacitor')
 const {fireAgent, DamageType} = require('../agents/fireAgent')
+const {launchAgent} = require('../agents/launchAgent')
 const {speedAgent} = require('../agents/speedAgent')
 const {Events} = require('../Events')
 const {Energy} = require('../utils/Energy')
@@ -58,6 +60,12 @@ class Ship extends Counter {
 					params.game.addAction(action)
 				}
 			},
+			[ImpPhase.LaunchSeeking]: params => {
+				const action = launchAgent.createAction(params)
+				if (action) {
+					params.game.addAction(action)
+				}
+			}
 		}
 
 		this.devs = {}
@@ -69,6 +77,11 @@ class Ship extends Counter {
 	toSimple() {
 		const data = super.toSimple()
 		data.shield = [...this.shield]
+		data.devs = Object.keys(this.devs).reduce((map, deviceId) => {
+			const device = this.getDevice(deviceId)
+			map[deviceId] = device.toSimple()
+			return map
+		}, {})
 		return data
 	}
 
@@ -149,6 +162,22 @@ class Ship extends Counter {
 		})
 		return result
 	}
+	buildLaunchTargets(game) {
+		const params = {evid: 'CanLaunch', game, ship: this, devList: []}
+		Events.toShip(params)
+		// Получить список врагов, по которым можно стрелять
+		const enemies = this.buildEnemiesList(game)
+		// Сформировать список возможных вариантов стрельбы, который станет частью акции
+		const result = []
+		params.devList.forEach(dev => {
+			enemies.forEach(target => {
+				if (dev.isValidTarget(this, target)) {
+					result.push(launchAgent.createPoint({game, ship: this, dev, target}))
+				}
+			})
+		})
+		return result
+	}
 
 	/**
 	 * Вычислить эффективное расстояние до цели
@@ -172,7 +201,7 @@ class Ship extends Counter {
 	/**
 	 * @override
 	 */
-	onDamagePoint(direction) {
+	onDamagePoint(game, direction) {
 		const {shield} = this
 		switch (shield.length) {
 			case 1:
@@ -188,7 +217,7 @@ class Ship extends Counter {
 				}
 				break
 		}
-		return this.handlers.onInternalDamage(this)
+		return this.handlers.onInternalDamage(game, this)
 	}
 }
 

@@ -348,7 +348,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "devs.DRN1.hp",
+					"Path": "devs.DRN.hp",
 					"Val": 1
 				}
 			],
@@ -824,19 +824,19 @@
 		{
 			"Cells": [
 				{
-					"Path": "devs.DRN1.Drones",
+					"Path": "devs.DRN.dronesCount",
 					"Val": 1
 				},
 				{
-					"Path": "devs.DRN1.Drones",
+					"Path": "devs.DRN.dronesCount",
 					"Val": 2
 				},
 				{
-					"Path": "devs.DRN1.Drones",
+					"Path": "devs.DRN.dronesCount",
 					"Val": 3
 				},
 				{
-					"Path": "devs.DRN1.Drones",
+					"Path": "devs.DRN.dronesCount",
 					"Val": 4
 				}
 			],

@@ -351,7 +351,7 @@ Items {
   0016 {
     Cells {
       0000 {
-        Path = "devs.DRN1.hp"
+        Path = "devs.DRN.hp"
         Val = 1
       }
     }
@@ -827,19 +827,19 @@ Items {
   0029 {
     Cells {
       0000 {
-        Path = "devs.DRN1.Drones"
+        Path = "devs.DRN.dronesCount"
         Val = 1
       }
       0001 {
-        Path = "devs.DRN1.Drones"
+        Path = "devs.DRN.dronesCount"
         Val = 2
       }
       0002 {
-        Path = "devs.DRN1.Drones"
+        Path = "devs.DRN.dronesCount"
         Val = 3
       }
       0003 {
-        Path = "devs.DRN1.Drones"
+        Path = "devs.DRN.dronesCount"
         Val = 4
       }
     }

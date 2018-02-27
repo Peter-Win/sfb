@@ -4,6 +4,7 @@
 const {Counter, ShipState} = require('./Counter')
 const {CounterType} = require('./CounterType')
 const {fireAgent} = require('../agents/fireAgent')
+const {ImpPhase} = require('../ImpChart')
 
 class Missile extends Counter {
 	constructor() {
@@ -12,7 +13,32 @@ class Missile extends Counter {
 		this.handlers.isCanChangeDir = () => true
 		this.health = 4
 		this.isSeeking = true
-		this.target = null
+		this.targetId = ''
+
+		// All drones are assigned an endurance expressed in turns.
+		// In Cadet Training Handbook, this is three turns for all drones.
+		this.life = 0
+		this.maxLife = 3	// предельное время жизни в ходах
+		this.heavyWeaponPenalty = 2	// Для тяжелых орудий тяжелее попасть в эту цель.
+		this.fsm = Object.freeze({
+			[ShipState.Active]: {
+				[ImpPhase.EndOfImp]: params => {
+					const {game, ship} = params
+					ship.life++
+					const maxLife = ship.maxLife * game.turnLength
+					if (maxLife && ship.life >= maxLife) {
+						ship.destroy(game, ShipState.Dead)
+					}
+				},
+				OnDestroyed: params => {
+					const {game, ship, targetId} = params
+					if (ship.targetId === targetId) {
+						// Если цель уничтожена, то дрон тоже уничтожается
+						ship.destroy(game, ShipState.Dead)
+					}
+				},
+			}
+		})
 	}
 
 	/**
@@ -21,10 +47,10 @@ class Missile extends Counter {
 	 * @return {boolean} true, if same hex
 	 */
 	isInTargetHex(game) {
-		if (!this.target) {
+		if (!this.targetId) {
 			return false
 		}
-		const target = game.getShip(this.target)
+		const target = game.getShip(this.targetId)
 		return target.x === this.x && target.y === this.y
 	}
 
@@ -57,9 +83,9 @@ class Missile extends Counter {
 	onResolveSeeking(game) {
 		if (this.isActive() && this.isInTargetHex(game)) {
 			// Попадание в цель
-			const targetShip = game.getShip(this.target)
-			const result = this.makeStrike(targetShip)
-			this.onDestroyed()
+			const targetShip = game.getShip(this.targetId)
+			this.destroy(game)
+			const result = this.makeStrike(game, targetShip)
 			return fireAgent.createHit(game, result, targetShip, this, null)
 		}
 		return null
@@ -70,18 +96,18 @@ class Missile extends Counter {
 	 * @param {Ship} targetShip	*
 	 * @return {Object<string,number>} damage statistics
 	 */
-	makeStrike(targetShip) {
-		return targetShip.onDamage(this, targetShip, 6)
+	makeStrike(game, targetShip) {
+		return targetShip.onDamage(game, this, targetShip, 6)
 	}
 
 	/**
 	 * @override
 	 */
-	onDamagePoint(direction) {
+	onDamagePoint(game, direction) {
 		if (this.health > 0) {
 			this.health--
 			if (this.health === 0) {
-				this.onDestroyed()
+				this.destroy(game)
 			}
 			return 'internal'
 		}

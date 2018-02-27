@@ -4,5 +4,7 @@
 const DeviceIds = Object.freeze({
 	PhCap: 'PhCap',
 	Warp: 'Warp',
+	WarpL: 'WarpL',
+	WarpR: 'WarpR',
 })
 module.exports = {DeviceIds}

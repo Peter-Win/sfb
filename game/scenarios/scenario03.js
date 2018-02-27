@@ -13,11 +13,12 @@
  * to no one at all. This scenario can be replayed with minor
  * variations; see the section on INSTANT REPLAY below.
  */
-
+const cloneDeep = require('lodash/cloneDeep')
 const {MovChart8} = require('../MovChart')
 const {TurnChart} = require('../TurnChart')
 const {ImpChart} = require('../ImpChart')
 const KlingonCruiser = require('../ships/Klingon/CadetCruiser').CadetCruiser
+const {ShipFCC} = require('../ships/ShipFCC')
 const {Freighter} = require('../ships/Freighter')
 const {CtrlFreighterSimple} = require('../ctrls/CtrlFreighterSimple')
 const {cadetSimple} = require('../handlers/cadetSimple')
@@ -26,7 +27,7 @@ const {GameState} = require('../GameState')
 const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('../consts')
 const {RaceType} = require('../Race')
 
-const scenario03 = Object.freeze({
+const baseScenario = Object.freeze({
 	name: 'Cadet scenario #3: Convoy Raid',
 	width: mapSectorWidth * 2,
 	height: mapSectorHeight,
@@ -85,7 +86,11 @@ const scenario03 = Object.freeze({
 				totalFreighters++
 				switch (freighter.state) {
 					case ShipState.Lost:
-						leftFreighter = freighter
+						if (freighter.x === baseScenario.width) {
+							leftFreighter = freighter
+						} else {
+							deadFreighters++
+						}
 						break
 					case ShipState.Dead:
 						deadFreighters++
@@ -103,5 +108,22 @@ const scenario03 = Object.freeze({
 		}
 	},
 })
+
+/**
+ * @param {Object} params *
+ * @param {string} params.race Klingon(deflt)|Federation
+ * @return {Object} scenario III
+ */
+const scenario03 = (params = {}) => {
+	const scenario = cloneDeep(baseScenario)
+	const {race} = params
+	if (race === RaceType.Federation) {
+		scenario.sides[0].race = race
+		const shipDescr = scenario.objects[0]
+		shipDescr.name = 'Constellation'
+		shipDescr.Type = ShipFCC
+	}
+	return scenario
+}
 
 module.exports = {scenario03}

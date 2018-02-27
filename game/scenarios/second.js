@@ -1,17 +1,19 @@
 /**
  * Created by PeterWin on 03.02.2018.
  */
-
+const cloneDeep = require('lodash/cloneDeep')
 const {MovChart8} = require('../MovChart')
 const {TurnChart} = require('../TurnChart')
 const {ImpChart} = require('../ImpChart')
 const {ShipFCC} = require('../ships/ShipFCC')
+const KlingonCadetCruiser = require('../ships/Klingon/CadetCruiser').CadetCruiser
 const {Missile} = require('../ships/Missile')
 const {CtrlSeeking} = require('../ctrls/CtrlSeeking')
 const {cadetSimple} = require('../handlers/cadetSimple')
 const {ShipState} = require('../ships/Counter')
 const {GameState} = require('../GameState')
 const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('../consts')
+const {RaceType} = require('../Race')
 
 const second = {
 	name: 'Cadet scenario #2: Under Attack',
@@ -22,8 +24,8 @@ const second = {
 	impChart: ImpChart.Basic,
 	movChart: MovChart8,
 	sides: [
-		{},
-		{},
+		{race: RaceType.Federation},
+		{race: RaceType.Klingon},
 	],
 	objects: [
 		{
@@ -51,7 +53,8 @@ const second = {
 			x, y, dir,
 			Type: Missile,
 			ctrl: CtrlSeeking,
-			target: 'Con',
+			targetId: 'Con',
+			maxLife: 0,	// без ограничения на срок жизни
 		})),
 	],
 	/**
@@ -85,4 +88,21 @@ const second = {
 	},
 }
 
-module.exports = {second}
+/**
+ * @param {Object=} params *
+ * @param {string} params.race	Federation((deflt) | Klingon
+ * @return {Object} modified scenario 2
+ */
+const secondMod = (params = {}) => {
+	const scenario = cloneDeep(second)
+	const {race} = params
+	if (race === RaceType.Klingon) {
+		scenario.sides[0] = {race: RaceType.Klingon}
+		scenario.sides[1] = {race: RaceType.Federation}
+		scenario.objects[0].name = 'Destruction'
+		scenario.objects[0].Type = KlingonCadetCruiser
+	}
+	return scenario
+}
+
+module.exports = {second, secondMod}

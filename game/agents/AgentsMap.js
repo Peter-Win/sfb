@@ -5,8 +5,9 @@ const assert = require('assert')
 const {movAgent} = require('./movAgent')
 const {fireAgent} = require('./fireAgent')
 const {speedAgent} = require('./speedAgent')
+const {launchAgent} = require('./launchAgent')
 
-const agentsList = [movAgent, fireAgent, speedAgent]
+const agentsList = [movAgent, fireAgent, speedAgent, launchAgent]
 
 /**
  * @type {Object<string,Agent>}

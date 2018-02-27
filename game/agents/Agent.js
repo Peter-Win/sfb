@@ -21,6 +21,15 @@ class Agent {
 	}
 
 	/**
+	 * @param {Game} game *
+	 * @param {{uid:string}} action *
+	 * @return {Counter}	owner ship for action
+	 */
+	getShip(game, action) {
+		return game.getShip(action.uid)
+	}
+
+	/**
 	 * Создание возможных вариантов перемещения для указанного корабля
 	 * @param {Object} params	Parameters
 	 * @param {Game} params.game	main game object

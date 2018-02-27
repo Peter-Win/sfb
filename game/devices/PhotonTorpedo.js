@@ -74,6 +74,9 @@ class PhotonTorpedo extends Device {
 	 */
 	isHit(ship, target, roll) {
 		// Значение roll от 1 до 6
+		// (FD1.52) When firing photon torpedoes ... add 2 to the die roll when
+		// firing at drones, thus making it harder to hit them.
+		roll += target.heavyWeaponPenalty	
 		const range = ship.distanceTo(target)
 		const chance = PhotonTorpedo.findChance(this.table, range)
 		// Значение chance от 0 до 6. 0 = 0%, 1 = 1/6, 2= 1/3, 3=1/2 ... 6=1
@@ -107,9 +110,6 @@ const stdTable = Object.freeze([
 ])
 
 const photFsm = Object.freeze({
-	All: {
-
-	},
 	[DeviceState.Begin]: {
 		/**
 		 * @param {{dev:PhotonTorpedo}} params *
@@ -145,7 +145,7 @@ const photFsm = Object.freeze({
 		 * @param {{dev:PhotonTorpedo}} params *
 		 * @return {void}
 		 */
-		[TurnPhase.OnMainEnergyAlloc]: params => {
+		[TurnPhase.OnEnergyAlloc]: params => {
 			const {dev} = params
 			// if charged: ready to fire, else: make empty
 			dev.setState(dev.energyIn >= 2 ? DeviceState.Ready : DeviceState.Begin)
@@ -155,14 +155,6 @@ const photFsm = Object.freeze({
 		CanFire(params) {
 			const {dev, devList} = params
 			devList.push(dev)
-		},
-		/**
-		 * @param {{game:Game, ship:Ship, dev:Phaser}} params	event parameters
-		 * @return {void}
-		 */
-		FireEnd(params) {
-			const {dev} = params
-			dev.setState(DeviceState.Begin)
 		},
 		/**
 		 * @param {{dev:PhotonTorpedo}} params *
@@ -177,12 +169,17 @@ const photFsm = Object.freeze({
 		 * @param {{dev:PhotonTorpedo}} params *
 		 * @return {void}
 		 */
-		[TurnPhase.OnMainEnergyAlloc]: params => {
+		[TurnPhase.OnEnergyAlloc]: params => {
 			const {dev} = params
 			if (dev.energyIn < 1) {
 				// if energy is not allocated, make empty
 				dev.setState(DeviceState.Begin)
 			}
+		},
+	},
+	[DeviceState.Used]: {
+		[TurnPhase.EndOfTurn]: params => {
+			params.dev.setState(DeviceState.Begin)
 		},
 	},
 })

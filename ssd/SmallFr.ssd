@@ -5,7 +5,7 @@ Items {
   0000 {
     Cells {
       0000 {
-        Path = "Devs.Transp.HP"
+        Path = "devs.Transp.hp"
         Val = 1
       }
     }
@@ -29,7 +29,7 @@ Items {
   0002 {
     Cells {
       0000 {
-        Path = "Devs.BTTY.HP"
+        Path = "devs.BTTY.hp"
         Val = 1
       }
     }
@@ -73,13 +73,13 @@ Items {
   0006 {
     Cells {
       0000 {
-        Path = "Devs.PH1.HP"
+        Path = "devs.PH.hp"
         Text = "1"
         Val = 1
       }
     }
     Height = 1
-    Name = "PH-3"
+    Name = "PH-2"
     Type = "Table"
     Width = 1
     X0 = -0.5
@@ -108,11 +108,11 @@ Items {
   0009 {
     Cells {
       0000 {
-        Path = "Devs.HullC.HP"
+        Path = "devs.HullC.hp"
         Val = 1
       }
       0001 {
-        Path = "Devs.HullC.HP"
+        Path = "devs.HullC.hp"
         Val = 3
       }
     }
@@ -136,11 +136,11 @@ Items {
   0011 {
     Cells {
       0000 {
-        Path = "Devs.HullC.HP"
+        Path = "devs.HullC.hp"
         Val = 2
       }
       0001 {
-        Path = "Devs.HullC.HP"
+        Path = "devs.HullC.hp"
         Val = 4
       }
     }
@@ -164,7 +164,7 @@ Items {
   0013 {
     Cells {
       0000 {
-        Path = "Devs.Bridge.HP"
+        Path = "devs.Bridge.hp"
         Val = 1
       }
     }
@@ -188,7 +188,7 @@ Items {
   0015 {
     Cells {
       0000 {
-        Path = "Devs.Emer.HP"
+        Path = "devs.Emer.hp"
         Val = 1
       }
     }
@@ -212,103 +212,103 @@ Items {
   0017 {
     Cells {
       0000 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 1
       }
       0001 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 2
       }
       0002 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 3
       }
       0003 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 4
       }
       0004 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 5
       }
       0005 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 6
       }
       0006 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 7
       }
       0007 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 8
       }
       0008 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 9
       }
       0009 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 10
       }
       0010 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 11
       }
       0011 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 12
       }
       0012 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 13
       }
       0013 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 14
       }
       0014 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 15
       }
       0015 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 16
       }
       0016 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 17
       }
       0017 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 18
       }
       0018 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 19
       }
       0019 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 20
       }
       0020 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 21
       }
       0021 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 22
       }
       0022 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 23
       }
       0023 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 24
       }
       0024 {
-        Path = "Devs.Cargo.HP"
+        Path = "devs.Cargo.hp"
         Val = 25
       }
     }
@@ -332,12 +332,12 @@ Items {
   0019 {
     Cells {
       0000 {
-        Path = "Devs.WarpL.HP"
+        Path = "devs.WarpL.hp"
         Text = "L"
         Val = 1
       }
       0001 {
-        Path = "Devs.WarpL.HP"
+        Path = "devs.WarpL.hp"
         Val = 2
       }
     }
@@ -361,12 +361,12 @@ Items {
   0021 {
     Cells {
       0000 {
-        Path = "Devs.WarpR.HP"
+        Path = "devs.WarpR.hp"
         Text = "R"
         Val = 1
       }
       0001 {
-        Path = "Devs.WarpR.HP"
+        Path = "devs.WarpR.hp"
         Val = 2
       }
     }
@@ -390,7 +390,7 @@ Items {
   0023 {
     Cells {
       0000 {
-        Path = "Devs.Imp.HP"
+        Path = "devs.Imp.hp"
         Val = 1
       }
     }
@@ -492,23 +492,23 @@ Items {
   0026 {
     Cells {
       0000 {
-        Path = "Shield.1"
+        Path = "shield.0"
         Val = 4
       }
       0001 {
-        Path = "Shield.1"
+        Path = "shield.0"
         Val = 2
       }
       0002 {
-        Path = "Shield.1"
+        Path = "shield.0"
         Val = 1
       }
       0003 {
-        Path = "Shield.1"
+        Path = "shield.0"
         Val = 3
       }
       0004 {
-        Path = "Shield.1"
+        Path = "shield.0"
         Val = 5
       }
     }
@@ -532,23 +532,23 @@ Items {
   0028 {
     Cells {
       0000 {
-        Path = "Shield.2"
+        Path = "shield.1"
         Val = 5
       }
       0001 {
-        Path = "Shield.2"
+        Path = "shield.1"
         Val = 3
       }
       0002 {
-        Path = "Shield.2"
+        Path = "shield.1"
         Val = 1
       }
       0003 {
-        Path = "Shield.2"
+        Path = "shield.1"
         Val = 2
       }
       0004 {
-        Path = "Shield.2"
+        Path = "shield.1"
         Val = 4
       }
     }
@@ -572,23 +572,23 @@ Items {
   0030 {
     Cells {
       0000 {
-        Path = "Shield.3"
+        Path = "shield.2"
         Val = 4
       }
       0001 {
-        Path = "Shield.3"
+        Path = "shield.2"
         Val = 2
       }
       0002 {
-        Path = "Shield.3"
+        Path = "shield.2"
         Val = 1
       }
       0003 {
-        Path = "Shield.3"
+        Path = "shield.2"
         Val = 3
       }
       0004 {
-        Path = "Shield.3"
+        Path = "shield.2"
         Val = 5
       }
     }
@@ -612,23 +612,23 @@ Items {
   0032 {
     Cells {
       0000 {
-        Path = "Shield.4"
+        Path = "shield.3"
         Val = 4
       }
       0001 {
-        Path = "Shield.4"
+        Path = "shield.3"
         Val = 2
       }
       0002 {
-        Path = "Shield.4"
+        Path = "shield.3"
         Val = 1
       }
       0003 {
-        Path = "Shield.4"
+        Path = "shield.3"
         Val = 3
       }
       0004 {
-        Path = "Shield.4"
+        Path = "shield.3"
         Val = 5
       }
     }
@@ -652,23 +652,23 @@ Items {
   0034 {
     Cells {
       0000 {
-        Path = "Shield.5"
+        Path = "shield.4"
         Val = 4
       }
       0001 {
-        Path = "Shield.5"
+        Path = "shield.4"
         Val = 2
       }
       0002 {
-        Path = "Shield.5"
+        Path = "shield.4"
         Val = 1
       }
       0003 {
-        Path = "Shield.5"
+        Path = "shield.4"
         Val = 3
       }
       0004 {
-        Path = "Shield.5"
+        Path = "shield.4"
         Val = 5
       }
     }
@@ -692,23 +692,23 @@ Items {
   0036 {
     Cells {
       0000 {
-        Path = "Shield.6"
+        Path = "shield.5"
         Val = 5
       }
       0001 {
-        Path = "Shield.6"
+        Path = "shield.5"
         Val = 3
       }
       0002 {
-        Path = "Shield.6"
+        Path = "shield.5"
         Val = 1
       }
       0003 {
-        Path = "Shield.6"
+        Path = "shield.5"
         Val = 2
       }
       0004 {
-        Path = "Shield.6"
+        Path = "shield.5"
         Val = 4
       }
     }
@@ -792,11 +792,11 @@ Items {
   0044 {
     Cells {
       0000 {
-        Path = "Devs.ExDmg.HP"
+        Path = "devs.ExDmg.hp"
         Val = 2
       }
       0001 {
-        Path = "Devs.ExDmg.HP"
+        Path = "devs.ExDmg.hp"
         Val = 1
       }
     }

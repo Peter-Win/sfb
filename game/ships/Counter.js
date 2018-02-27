@@ -1,11 +1,13 @@
 /**
  * Created by PeterWin on 09.12.2017.
  */
+const assert = require('assert')
 const {Rules} = require('../Rules')
 const {StateObject} = require('../StateObject')
 const {Hex} = require('../Hex')
 const {TurnMode} = require('../utils/TurnMode')
 const {CtrlBase} = require('../ctrls/CtrlBase')
+const {Events} = require('../Events')
 
 const ShipState = {
 	Active: 'Active',
@@ -36,6 +38,7 @@ class Counter extends StateObject {
 		this.side = 0
 		this.tractorSrc = ''	// UID of tractor beam source
 		this.canBeTractored = 1	// 2 if unit can be towed from map
+		this.heavyWeaponPenalty = 0	// Для тяжелых орудий тяжелее попасть в эту цель.		
 		this.isSeeking = false
 		this.fsm = {}
 		/**
@@ -121,7 +124,7 @@ class Counter extends StateObject {
 		const {ctrl} = description
 		if (ctrl) {
 			if (ctrl instanceof CtrlBase) {
-				// указан экземпляр контроллера
+				// указан экземпляр контроллера TODO: !!!
 				this.ctrl = ctrl
 			} else {
 				// указан конструктор контроллера
@@ -147,8 +150,7 @@ class Counter extends StateObject {
 	 * @return {boolean} true, if object in map bounds
 	 */
 	inMap(game) {
-		const {x, y} = this
-		return x >= 0 && y >= 0 && x < game.width && y < game.height
+		return game.inMap(this)
 	}
 
 	/**
@@ -203,6 +205,14 @@ class Counter extends StateObject {
 	buildFireTargets(game) {
 		return []
 	}
+	/**
+	 * Получить список реальных целей для пуска ракет(торпед) с учетом всех возможных факторов
+	 * @param {Game} game	Main game object
+	 * @return {{devId,targetId:string, dirs:{x,y}[], pos,targetPos:{x,y:number}}[]}	Targets list
+	 */
+	buildLaunchTargets(game) {
+		return []
+	}
 
 	isTractored() {
 		return false	// TODO: заглушка
@@ -234,19 +244,25 @@ class Counter extends StateObject {
 
 	/**
 	 * Получение кораблём указанного количества повреждений
+	 * @param {Game} game *
 	 * @param {Counter} source	*
 	 * @param {Device=} device	* Only for ship source
 	 * @param {number} value	*
 	 * @return {Object<string,number>}	Статистика полученных типов повреждения
 	 */
-	onDamage(source, device, value) {
+	onDamage(game, source, device, value) {
+		const {Game} = require('../Game')
+		assert(game instanceof Game, 'Invalid game in Counter.onDamage')
 		const result = {}
 		if (!this.canDamagedBy(source, device)) {
 			result.lost = value
 		} else {
-			const direction = Hex.calcStrikeSide(source.dir, this.dir)
+			const direction = device ?
+				Hex.calcBeamStrikeSide(source, this) :
+				Hex.calcStrikeSide(source.dir, this.dir)
+			// console.log('Strike to side ', direction)
 			for (let i = 0; i < value; i++) {
-				const type = this.onDamagePoint(direction)
+				const type = this.onDamagePoint(game, direction)
 				result[type] = (result[type] || 0) + 1
 			}
 		}
@@ -255,11 +271,13 @@ class Counter extends StateObject {
 
 	/**
 	 * Вызывается в случае уничтожения объекта
+	 * @param {Game} game *
 	 * @param {string} newState	Новое состояние
 	 * @return {void}
 	 */
-	onDestroyed(newState = ShipState.Exploded) {
+	destroy(game, newState = ShipState.Exploded) {
 		this.setState(newState)
+		Events.toGame('OnDestroyed', game, {targetId: this.uid})
 	}
 
 	/**
@@ -277,10 +295,11 @@ class Counter extends StateObject {
 	 *  /A \__/2
 	 *      3
 	 * @abstract
+	 * @param {Game} game *
 	 * @param {number} direction	Direction of strike
 	 * @return {string}	'lost' | 'shield' | 'internal'	Тип полученного повреждения
 	 */
-	onDamagePoint(direction) {
+	onDamagePoint(game, direction) {
 		return 'lost'
 	}
 

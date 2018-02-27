@@ -15,7 +15,7 @@ describe('CtrlSeeking', () => {
 		const ship = game.getShip('Con')
 		const droneA = game.getShip('droneA')
 		expect(droneA).to.be.ok
-		expect(droneA).to.have.property('target', 'Con')
+		expect(droneA).to.have.property('targetId', 'Con')
 		expect(ship.canDamagedBy(droneA, null)).to.be.true
 	})
 	it('selectDirection', () => {

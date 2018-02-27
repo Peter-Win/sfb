@@ -52,17 +52,6 @@ const Hex = Object.freeze({
 	],
 
 	/**
-	 * Вычислить сторону, в которую приходится удар
-	 * @param {number} sourceDir	0-5	Направление удара
-	 * @param {number} targetDir	0-5 Направление цели
-	 * @return {number}	0-5	Номер стороны цели
-	 */
-	calcStrikeSide(sourceDir, targetDir) {
-		const inverseDir = Hex.inverseDir(sourceDir)
-		return Hex.normalDir(inverseDir - targetDir)
-	},
-
-	/**
 	 * Actual distance between two points.
 	 * Порядок следования точек не имеет значения
 	 * /B \__/B\\__/
@@ -189,6 +178,53 @@ const Hex = Object.freeze({
 		return dY > 0 ? [4] : [5]
 
 	},
+
+	/**
+	 * Вычислить сторону, в которую приходится удар ракеты
+	 * (D3.401) SEEKING WEAPONS: In the seeking weapons, this is the shield facing the hex
+	 * that the weapon approached from.
+	 * @param {number} sourceDir	0-5	Направление удара
+	 * @param {number} targetDir	0-5 Направление цели
+	 * @return {number}	0-5	Номер стороны цели
+	 */
+	calcStrikeSide(sourceDir, targetDir) {
+		const inverseDir = Hex.inverseDir(sourceDir)
+		return Hex.normalDir(inverseDir - targetDir)
+	},
+
+	/**
+	 * Вычислить сторону попадания лучевого оружия
+	 * (D3.402) DIRECT-FIRE WEAPONS: For direct-fire weapons, the line of fire must be determined.
+	 * To do this simple draw an imaginary line from the center of the target ship's hex to
+	 * the center of the firing ship's hex, and determine which shield is crossed.
+	 * @param {{x,y,dir:number}} source *
+	 * @param {{x,y,dir:number}} target *
+	 * @return {number}		0..5
+	 */
+	calcBeamStrikeSide(source, target) {
+		const dirs = Hex.locateDir(source, target)
+		if (dirs.length === 0) {
+			return Hex.calcStrikeSide(source.dir, target.dir)
+		}
+		if (dirs.length === 1) {
+			return Hex.calcStrikeSide(dirs[0], target.dir)
+		}
+		// (D3.41) SHIELD BOUNDARIES: In the event that the line from firing to target hex
+		// travels exactly along a hex side, then the shield actually hit is resolved as follows:
+		// Стандартные правила слишком сложны. Поэтому использую свои:
+		// - Если скорости разные, то используем большую. Если одинаковые, то цель
+		// выбранный юнит перемещаем на один гекс вперед и снова ищем пересечение
+		let newSource = source
+		let newTarget = target
+		if (source.speed > target.speed) {
+			newSource = Hex.nearPos[source.dir](source)
+		} else {
+			newTarget = Hex.nearPos[target.dir](target)
+		}
+		const dirs2 = Hex.locateDir(newSource, newTarget)
+		return Hex.calcStrikeSide(dirs2[0], target.dir)
+	},
+
 })
 
 module.exports = {Hex}

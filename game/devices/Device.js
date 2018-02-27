@@ -29,6 +29,9 @@ class Device extends StateObject{
 		this.energySrc = {}		// Перечислены источники поступившей энергии на текущий ход. Например, {W:4, I:1}
 		this.energyIn = 0	// Сумма поступившей энергии на текущий ход
 	}
+	toSimple() {
+		return {devId: this.devId, state: this.state, hp: this.hp}
+	}
 
 	/**
 	 * Создание нового экземпляра устройства с указанными характеристиками
