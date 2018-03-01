@@ -65,7 +65,7 @@ class Ship extends Counter {
 				if (action) {
 					params.game.addAction(action)
 				}
-			}
+			},
 		}
 
 		this.devs = {}
@@ -115,7 +115,7 @@ class Ship extends Counter {
 	 */
 	isEnemy(game, ship) {
 		// Врагом считается юнит, который активен и не принадлежит той же стороне
-		return ship.isActive() && this.side !== ship.side
+		return ship.isActive() && game.isEnemy(this.side, ship.side)
 	}
 
 	/**

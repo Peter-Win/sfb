@@ -36,8 +36,8 @@ class DroneRack extends Device {
 	/**
 	 * @param {Game} game *
 	 * @param {Ship} ship *
-	 * @param {string} targetId
-	 * @param {number} dir
+	 * @param {string} targetId id of target
+	 * @param {number} dir direction 0-5
 	 * @return {Counter} seeking weapon unit
 	 */
 	launch(game, ship, targetId, dir) {
@@ -48,7 +48,6 @@ class DroneRack extends Device {
 		const seeking = new Missile()
 		seeking.init({x: ship.x, y: ship.y, dir, targetId, ctrl: CtrlSeeking})
 		game.insertShip(seeking)
-		// console.log('Launch: ', JSON.stringify(seeking.toSimple()))
 		return seeking
 	}
 }

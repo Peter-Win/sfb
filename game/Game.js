@@ -94,7 +94,7 @@ class Game extends StateObject {
 		this.turnChart = scenario.turnChart || TurnChart.Advanced
 		this.movChart = scenario.movChart || MovChart32
 		// Стороны, участвующие в игре
-		this.sides = scenario.sides.map(sideData => new Side(sideData))
+		this.sides = scenario.sides.map((sideData, i) => new Side({index: i, ...sideData}))
 		// Объекты, участвующие в игре
 		scenario.objects.forEach(objectData => {
 			const ship = Counter.create(objectData)
@@ -201,6 +201,16 @@ class Game extends StateObject {
 	 */
 	getShip(uid) {
 		return this.objects[uid]
+	}
+
+	/**
+	 * @param {number} sourceSide 	Index of source side
+	 * @param {number} targetSide	*
+	 * @return {boolean} 	true, if target is enemy for source
+	 */
+	isEnemy(sourceSide, targetSide) {
+		const source = this.sides[sourceSide]
+		return source.isEnemy(targetSide)
 	}
 
 	/**

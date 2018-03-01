@@ -109,8 +109,8 @@
         }
         .btn-target:hover text {fill: #000;}
         .btn-target.active text {font-weight: bold;}
-        .btn-target circle {visibility: hidden; fill: none; stroke: rgba(255, 0, 0, 0.6); stroke-width: 5px;}
-        .btn-target.active circle {visibility: visible;}
+        .fire-target {visibility: hidden; fill: none; stroke: rgba(255, 0, 0, 0.6); stroke-width: 5px;}
+        .fire-target.active {visibility: visible;}
 
         .btn-weapon {cursor: pointer;}
         .btn-weapon rect {fill: #CC0;}
@@ -350,6 +350,32 @@
 			var headerContainer = document.getElementById('header');
 			var mainContainer = document.getElementById('main');
 			startTime = +new Date()
+
+            // Скроллирование доски
+            var bBoardDrag = 0;
+            var dragX, dragY, trX=0, trY=0, dX, dY;
+            boardContainer.addEventListener('mousedown', function(event){
+                bBoardDrag = 1;
+                dragX = event.screenX; dragY = event.screenY;
+            });
+            boardContainer.addEventListener('mouseup', function(event){
+                if (bBoardDrag===2) {
+                    trX += dX; trY += dY;
+                }
+                bBoardDrag = 0;
+            })
+            boardContainer.addEventListener('mousemove', function(event){
+                if (!bBoardDrag) return;
+                var x = event.screenX, y = event.screenY;
+                dX = x - dragX; dY = y - dragY;
+                if (bBoardDrag===1) {
+                    var d2 = dX * dX + dY * dY;
+                    if (d2 < 36) return;
+                    bBoardDrag=2;
+                }
+                var tr = 'translate('+(trX+dX)+','+(trY+dY)+')'
+                boardContainer.setAttribute('transform', tr)
+            })
 
 			function drawNextButton() {
 				var btn = createNode('g', mainContainer, {'class': 'btn-next'});
@@ -663,15 +689,15 @@
                         	function createTargetButton(trace) {
 								var targetId = trace.targetId;
 								var targetCounter = curGame.objects[targetId]
-                        		var node = createNode('g', boardContainer, {
+                        		var node = createNode('g', mainContainer, {
                         			'class': 'btn-target'});
 								var btnX = x;
                         		var rect = createNode('rect', node, {x: x, y: y, width: w, height: h});
                         		var text = createNode('text', node, {x: x+w/2, y: y+h/2});
                         		text.innerHTML = targetCounter.name;
                         		var vpos = calcViewPos(targetCounter)
-                        		var center = createNode('circle', node, {cx: vpos.x, cy: vpos.y, r: hexHalfHeight})
-                        		var targetRec = {node: node, tx: text, counter: targetCounter, traces: []}
+                        		var center = createNode('circle', boardContainer, {cx: vpos.x, cy: vpos.y, r: hexHalfHeight, 'class': 'fire-target'})
+                        		var targetRec = {node: node, tx: text, counter: targetCounter, traces: [], center: center}
                         		targets[targetId] = targetRec
                         		x += w + 10;
                         		node.addEventListener('click', function (event) {
@@ -679,9 +705,11 @@
                                     clear();
                                     if (curTarget) {
                                     	curTarget.node.classList.remove('active');
+                                        curTarget.center.classList.remove('active');
                                     }
                                     curTarget = targetRec;
                                     curTarget.node.classList.add('active');
+                                    curTarget.center.classList.add('active');
                                     // Вывод списка орудий
                                     var devX = btnX, devY = 65, devW = 110, devH = 20;
                                     for (var k=0; k<targetRec.traces.length; k++) onTrace(targetRec.traces[k])
@@ -689,7 +717,7 @@
                                     	var c = 'btn-weapon';
                                     	if (weapons[trace.devId].trace === trace) c += ' checked';
                                     	else if (weapons[trace.devId].trace) c += ' checked-out';
-                                    	var g = createNode('g', boardContainer, {'class': c});
+                                    	var g = createNode('g', mainContainer, {'class': c});
                                     	nodes.push(g);
                                     	var r = createNode('rect', g, {x: devX, y: devY, width: devW, height: devH});
                                     	var t = createNode('text', g, {x: devX + devW/2, y: devY + devH/2});
@@ -720,7 +748,7 @@
                         }
 						function clear() {
 							for (var j in nodes) {
-								boardContainer.removeChild(nodes[j]);
+								mainContainer.removeChild(nodes[j]);
                             }
                             nodes.length = 0;
                         }
@@ -731,7 +759,8 @@
                         	// Убрать визуальные элементы
                         	clear();
                         	for (var id in targets) {
-                        		boardContainer.removeChild(targets[id].node);
+                        		mainContainer.removeChild(targets[id].node);
+                                boardContainer.removeChild(targets[id].center);
                             }
 							for (var id in weapons) {
 								if (weapons[id].ln) {

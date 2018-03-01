@@ -7,11 +7,13 @@ const {Game} = require('./Game')
 const {first, firstMod} = require('./scenarios/first')
 const {second, secondMod} = require('./scenarios/second')
 const {scenario03} = require('./scenarios/scenario03')
+const {scenario04} = require('./scenarios/scenario04')
 const {CtrlBase} = require('./ctrls/CtrlBase')
 
 // const scenario = firstMod({race: 'Klingon'})
 // const scenario = secondMod({race: 'Klingon'})
-const scenario = scenario03({race: 'Klingon'})
+// const scenario = scenario03({race: 'Federation'})
+const scenario = scenario04()
 
 /**
  * @param {WebSocket} webSocketServer WebSocket

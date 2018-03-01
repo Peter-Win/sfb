@@ -32,6 +32,7 @@ class Events {
 	 * Event for all game objects
 	 * @param {string} evid		event ID
 	 * @param {Game} game		main game object
+	 * @param {Object} params 	Extended parameters, added to event structure
 	 * @return {void}
 	 */
 	static toGame(evid, game, params) {

@@ -26,6 +26,7 @@ const {ShipState} = require('../ships/Counter')
 const {GameState} = require('../GameState')
 const {mapSectorWidth, mapSectorHeight, turnLengthShort} = require('../consts')
 const {RaceType} = require('../Race')
+const {isMainShipLost} = require('./common')
 
 const baseScenario = Object.freeze({
 	name: 'Cadet scenario #3: Convoy Raid',
@@ -72,9 +73,7 @@ const baseScenario = Object.freeze({
 	 */
 	checkState: (game) => {
 		const ship = game.getShip('Main')
-		if (ship.isNotActive()) {
-			const text = (ship.state === ShipState.Lost) ? '{name} left the map' : '{name} is dead'
-			game.finish(1, {text, params: ship})
+		if (isMainShipLost(game, ship, 1)) {
 			return
 		}
 		let deadFreighters = 0

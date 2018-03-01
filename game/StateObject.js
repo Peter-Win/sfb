@@ -1,7 +1,7 @@
 /**
  * Created by PeterWin on 16.12.2017.
  */
- const assert = require('assert')
+const assert = require('assert')
 
 class StateObject {
 	constructor(state) {

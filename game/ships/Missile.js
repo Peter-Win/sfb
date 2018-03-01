@@ -37,7 +37,7 @@ class Missile extends Counter {
 						ship.destroy(game, ShipState.Dead)
 					}
 				},
-			}
+			},
 		})
 	}
 
@@ -93,6 +93,7 @@ class Missile extends Counter {
 
 	/**
 	 * Нанести удар по цели
+	 * @param {Game} game 	Main game object
 	 * @param {Ship} targetShip	*
 	 * @return {Object<string,number>} damage statistics
 	 */
