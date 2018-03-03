@@ -6,8 +6,9 @@ const {movAgent} = require('./movAgent')
 const {fireAgent} = require('./fireAgent')
 const {speedAgent} = require('./speedAgent')
 const {launchAgent} = require('./launchAgent')
+const {energyAgent} = require('./energyAgent')
 
-const agentsList = [movAgent, fireAgent, speedAgent, launchAgent]
+const agentsList = [movAgent, fireAgent, speedAgent, launchAgent, energyAgent]
 
 /**
  * @type {Object<string,Agent>}

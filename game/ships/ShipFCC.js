@@ -8,6 +8,8 @@ const {Device} = require('../devices/Device')
 const {Phaser1} = require('../devices/Phaser1')
 const {PhotonTorpedo} = require('../devices/PhotonTorpedo')
 const {Warp} = require('../devices/Warp')
+const {APR} = require('../devices/APR')
+const {Impulse} = require('../devices/Impulse')
 
 class ShipFCC extends Ship {
 	constructor() {
@@ -19,6 +21,8 @@ class ShipFCC extends Ship {
 
 		const {devs} = this
 		Device.create(devs, DeviceIds.Warp, Warp, {hp: 16})
+		Device.create(devs, DeviceIds.APR, APR, {hp: 2})
+		Device.create(devs, DeviceIds.Imp, Impulse, {hp: 2})
 		Device.create(devs, 'PH1', Phaser1, {id: '1', arc: 'FA'})
 		Device.create(devs, 'PH2', Phaser1, {id: '2', arc: 'LS'})
 		Device.create(devs, 'PH3', Phaser1, {id: '3', arc: 'RS'})
