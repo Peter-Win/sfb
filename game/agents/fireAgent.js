@@ -153,8 +153,10 @@ class FireAgent extends Agent {
 				const target = game.getShip(trace.targetId)
 				const device = sourceShip.getDevice(trace.devId)
 				const damage = device.calcDamage(game, sourceShip, target)
-				device.setState(DeviceState.Used)
-				const result = target.onDamage(sourceShip, device, damage)
+				if (device.state !== DeviceState.Dead) {
+					device.setState(DeviceState.Used)
+				}
+				const result = target.onDamage(game, sourceShip, device, damage)
 				hits.push(this.createHit(game, result, target, sourceShip, device))
 			})
 		})

@@ -32,13 +32,14 @@ class Events {
 	 * Event for all game objects
 	 * @param {string} evid		event ID
 	 * @param {Game} game		main game object
+	 * @param {Object} params 	Extended parameters, added to event structure
 	 * @return {void}
 	 */
-	static toGame(evid, game) {
+	static toGame(evid, game, params) {
 		Object.keys(game.objects).forEach(key => {
 			const ship = game.objects[key]
 			const side = game.sides[ship.side]
-			Events.toShip({evid, game, side, ship})
+			Events.toShip(Object.assign({evid, game, side, ship}, params))
 		})
 	}
 

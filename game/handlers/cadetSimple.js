@@ -7,17 +7,16 @@ const {Energy} = require('../utils/Energy')
 
 const cadetSimple = Object.freeze({
 	autoEAlloc(params) {
-		// const {ship} = params
-		// ship.devs.PhCap.energyIn = 3
 		Energy.shipAutoEAlloc(params)
 	},
 	/**
 	 * Получение 1 единицы внутреннего повреждения
+	 * @param {Game} game *
 	 * @param {Ship} ship *
 	 * @return {string} DamageType
 	 */
-	onInternalDamage(ship) {
-		ship.setState(ShipState.Dead)
+	onInternalDamage(game, ship) {
+		ship.destroy(game, ShipState.Dead)
 		return DamageType.internal
 	},
 })

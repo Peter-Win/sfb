@@ -19,7 +19,7 @@ const gameFields = ['actions', 'curImp', 'curTurn', 'height', 'state', 'turnLeng
 
 class Game extends StateObject {
 	constructor() {
-		super('')
+		super(GameState.New)
 		this.turnLength = -1
 		this.curTurn = -1
 		this.turnStep = -1
@@ -94,7 +94,7 @@ class Game extends StateObject {
 		this.turnChart = scenario.turnChart || TurnChart.Advanced
 		this.movChart = scenario.movChart || MovChart32
 		// Стороны, участвующие в игре
-		this.sides = scenario.sides.map(sideData => new Side(sideData))
+		this.sides = scenario.sides.map((sideData, i) => new Side({index: i, ...sideData}))
 		// Объекты, участвующие в игре
 		scenario.objects.forEach(objectData => {
 			const ship = Counter.create(objectData)
@@ -133,7 +133,21 @@ class Game extends StateObject {
 	 * @return {boolean} true, если выполняется фаза импульса (это большая часть игрового времени)
 	 */
 	isImpulse() {
-		return this.turnChart[this.turnStep] === TurnPhase.ImpulseProc
+		return this.getTurnPhase() === TurnPhase.ImpulseProc
+	}
+
+	getTurnPhase() {
+		return this.turnChart[this.turnStep]
+	}
+	getImpPhase() {
+		return this.impChart[this.curProc]
+	}
+	/**
+	 * @param {{x,y:number}} pos *
+	 * @return {boolean} true, if in map
+	 */
+	inMap(pos) {
+		return pos.x >=0 && pos.y >=0 && pos.x < this.width && pos.y < this.height
 	}
 
 	/**
@@ -190,12 +204,24 @@ class Game extends StateObject {
 	}
 
 	/**
+	 * @param {number} sourceSide 	Index of source side
+	 * @param {number} targetSide	*
+	 * @return {boolean} 	true, if target is enemy for source
+	 */
+	isEnemy(sourceSide, targetSide) {
+		const source = this.sides[sourceSide]
+		return source.isEnemy(targetSide)
+	}
+
+	/**
 	 * @param {Object} action	Action object
 	 * @param {string} action.uid	ship ID
 	 * @returns {void}
 	 */
 	addAction(action) {
-		this.actions.set(action.uid, action)
+		if (action) {
+			this.actions.set(action.uid, action)
+		}
 	}
 
 	/**
@@ -278,9 +304,9 @@ class Game extends StateObject {
 	 * @param {function(game:Game):void} handler Функция-обработчик конца хода
 	 * @returns {void}
 	 */
-	onceStepEnd(handler) {
-		this.fnStepEnd.push(handler)
-	}
+	// onceStepEnd(handler) {
+	// 	this.fnStepEnd.push(handler)
+	// }
 
 	/**
 	 * Получить список контроллеров (без повторений)
@@ -309,7 +335,6 @@ class Game extends StateObject {
 		if (this.isNotActive()) {
 			return
 		}
-		this.sendStepToAll()
 		const evid = this.turnChart[this.turnStep]
 		// Сообщение рассылается всем
 		Events.toGame(evid, this)
@@ -325,10 +350,8 @@ class Game extends StateObject {
 		if (this.isActive()) {
 			this.checkState(this)
 		}
-		// Если закончилась, то сообщить контроллерам
-		if (this.isNotActive()) {
-			this.sendStepToAll()
-		}
+		// сообщить контроллерам
+		this.sendStepToAll()
 	}
 
 	/**
@@ -411,7 +434,13 @@ class Game extends StateObject {
 	 */
 	goToImpProc(impProcId) {
 		let guard = 100
-		while (guard > 0 && this.impChart[this.curProc] !== impProcId) {
+		const svIdleBreak = this.bIdleBreak
+		this.bIdleBreak = true
+		while (guard > 0) {
+			if (this.isImpulse() && this.impChart[this.curProc] === impProcId) {
+				break
+			}
+			// console.log(this.curStepInfo())
 			this.switchProc()
 			if (this.actions.size > 0) {
 				this.actions.clear()
@@ -419,6 +448,7 @@ class Game extends StateObject {
 			this.nextStep()
 			guard--
 		}
+		this.bIdleBreak = svIdleBreak
 		if (!guard) {
 			throw new Error('Dead loop in Game.goToImpProc')
 		}

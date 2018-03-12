@@ -1,13 +1,16 @@
 {
   "env": {
-    "browser": true,
     "es6": true,
+    "browser": true,
     "jasmine": true,
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
   },
   "rules": {
     "comma-dangle": ["error", "always-multiline"],

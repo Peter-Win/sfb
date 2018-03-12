@@ -227,5 +227,25 @@ describe('Hex', () => {
 		expect(Hex.calcStrikeSide(3, 1)).to.be.equal(5)
 		expect(Hex.calcStrikeSide(3, 5)).to.be.equal(1)
 		expect(Hex.calcStrikeSide(1, 0)).to.be.equal(4)
+
+		expect(Hex.calcStrikeSide())
+	})
+	it('calcBeamStrikeSide', () => {
+		expect(Hex.calcBeamStrikeSide({x: 10, y: 0}, {x: 10, y: 10, dir: 0})).to.be.equal(0)
+		expect(Hex.calcBeamStrikeSide({x: 2, y: 4}, {x: 1, y: 1, dir: 0})).to.be.equal(3)
+		expect(Hex.calcBeamStrikeSide({x: 2, y: 4}, {x: 1, y: 1, dir: 5})).to.be.equal(4)
+		// Удар в стык между 2 и 3
+		// Скорости цели выше. Поэтому попадание в 3
+		expect(Hex.calcBeamStrikeSide(
+			{x: 2, y: 3, dir: 0, speed: 4},
+			{x: 1, y: 1, dir: 0, speed: 8})).to.be.equal(3)
+		// Скорость стреляющего больше, поэтому он бьёт в сторону 2
+		expect(Hex.calcBeamStrikeSide(
+			{x: 2, y: 3, dir: 0, speed: 8},
+			{x: 1, y: 1, dir: 0, speed: 4})).to.be.equal(2)
+		// Скорости равны. Поэтому движется цель. И попадание в 3
+		expect(Hex.calcBeamStrikeSide(
+			{x: 2, y: 3, dir: 0, speed: 8},
+			{x: 1, y: 1, dir: 0, speed: 8})).to.be.equal(3)
 	})
 })

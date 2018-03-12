@@ -3,6 +3,7 @@
  */
 
 const GameState = Object.freeze({
+	New: 'New',
 	Active: 'Active',
 	End: 'End',
 	InvalidEndHandler: 'InvalidEndHandler',

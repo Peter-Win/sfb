@@ -109,8 +109,8 @@
         }
         .btn-target:hover text {fill: #000;}
         .btn-target.active text {font-weight: bold;}
-        .btn-target circle {visibility: hidden; fill: none; stroke: rgba(255, 0, 0, 0.6); stroke-width: 5px;}
-        .btn-target.active circle {visibility: visible;}
+        .fire-target {visibility: hidden; fill: none; stroke: rgba(255, 0, 0, 0.6); stroke-width: 5px;}
+        .fire-target.active {visibility: visible;}
 
         .btn-weapon {cursor: pointer;}
         .btn-weapon rect {fill: #CC0;}
@@ -127,6 +127,9 @@
         .dmg-lost {fill: #950;}
         .dmg-shield {fill: #0AF;}
         .phaser-1 {fill: none; stroke: #0FF; stroke-width: 2;}
+        .phaser-2 {fill: none; stroke: #0F0; stroke-width: 2;}
+        .photon-torpedo {fill: none; stroke: #F0F; stroke-width: 2;}
+        .disruptor-bolt {fill: none; stroke: #FC0; stroke-width: 2;}
 
         .ssd-box {fill: #333; stroke: #CCC; stroke-width: 2;}
         .ssd-line {fill: none; stroke: #CCC; stroke-width: 1;}
@@ -137,15 +140,46 @@
             text-anchor: middle;
             alignment-baseline: middle;
         }
-        .ssd-shield {
-            fill: #0AF;
-            stroke: none;
+        .ssd-shield {fill: #0AF; stroke: none;}
+        .ssd-drone-rack {fill: #00F; stroke: none;}
+        .ssd-broken {fill:red; stroke: none;}
+
+        .speed-sel-text {
+            fill: #CCC;
+            cursor: pointer;
+            font-size: 120%;
         }
+        .speed-sel-text.current {
+            fill: #FFF;
+        }
+
+        .launch-button {cursor: pointer;}
+        .launch-button rect {fill: #CFC;}
+        .launch-button:hover rect  {fill: #AFA;}
+        .launch-button.current rect {fill: #5F5;}
+        .launch-button text {fill: #000; stroke: none;
+            font-size: 90%;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
+        .launch-dir {fill: rgba(192, 256, 192, 0.5);}
+        .launch-dir:hover {fill: #AFA;}
+        .launch-dir.current {fill: rgba(0, 255, 0, 0.7);}
+        .launch-target {fill: none; stroke: rgba(255,0,0, 0.7); stroke-width: 3;}
     </style>
 
     <script>
         var ssdMap = {} // counter.ssd => SSD JSON
 
+        function getVal(obj, path) {
+            try {
+                var res = obj
+                for (var i in path) {
+                    res = res[path[i]]
+                }
+            } catch (e) {res=null}
+            return res
+        }
         function translate(xmsg) {
         	var textId, params;
         	textId = xmsg.text;
@@ -246,7 +280,7 @@
 			var x1 =  dist * Math.cos(A), y1 = dist * Math.sin(A)
             var t = svgTime()
 			var anim = createNode('animateMotion', infoNode,
-				{path: `M0 0 L${x1} ${y1}`, begin: 'DOMNodeInserted', dur: '2s',
+				{path: 'M0 0 L'+x1+' '+y1, begin: 'DOMNodeInserted', dur: '2s',
 					fill: 'freeze',
 					calcMode:"spline",
 					keyTimes:"0;1",
@@ -269,33 +303,33 @@
 				var x0 = x * hexHalf * 3 + worldSpace;
 				var x1 = x0 + hexHalf, x2 = x1 + hexHalf + hexHalf, x3 = x2 + hexHalf;
 				var yt = (x & 1) * hexHalfHeight + worldSpaceTop;
-				d += `M${x1} ${yt}h${hexW}`;
+				d += 'M'+x1+' '+yt+' h'+hexW;
 				for (y = 0; y < wHeight; y++) {
 					var y0 = (y * 2 + (x & 1)) * hexHalfHeight + worldSpaceTop;
 					var y1 = y0 + hexHalfHeight, y2 = y1 + hexHalfHeight;
-					d += `M${x2} ${y0}L${x3} ${y1}L${x2} ${y2}L${x1} ${y2}`;
+					d += 'M'+x2+' '+y0+'L'+x3+' '+y1+'L'+x2+' '+y2+'L'+x1+' '+y2;
 				}
 				if (x & 1) {
-					d += `M${x0} ${y1}L${x1} ${y2}`;
+					d += 'M'+x0+' '+y1+'L'+x1+' '+y2;
 				} else {
-					d += `M${x0} ${hexHalfHeight + worldSpaceTop}l${hexHalf} ${-hexHalfHeight}`;
+					d += 'M'+x0+' '+(hexHalfHeight + worldSpaceTop)+'l'+hexHalf+' '+(-hexHalfHeight);
 				}
 			}
-			d += `M${worldSpace} ${hexHalfHeight + worldSpaceTop}`;
+			d += 'M'+worldSpace+' '+(hexHalfHeight + worldSpaceTop);
 			for (y = 0; y < wHeight; y++) {
-				if (y) d += `l${-hexHalf} ${hexHalfHeight}`;
-				d += `l${hexHalf} ${hexHalfHeight}`;
+				if (y) d += 'l'+(-hexHalf)+' '+hexHalfHeight;
+				d += 'l'+hexHalf+' '+hexHalfHeight;
 			}
 			var boardBk = createNode('rect', board, {'class': 'board-bk', x: 0, y: 0, width: vWidth, height: vHeight});
-			var rect = createNode('path', board, {'class': 'hex-border', d});
+			var rect = createNode('path', board, {'class': 'hex-border', d: d});
 
 			// Дебажный вывод координат
-			for (x=0; x<wWidth; x++) {
-				for (y=0; y<wHeight; y++) {
-					var vpos = calcViewPos({x:x, y:y})
-                    createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
-                }
-            }
+			// for (x=0; x<wWidth; x++) {
+			// 	for (y=0; y<wHeight; y++) {
+			// 		var vpos = calcViewPos({x:x, y:y})
+   //                  createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
+   //              }
+   //          }
 		}
 		var ws = null;
 		var bHex = false;
@@ -307,6 +341,7 @@
 		}
 
 		function sendRequest(msgObj) {
+            console.log('sendRequest: ', msgObj);
 			ws.send(JSON.stringify(msgObj));
 		}
 
@@ -315,6 +350,32 @@
 			var headerContainer = document.getElementById('header');
 			var mainContainer = document.getElementById('main');
 			startTime = +new Date()
+
+            // Скроллирование доски
+            var bBoardDrag = 0;
+            var dragX, dragY, trX=0, trY=0, dX, dY;
+            boardContainer.addEventListener('mousedown', function(event){
+                bBoardDrag = 1;
+                dragX = event.screenX; dragY = event.screenY;
+            });
+            boardContainer.addEventListener('mouseup', function(event){
+                if (bBoardDrag===2) {
+                    trX += dX; trY += dY;
+                }
+                bBoardDrag = 0;
+            })
+            boardContainer.addEventListener('mousemove', function(event){
+                if (!bBoardDrag) return;
+                var x = event.screenX, y = event.screenY;
+                dX = x - dragX; dY = y - dragY;
+                if (bBoardDrag===1) {
+                    var d2 = dX * dX + dY * dY;
+                    if (d2 < 36) return;
+                    bBoardDrag=2;
+                }
+                var tr = 'translate('+(trX+dX)+','+(trY+dY)+')'
+                boardContainer.setAttribute('transform', tr)
+            })
 
 			function drawNextButton() {
 				var btn = createNode('g', mainContainer, {'class': 'btn-next'});
@@ -363,13 +424,34 @@
 			var curGame = null;
 			var curAction = null;
 			var curSideIndex = 0;
-
 			function drawSsd(mainNode, ship) {
 				var mainWidth = 500, mainHeight = 500, k=15;
                 var popupNode = createNode('rect', mainNode, {x: 1, y: 1, width: mainWidth, height: mainHeight, 'class': 'ssd-box'});
-                var ssdNode = createNode('g', mainNode, {transform: `translate(${mainWidth/2},${mainHeight/2})`})
+
+                var nextX = 1, nextY=26, nextW=40, nextH=30;
+                var nextBtn = createNode('g', mainNode, {'class': 'btn-next'})
+                var nextRect = createNode('rect', nextBtn, {x:nextX, y:nextY,
+                    width:nextW, height:nextH})
+                var nextText = createNode('text', nextBtn, {x:nextX+nextW/2, y:nextY+nextH/2})
+                nextText.innerHTML = '>';
+                nextBtn.addEventListener('click', function(event){
+                    event.preventDefault();
+                    var uids = Object.keys(curGame.objects).filter(uid => curGame.objects[uid].state=='Active');
+                    var i = uids.length;
+                    if (i<2) return;
+                    while (i>0 && uids[i-1]!=ship.uid) i--;
+                    if (i==uids.length) i=0
+                    while (mainNode.firstChild) mainNode.removeChild(mainNode.firstChild);
+                    console.log('bext uid: ', uids[i]);
+                    drawSsd(mainNode,curGame.objects[uids[i]]);
+                });
+
+                var ssdNode = createNode('g', mainNode, {transform: 'translate('+(mainWidth/2)+','+(mainHeight/2)+')'})
                 var ssdData = ssdMap[ship.ssd];
+                console.log('ssdData: ', ssdData)
                 if (!ssdData) return;
+                var title = createNode('text', mainNode, {x:1,y:16});
+                title.innerHTML = ship.name +': '+ssdData.title;
                 var ssdItems = ssdData.items;
                 var drawers = {
                 	Table: function (item) {
@@ -381,10 +463,20 @@
                         		var cell = item.Cells[i++];
                         		if (cell) {
                         			if (cell.Hidden) continue;
+                                    var cls = ''
                         			if (cell.Path) {
                                         var path = cell.Path.split('.');
-                                        if (path[0]=='shield' && ship.shield && ship.shield[+path[1]] >= cell.Val)
-                                            createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': 'ssd-shield'});
+                                        var val = getVal(ship, path);
+                                        if (path[0]=='shield') {
+                                            if (ship.shield && val>=cell.Val) cls='ssd-shield';
+                                        } else if (path[2]=='dronesCount') {
+                                            if (cell.Val <= val) cls='ssd-drone-rack';      
+                                        } else if (val !== null && cell.Val > val) {
+                                            cls = 'ssd-broken';
+                                        }
+                                    }
+                                    if (cls) {
+                                        createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': cls});
                                     }
                         		}
 								createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': 'ssd-line'});
@@ -421,7 +513,38 @@
 
 			updateNextButton();
 			var actionHandlers = {
-				Move(action) {
+                SpeedDeterm: function(action) {
+                    return new function () {
+                        var node = createNode('g', boardContainer, {id: 'Speed'});
+                        var allButtons = [];
+                        for (var speed=0; speed<=action.maxSpeed; speed++) addButton(speed);
+                        function addButton(speed) {
+                            // console.log('speed button ', speed)
+                            var w = 40, x = 20 + speed * w;
+                            var bt = createNode('text', node, {'class': 'speed-sel-text',
+                                x: x, y: 40
+                            })
+                            allButtons.push(bt);
+                            if (speed === action.speed) bt.classList.add('current')
+                            bt.innerHTML = ''+speed;
+                            bt.addEventListener('click', function(event){
+                                event.preventDefault();
+                                for (var i in allButtons) {
+                                    allButtons[i].classList.remove('current');
+                                }
+                                bt.classList.add('current');
+                                action.speed = speed;
+                            })
+                        }
+                        this.getResult = function () {
+                            return action;
+                        }
+                        this.close = function () {
+                            boardContainer.removeChild(node)
+                        }
+                    }
+                },
+				Move: function(action) {
 					return new function () {
 						var hexNodes = []
 						for (var j in action.list) createHex(+j);
@@ -448,7 +571,91 @@
 						}
 					};
 				},
-                Fire(action) {
+                Launch: function(action) {
+                    return new function() {
+                        var i, x = 20, y = 30, h = 28;
+                        var choices = [], current = 0;
+                        var buttonsBox = createNode('g', boardContainer, {})
+                        var dirBox = null;
+                        function makeChoice() {
+                            var info = choices[current];
+                            var pt = info.point
+                            var res = {}
+                            if (pt) {
+                                res[pt.devId] = {targetId: pt.targetId, dir: info.dir}
+                            }
+                            action.result = res;
+                        }
+                        function createDirButtons() {
+                            clearDirButtons()
+                            dirBox = createNode('g', boardContainer, {})
+                            var info = choices[current]
+                            var pt = info.point
+                            if (!pt) return;
+                            var dirs = pt.dirs
+                            var nodes = []
+                            for (var j in dirs) drawDir(j);
+                            function drawDir(j) {
+                                var hex = drawHex(dirs[j], dirBox, 'launch-dir')
+                                if (dirs[j].dir == info.dir) hex.classList.add('current')
+                                nodes.push(hex);
+                                hex.addEventListener('click', function(event) {
+                                    event.preventDefault();
+                                    nodes.forEach(n => n.classList.remove('current'));
+                                    hex.classList.add('current')
+                                    info.dir = dirs[j].dir;
+                                    makeChoice();
+                                })
+                            }
+                            var vpos = calcViewPos(curGame.objects[pt.targetId]);
+                            createNode('circle', dirBox, 
+                                {'class': 'launch-target', cx: vpos.x, cy: vpos.y, r: hexHalfHeight})
+                        }
+                        function clearDirButtons() {
+                            if (dirBox) {
+                                boardContainer.removeChild(dirBox);
+                                dirBox = null;
+                            }
+                        }
+                        function createButton(text, width, point) {
+                            var g = createNode('g', buttonsBox, {'class': 'launch-button'});
+                            var rect = createNode('rect', g,
+                                {x: x, y: y, width: width, height: h});
+                            var tx = createNode('text', g, {x: x+width/2, y: y+h/2})
+                            tx.innerHTML = text
+                            var info = {g: g, i: choices.length, point: point}
+                            if (point) info.dir = point.targetDir
+                            choices.push(info);
+                            x += width + 8;
+                            g.addEventListener('click', function(event){
+                                event.preventDefault()
+                                setActive(info.i)
+                            })
+                        }
+                        function setActive(index) {
+                            choices[current].g.classList.remove('current')
+                            choices[index].g.classList.add('current')
+                            current = index;
+                            createDirButtons();
+                            makeChoice();
+                        }
+                        createButton('None', 50, null)
+                        for (i in action.points) {
+                            var pt = action.points[i]
+                            var target = curGame.objects[pt.targetId]
+                            createButton(target.name, 100, pt)
+                        }
+                        setActive(0)
+                        this.getResult = function () {
+                            return action;
+                        }
+                        this.close = function () {
+                            clearDirButtons();
+                            boardContainer.removeChild(buttonsBox);
+                        }
+                    }
+                },
+                Fire: function(action) {
 					return new function () {
 						var nodes = [], curTarget = null;
 						// Собрать список целей
@@ -463,6 +670,7 @@
                         		var p1 = calcViewPos(w.trace.pos), p2 = calcViewPos(w.trace.targetPos)
                         		w.ln = createNode('line', boardContainer,
                                     {'class': 'fire-line', x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y});
+                                if (w.trace.damages)
                         		targets[w.trace.targetId].dmg += middle(w.trace.damages);
                             }
                             for (targetId in targets) {
@@ -481,15 +689,15 @@
                         	function createTargetButton(trace) {
 								var targetId = trace.targetId;
 								var targetCounter = curGame.objects[targetId]
-                        		var node = createNode('g', boardContainer, {
+                        		var node = createNode('g', mainContainer, {
                         			'class': 'btn-target'});
 								var btnX = x;
                         		var rect = createNode('rect', node, {x: x, y: y, width: w, height: h});
                         		var text = createNode('text', node, {x: x+w/2, y: y+h/2});
                         		text.innerHTML = targetCounter.name;
                         		var vpos = calcViewPos(targetCounter)
-                        		var center = createNode('circle', node, {cx: vpos.x, cy: vpos.y, r: hexHalfHeight})
-                        		var targetRec = {node: node, tx: text, counter: targetCounter, traces: []}
+                        		var center = createNode('circle', boardContainer, {cx: vpos.x, cy: vpos.y, r: hexHalfHeight, 'class': 'fire-target'})
+                        		var targetRec = {node: node, tx: text, counter: targetCounter, traces: [], center: center}
                         		targets[targetId] = targetRec
                         		x += w + 10;
                         		node.addEventListener('click', function (event) {
@@ -497,9 +705,11 @@
                                     clear();
                                     if (curTarget) {
                                     	curTarget.node.classList.remove('active');
+                                        curTarget.center.classList.remove('active');
                                     }
                                     curTarget = targetRec;
                                     curTarget.node.classList.add('active');
+                                    curTarget.center.classList.add('active');
                                     // Вывод списка орудий
                                     var devX = btnX, devY = 65, devW = 110, devH = 20;
                                     for (var k=0; k<targetRec.traces.length; k++) onTrace(targetRec.traces[k])
@@ -507,7 +717,7 @@
                                     	var c = 'btn-weapon';
                                     	if (weapons[trace.devId].trace === trace) c += ' checked';
                                     	else if (weapons[trace.devId].trace) c += ' checked-out';
-                                    	var g = createNode('g', boardContainer, {'class': c});
+                                    	var g = createNode('g', mainContainer, {'class': c});
                                     	nodes.push(g);
                                     	var r = createNode('rect', g, {x: devX, y: devY, width: devW, height: devH});
                                     	var t = createNode('text', g, {x: devX + devW/2, y: devY + devH/2});
@@ -538,7 +748,7 @@
                         }
 						function clear() {
 							for (var j in nodes) {
-								boardContainer.removeChild(nodes[j]);
+								mainContainer.removeChild(nodes[j]);
                             }
                             nodes.length = 0;
                         }
@@ -549,7 +759,8 @@
                         	// Убрать визуальные элементы
                         	clear();
                         	for (var id in targets) {
-                        		boardContainer.removeChild(targets[id].node);
+                        		mainContainer.removeChild(targets[id].node);
+                                boardContainer.removeChild(targets[id].center);
                             }
 							for (var id in weapons) {
 								if (weapons[id].ln) {
@@ -592,11 +803,11 @@
                             if (srcObject) {
 								var vpos0 = calcViewPos(srcObject)
                                 var shape = null;
-								switch (hit.type) {
-                                    case 'Phaser-1':
-                                    	shape = createNode('line', boardContainer, {'class': 'phaser-1',
-                                            x1: vpos0.x, y1: vpos0.y, x2: vpos1.x, y2: vpos1.y})
-                                    	break;
+                                if (hit.type) {
+                                    shape = createNode('line', boardContainer, {
+                                        'class': hit.type.toLowerCase().replace(' ', '-'),
+                                        x1: vpos0.x, y1: vpos0.y, x2: vpos1.x, y2: vpos1.y
+                                    })
                                 }
                                 if (shape) addTask(delay(1000, () => {
 									boardContainer.removeChild(shape);
@@ -623,7 +834,7 @@
                 },
             }
 			var msgHandlers = {
-				game(msg) {
+				game: function(msg) {
 					var game = msg.game;
 					curGame = game;
 					var bFirst = !bHex;
@@ -633,14 +844,14 @@
 					}
 					addTask(delay(1, function () {
 						drawGameHeader(game);
-						if (bFirst)
+						// if (bFirst)
 						    updateShips(game.objects)
 					}));
 					// Загрузка SSD
                     var uid, objects = game.objects;
                     for (uid in objects) {
                     	var counter = objects[uid];
-                    	if (counter.side === curSideIndex && counter.ssd && !ssdMap[counter.ssd]) {
+                    	if (counter.ssd && !ssdMap[counter.ssd]) {
                     		ssdMap[counter.ssd] = 1;    // Отметка о старте загрузки. Чтобы не слать дубли
                     		sendRequest({type: 'askSsd', ssd: counter.ssd});
                         }
@@ -649,12 +860,12 @@
 				/**
 				 * @param {{type:string, key:string, data:Object}} msg
 				 */
-				ssd(msg) {
+				ssd: function(msg) {
 					if (msg.data) {
 						ssdMap[msg.key] = msg.data
                     }
                 },
-				action(msg) {
+				action: function(msg) {
 					var action = msg.action;
 					var handler = actionHandlers[action.name];
 					if (handler) {
@@ -664,7 +875,7 @@
 						console.warn('Unhandled action: ', action);
 					}
 				},
-                info(msg) {
+                info: function(msg) {
 					const {info} = msg
 					const handler = infoHandlers[info.type]
                     if (handler) {
@@ -711,7 +922,7 @@
 				function onShip(uid){
 					var ship = ships[uid];
 					var shipNode = shipNodes[uid];
-					if (!shipNode) {
+					if (!shipNode && ship.state=='Active') {
 						shipNode = createNode('g', boardContainer);
 						shipNodes[uid] = shipNode;
 						var img = createNode('image', shipNode, {
@@ -725,9 +936,17 @@
                             var h = box.height * k;
                             setAttr(img, {x: -w/2, y: -h/2, width: w, height: h});
 						})
-					}
+                        img.addEventListener('error', function(event){
+                            console.error(event)
+                        })
+					} else if (ship.state !== 'Active') {
+                        if (shipNode) boardContainer.removeChild(shipNode);
+                        delete shipNodes[uid]
+                        shipNode = null;
+                    }
 					var vpos = calcViewPos(ship);
 					var a = ship.dir * 60;
+                    if (shipNode)
 					setAttr(shipNode, {'transform': 'translate(' + vpos.x + ',' + vpos.y + '),rotate(' + a + ')'});
 				}
 			}

@@ -10,6 +10,7 @@ const {DeviceState} = require('./DeviceState')
 const EAllocPrior = Object.freeze({
 	PhaserCapacitor: 9,
 	PhotonTorpedo: 10,
+	Disruptor: 10,
 	Engine: 14,
 })
 
@@ -27,6 +28,9 @@ class Device extends StateObject{
 		this.eTypePrior = ''	// May be combination of W I B or A. For Engine = 'WI' (Warp first, Impulse second)
 		this.energySrc = {}		// Перечислены источники поступившей энергии на текущий ход. Например, {W:4, I:1}
 		this.energyIn = 0	// Сумма поступившей энергии на текущий ход
+	}
+	toSimple() {
+		return {devId: this.devId, state: this.state, hp: this.hp}
 	}
 
 	/**

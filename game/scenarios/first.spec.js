@@ -24,5 +24,6 @@ describe('first scenario', () => {
 		const ship = game.getShip('Con')
 		expect(ship).to.be.ok
 		expect(ship).to.have.property('speed', 8)
+		expect(ship).to.have.property('name', 'Destruction')
 	})
 })

@@ -1,0 +1,818 @@
+{
+	"title": "Small Freighter",
+	"width": 20,
+	"height": 28,
+	"items": [
+		{
+			"Cells": [
+				{
+					"Path": "devs.Transp.hp",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "TRAN",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -2
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "TRAN",
+			"Text": "TRAN",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -3
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.BTTY.hp",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "BTTY",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -2
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "BTTY",
+			"Text": "BTTY",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -3
+		},
+		{
+			"Cells": [],
+			"Height": 1,
+			"Name": "SHTL",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -2
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHTL",
+			"Text": "SHTL",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -3
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.PH.hp",
+					"Text": "1",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "PH-2",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -4
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "PH-3",
+			"Text": "PH-3",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "360",
+			"Text": "360",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": -6
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.HullC.hp",
+					"Val": 1
+				},
+				{
+					"Path": "devs.HullC.hp",
+					"Val": 3
+				}
+			],
+			"Height": 2,
+			"Name": "C HULL(L)",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "C HULL(L)",
+			"Text": "C HULL",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": -6
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.HullC.hp",
+					"Val": 2
+				},
+				{
+					"Path": "devs.HullC.hp",
+					"Val": 4
+				}
+			],
+			"Height": 2,
+			"Name": "C HULL(R)",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "C HULL(R)",
+			"Text": "C HULL",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": -6
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.Bridge.hp",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "BRDG",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -1.5,
+			"Y0": -7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "BRDG",
+			"Text": "BRDG",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -1.5,
+			"Y0": -8
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.Emer.hp",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "EMER",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 0.5,
+			"Y0": -7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "EMER",
+			"Text": "EMER",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 0.5,
+			"Y0": -8
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 1
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 2
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 3
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 4
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 5
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 6
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 7
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 8
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 9
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 10
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 11
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 12
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 13
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 14
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 15
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 16
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 17
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 18
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 19
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 20
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 21
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 22
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 23
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 24
+				},
+				{
+					"Path": "devs.Cargo.hp",
+					"Val": 25
+				}
+			],
+			"Height": 5,
+			"Name": "CARGO",
+			"Type": "Table",
+			"Width": 5,
+			"X0": -2.5,
+			"Y0": 1
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "CARGO",
+			"Text": "CARGO",
+			"Type": "Text",
+			"Width": 5,
+			"X0": -2.5,
+			"Y0": 0
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.WarpL.hp",
+					"Text": "L",
+					"Val": 1
+				},
+				{
+					"Path": "devs.WarpL.hp",
+					"Val": 2
+				}
+			],
+			"Height": 2,
+			"Name": "WARP L",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": 7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "WARP L",
+			"Text": "WARP",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -2.5,
+			"Y0": 6
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.WarpR.hp",
+					"Text": "R",
+					"Val": 1
+				},
+				{
+					"Path": "devs.WarpR.hp",
+					"Val": 2
+				}
+			],
+			"Height": 2,
+			"Name": "WARP R",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": 7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "WARP R",
+			"Text": "WARP",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 1.5,
+			"Y0": 6
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.Imp.hp",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "IMP",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": 7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "IMP",
+			"Text": "IMP",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -0.5,
+			"Y0": 6
+		},
+		{
+			"Items": [
+				{
+					"X": 3.5,
+					"Y": -0.5
+				},
+				{
+					"X": 3.5,
+					"Y": -6.5
+				},
+				{
+					"X": 2,
+					"Y": -8.5
+				},
+				{
+					"X": -2,
+					"Y": -8.5
+				},
+				{
+					"X": -3.5,
+					"Y": -6.5
+				},
+				{
+					"X": -3.5,
+					"Y": -0.5
+				},
+				{
+					"X": 3.5,
+					"Y": -0.5
+				},
+				{
+					"X": 3.5,
+					"Y": 7
+				},
+				{
+					"X": 3,
+					"Y": 7
+				},
+				{
+					"X": 3,
+					"Y": 9.5
+				},
+				{
+					"X": 1,
+					"Y": 9.5
+				},
+				{
+					"X": 1,
+					"Y": 8.5
+				},
+				{
+					"X": -1,
+					"Y": 8.5
+				},
+				{
+					"X": -1,
+					"Y": 9.5
+				},
+				{
+					"X": -3,
+					"Y": 9.5
+				},
+				{
+					"X": -3,
+					"Y": 7
+				},
+				{
+					"X": -3.5,
+					"Y": 7
+				},
+				{
+					"X": -3.5,
+					"Y": -0.5
+				}
+			],
+			"Name": "",
+			"Type": "Polygon"
+		},
+		{
+			"Cells": [
+				{
+					"Path": "shield.0",
+					"Val": 4
+				},
+				{
+					"Path": "shield.0",
+					"Val": 2
+				},
+				{
+					"Path": "shield.0",
+					"Val": 1
+				},
+				{
+					"Path": "shield.0",
+					"Val": 3
+				},
+				{
+					"Path": "shield.0",
+					"Val": 5
+				}
+			],
+			"Height": 1,
+			"Name": "SHIELD #1",
+			"Type": "Table",
+			"Width": 5,
+			"X0": -2.5,
+			"Y0": -10.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHIELD #1",
+			"Text": "SHIELD #1",
+			"Type": "Text",
+			"Width": 5,
+			"X0": -2.5,
+			"Y0": -11.5
+		},
+		{
+			"Cells": [
+				{
+					"Path": "shield.1",
+					"Val": 5
+				},
+				{
+					"Path": "shield.1",
+					"Val": 3
+				},
+				{
+					"Path": "shield.1",
+					"Val": 1
+				},
+				{
+					"Path": "shield.1",
+					"Val": 2
+				},
+				{
+					"Path": "shield.1",
+					"Val": 4
+				}
+			],
+			"Height": 5,
+			"Name": "SHIELD #2",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 5,
+			"Y0": -7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHIELD #2",
+			"Text": "SHIELD #2",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 5,
+			"Y0": -8
+		},
+		{
+			"Cells": [
+				{
+					"Path": "shield.2",
+					"Val": 4
+				},
+				{
+					"Path": "shield.2",
+					"Val": 2
+				},
+				{
+					"Path": "shield.2",
+					"Val": 1
+				},
+				{
+					"Path": "shield.2",
+					"Val": 3
+				},
+				{
+					"Path": "shield.2",
+					"Val": 5
+				}
+			],
+			"Height": 5,
+			"Name": "SHIELD #3",
+			"Type": "Table",
+			"Width": 1,
+			"X0": 5,
+			"Y0": 2
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHIELD #3",
+			"Text": "SHIELD #3",
+			"Type": "Text",
+			"Width": 1,
+			"X0": 5,
+			"Y0": 1
+		},
+		{
+			"Cells": [
+				{
+					"Path": "shield.3",
+					"Val": 4
+				},
+				{
+					"Path": "shield.3",
+					"Val": 2
+				},
+				{
+					"Path": "shield.3",
+					"Val": 1
+				},
+				{
+					"Path": "shield.3",
+					"Val": 3
+				},
+				{
+					"Path": "shield.3",
+					"Val": 5
+				}
+			],
+			"Height": 1,
+			"Name": "SHIELD #4",
+			"Type": "Table",
+			"Width": 5,
+			"X0": -2.5,
+			"Y0": 11
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHIELD #4",
+			"Text": "SHIELD #4",
+			"Type": "Text",
+			"Width": 5,
+			"X0": -2.5,
+			"Y0": 10
+		},
+		{
+			"Cells": [
+				{
+					"Path": "shield.4",
+					"Val": 4
+				},
+				{
+					"Path": "shield.4",
+					"Val": 2
+				},
+				{
+					"Path": "shield.4",
+					"Val": 1
+				},
+				{
+					"Path": "shield.4",
+					"Val": 3
+				},
+				{
+					"Path": "shield.4",
+					"Val": 5
+				}
+			],
+			"Height": 5,
+			"Name": "SHIELD #5",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -6,
+			"Y0": 2
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHIELD #5",
+			"Text": "SHIELD #5",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -6,
+			"Y0": 1
+		},
+		{
+			"Cells": [
+				{
+					"Path": "shield.5",
+					"Val": 5
+				},
+				{
+					"Path": "shield.5",
+					"Val": 3
+				},
+				{
+					"Path": "shield.5",
+					"Val": 1
+				},
+				{
+					"Path": "shield.5",
+					"Val": 2
+				},
+				{
+					"Path": "shield.5",
+					"Val": 4
+				}
+			],
+			"Height": 5,
+			"Name": "SHIELD #6",
+			"Type": "Table",
+			"Width": 1,
+			"X0": -6,
+			"Y0": -7
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SHIELD #6",
+			"Text": "SHIELD #6",
+			"Type": "Text",
+			"Width": 1,
+			"X0": -6,
+			"Y0": -8
+		},
+		{
+			"Cells": [],
+			"Height": 1,
+			"Name": "SENSOR",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -6,
+			"Y0": 9.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SENSOR",
+			"Text": "SENSOR",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -6,
+			"Y0": 8.5
+		},
+		{
+			"Cells": [],
+			"Height": 1,
+			"Name": "SCANNER",
+			"Type": "Table",
+			"Width": 2,
+			"X0": -6,
+			"Y0": 12
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "SCANNER",
+			"Text": "SCANNER",
+			"Type": "Text",
+			"Width": 2,
+			"X0": -6,
+			"Y0": 11
+		},
+		{
+			"Cells": [],
+			"Height": 1,
+			"Name": "DAM CON",
+			"Type": "Table",
+			"Width": 2,
+			"X0": 4,
+			"Y0": 9.5
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "DAM CON",
+			"Text": "DAM CON",
+			"Type": "Text",
+			"Width": 2,
+			"X0": 4,
+			"Y0": 8.5
+		},
+		{
+			"Cells": [
+				{
+					"Path": "devs.ExDmg.hp",
+					"Val": 2
+				},
+				{
+					"Path": "devs.ExDmg.hp",
+					"Val": 1
+				}
+			],
+			"Height": 1,
+			"Name": "EX DAM",
+			"Type": "Table",
+			"Width": 2,
+			"X0": 4,
+			"Y0": 12
+		},
+		{
+			"Font": "std",
+			"Height": 1,
+			"Name": "EX DAM",
+			"Text": "EX DAM",
+			"Type": "Text",
+			"Width": 2,
+			"X0": 4,
+			"Y0": 11
+		}
+	]
+}

@@ -22,7 +22,7 @@ describe('Missile', () => {
 		game.create(first)
 		const enemyShip = game.getShip('Con')
 		const droneA = game.getShip('droneA')
-		const result = droneA.onDamage(enemyShip, enemyShip.getDevice('PH1'), 4)
+		const result = droneA.onDamage(game, enemyShip, enemyShip.getDevice('PH1'), 4)
 		expect(droneA.health).to.be.equal(0)
 		expect(droneA.state).to.be.equal(ShipState.Exploded)
 		expect(droneA.isActive()).to.be.false
@@ -37,7 +37,7 @@ describe('Missile', () => {
 		expect(droneA.isInTargetHex(game)).to.be.false
 		droneA.setPos(enemyShip.x, enemyShip.y)
 		expect(droneA.isInTargetHex(game)).to.be.false	// Потому что не является целью
-		droneA.target = enemyShip.uid
+		droneA.targetId = enemyShip.uid
 		expect(droneA.isInTargetHex(game)).to.be.true
 		droneA.x++
 		expect(droneA.isInTargetHex(game)).to.be.false
@@ -49,11 +49,34 @@ describe('Missile', () => {
 		const droneA = game.getShip('droneA')
 		expect(droneA.onResolveSeeking(game)).to.be.null
 		droneA.setPos(enemyShip.x, enemyShip.y)
+		expect(droneA.isActive()).to.be.true
+		expect(droneA.isInTargetHex(game)).to.be.true
 		const hit = droneA.onResolveSeeking(game)
 		expect(hit).to.be.ok
 		expect(hit.targetId).to.be.equal(enemyShip.uid)
 		expect(hit.result).to.be.eql({shield: 6})
 		// Теперь ракета взорвалась, поэтому повторно она уже не может быть использована
 		expect(droneA.onResolveSeeking(game)).to.be.null
+	})
+	it('OnDestroyed event', () => {
+		const game = new Game()
+		game.create(second)
+		const enemyShip = game.getShip('Con')
+		const droneA = game.getShip('droneA')
+		const droneB = game.getShip('droneB')
+		const droneD = game.getShip('droneD')
+		droneD.targetId = ''
+
+		expect(enemyShip.state).to.be.equal(ShipState.Active)
+		expect(droneA.state).to.be.equal(ShipState.Active)
+		expect(droneB.state).to.be.equal(ShipState.Active)
+		expect(droneD.state).to.be.equal(ShipState.Active)
+
+		// Уничтожение корабля приводит к уничтожению нацеленных на него ракет
+		enemyShip.destroy(game)
+		expect(enemyShip.state).to.be.equal(ShipState.Exploded)
+		expect(droneA.state).to.be.equal(ShipState.Dead)
+		expect(droneB.state).to.be.equal(ShipState.Dead)
+		expect(droneD.state).to.be.equal(ShipState.Active)
 	})
 })

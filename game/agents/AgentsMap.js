@@ -4,13 +4,19 @@
 const assert = require('assert')
 const {movAgent} = require('./movAgent')
 const {fireAgent} = require('./fireAgent')
+const {speedAgent} = require('./speedAgent')
+const {launchAgent} = require('./launchAgent')
+const {energyAgent} = require('./energyAgent')
+
+const agentsList = [movAgent, fireAgent, speedAgent, launchAgent, energyAgent]
 
 /**
  * @type {Object<string,Agent>}
  */
-const AgentsMap = {}
-AgentsMap[movAgent.name] = movAgent
-AgentsMap[fireAgent.name] = fireAgent
+const AgentsMap = agentsList.reduce((map, agent) => {
+	map[agent.name] = agent
+	return map
+}, {})
 
 /**
  * Поиск агента для акции
