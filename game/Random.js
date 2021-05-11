@@ -7,7 +7,8 @@ class Random {
 	 * @returns {number} Random integer from 0 to 5
 	 */
 	static int6() {
-		return Math.floor(Math.random() * 6)
+		return 5
+		// return Math.floor(Math.random() * 6)
 	}
 }
 

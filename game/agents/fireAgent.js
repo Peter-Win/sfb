@@ -9,6 +9,7 @@ const {Agent} = require('./Agent')
 const {FiringArc} = require('../utils/FiringArc')
 const {DeviceIds} = require('../devices/DeviceIds')
 const {DeviceState} = require('../devices/DeviceState')
+const {Events} = require('../Events')
 
 const DamageType = Object.freeze({
 	lost: 'lost',
@@ -56,6 +57,10 @@ class FireAgent extends Agent {
 		}
 		dev.updateFireTrace(params, trace)
 		return trace
+	}
+
+	findTrace(action, devId, targetId) {
+		return action.traces.findIndex(trace => trace.targetId === targetId && trace.devId === devId)
 	}
 
 	/**
@@ -153,9 +158,10 @@ class FireAgent extends Agent {
 				const target = game.getShip(trace.targetId)
 				const device = sourceShip.getDevice(trace.devId)
 				const damage = device.calcDamage(game, sourceShip, target)
-				if (device.state !== DeviceState.Dead) {
-					device.setState(DeviceState.Used)
-				}
+				// if (device.state !== DeviceState.Dead) {
+				// 	device.setState(DeviceState.Used)
+				// }
+				Events.toDevice({evid: 'FireEnd', game, ship: sourceShip, dev: device})
 				const result = target.onDamage(game, sourceShip, device, damage)
 				hits.push(this.createHit(game, result, target, sourceShip, device))
 			})

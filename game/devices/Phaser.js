@@ -159,7 +159,7 @@ const phaserFsm = Object.freeze({
 		FireEnd(params) {
 			const {dev, ship, game} = params
 			dev.wait = game.turnLength / 4
-			dev.setState('Used')
+			dev.setState(DeviceState.Used)
 			ship.devs[Device.ids.PhCap].energy -= dev.ecost
 		},
 	},

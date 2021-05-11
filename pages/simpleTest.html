@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Simple test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <style>
+<!-- Automatically provides/replaces `Promise` if missing or broken. -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script> 
+
+<!-- Minified version of `es6-promise-auto` below. -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>     <style>
         html, body, svg {
             padding: 0;
             margin: 0;
@@ -44,7 +50,7 @@
         }
 
         .dir-selection {
-            fill: #088;
+            fill: rgba(0, 128, 128, 0.5);
             stroke: none;
             cursor: pointer;
         }
@@ -63,14 +69,17 @@
         .btn-next {
             cursor: pointer;
         }
+
         .btn-next rect {
             fill: #FFFF33;
             stroke: none;
         }
+
         .btn-next rect:hover {
             fill: #FFFFAA;
             stroke: none;
         }
+
         .btn-next text {
             fill: #000;
             text-anchor: middle;
@@ -80,59 +89,147 @@
         .btn-ssd {
             cursor: pointer;
         }
+
         .btn-ssd rect {
             fill: #FFFF33;
             stroke: none;
         }
+
         .btn-ssd rect:hover {
             fill: #FFFFAA;
             stroke: none;
         }
+
         .btn-ssd text {
             fill: #000;
             text-anchor: middle;
             alignment-baseline: middle;
         }
 
-        .btn-target {cursor: pointer;}
+        .btn-target {
+            cursor: pointer;
+        }
+
         .btn-target rect {
             fill: #C00;
             stroke: none;
         }
-        .btn-target:hover rect { fill: #E00;}
-        .btn-target.active rect {fill: #F55; }
+
+        .btn-target:hover rect {
+            fill: #E00;
+        }
+
+        .btn-target.active rect {
+            fill: #F55;
+        }
+
         .btn-target text {
             fill: #333;
             font-size: 90%;
             text-anchor: middle;
             alignment-baseline: middle;
         }
-        .btn-target:hover text {fill: #000;}
-        .btn-target.active text {font-weight: bold;}
-        .fire-target {visibility: hidden; fill: none; stroke: rgba(255, 0, 0, 0.6); stroke-width: 5px;}
-        .fire-target.active {visibility: visible;}
 
-        .btn-weapon {cursor: pointer;}
-        .btn-weapon rect {fill: #CC0;}
-        .btn-weapon.checked rect {fill: #FF0;}
-        .btn-weapon.checked-out rect {fill: #FA0;}
-        .btn-weapon text {fill: #333;
+        .btn-target:hover text {
+            fill: #000;
+        }
+
+        .btn-target.active text {
+            font-weight: bold;
+        }
+
+        .fire-target {
+            visibility: hidden;
+            fill: none;
+            stroke: rgba(255, 0, 0, 0.6);
+            stroke-width: 5px;
+        }
+
+        .fire-target.active {
+            visibility: visible;
+        }
+
+        .btn-weapon {
+            cursor: pointer;
+        }
+
+        .btn-weapon rect {
+            fill: #CC0;
+        }
+
+        .btn-weapon.checked rect {
+            fill: #FF0;
+        }
+
+        .btn-weapon.checked-out rect {
+            fill: #FA0;
+        }
+
+        .btn-weapon text {
+            fill: #333;
             font-size: 90%;
             text-anchor: middle;
             alignment-baseline: middle;
         }
-        .btn-weapon.checked text {font-weight: bold;}
-        .fire-line {fill: none; stroke: #A00; stroke-width: 1;}
-        .dmg-internal {fill: red;}
-        .dmg-lost {fill: #950;}
-        .dmg-shield {fill: #0AF;}
-        .phaser-1 {fill: none; stroke: #0FF; stroke-width: 2;}
-        .phaser-2 {fill: none; stroke: #0F0; stroke-width: 2;}
-        .photon-torpedo {fill: none; stroke: #F0F; stroke-width: 2;}
-        .disruptor-bolt {fill: none; stroke: #FC0; stroke-width: 2;}
 
-        .ssd-box {fill: #333; stroke: #CCC; stroke-width: 2;}
-        .ssd-line {fill: none; stroke: #CCC; stroke-width: 1;}
+        .btn-weapon.checked text {
+            font-weight: bold;
+        }
+
+        .fire-line {
+            fill: none;
+            stroke: #A00;
+            stroke-width: 1;
+        }
+
+        .dmg-internal {
+            fill: red;
+        }
+
+        .dmg-lost {
+            fill: #950;
+        }
+
+        .dmg-shield {
+            fill: #0AF;
+        }
+
+        .phaser-1 {
+            fill: none;
+            stroke: #0FF;
+            stroke-width: 2;
+        }
+
+        .phaser-2 {
+            fill: none;
+            stroke: #0F0;
+            stroke-width: 2;
+        }
+
+        .photon-torpedo {
+            fill: none;
+            stroke: #F0F;
+            stroke-width: 2;
+        }
+
+        .disruptor-bolt {
+            fill: none;
+            stroke: #FC0;
+            stroke-width: 2;
+        }
+
+        .ssd-box {
+            fill: #333;
+            stroke: #CCC;
+            stroke-width: 2;
+        }
+
+        .ssd-line {
+            fill: none;
+            stroke: #CCC;
+            stroke-width: 1;
+        }
+
         .ssd-text {
             fill: #CCC;
             stroke: none;
@@ -140,62 +237,120 @@
             text-anchor: middle;
             alignment-baseline: middle;
         }
-        .ssd-shield {fill: #0AF; stroke: none;}
-        .ssd-drone-rack {fill: #00F; stroke: none;}
-        .ssd-broken {fill:red; stroke: none;}
+
+        .ssd-shield {
+            fill: #0AF;
+            stroke: none;
+        }
+
+        .ssd-drone-rack {
+            fill: #00F;
+            stroke: none;
+        }
+
+        .ssd-broken {
+            fill: red;
+            stroke: none;
+        }
+
+        .ssd-dev-used {
+            fill: yellow;
+            stroke: none;
+        }
+
+        .ssd-dev-half {
+            fill: orange;
+            stroke: none;
+        }
+
+        .ssd-dev-disabled {
+            fill: #777;
+            stroke: none;
+        }
 
         .speed-sel-text {
             fill: #CCC;
             cursor: pointer;
             font-size: 120%;
         }
+
         .speed-sel-text.current {
             fill: #FFF;
         }
 
-        .launch-button {cursor: pointer;}
-        .launch-button rect {fill: #CFC;}
-        .launch-button:hover rect  {fill: #AFA;}
-        .launch-button.current rect {fill: #5F5;}
-        .launch-button text {fill: #000; stroke: none;
+        .launch-button {
+            cursor: pointer;
+        }
+
+        .launch-button rect {
+            fill: #CFC;
+        }
+
+        .launch-button:hover rect {
+            fill: #AFA;
+        }
+
+        .launch-button.current rect {
+            fill: #5F5;
+        }
+
+        .launch-button text {
+            fill: #000;
+            stroke: none;
             font-size: 90%;
             text-anchor: middle;
             alignment-baseline: middle;
         }
-        .launch-dir {fill: rgba(192, 256, 192, 0.5);}
-        .launch-dir:hover {fill: #AFA;}
-        .launch-dir.current {fill: rgba(0, 255, 0, 0.7);}
-        .launch-target {fill: none; stroke: rgba(255,0,0, 0.7); stroke-width: 3;}
+
+        .launch-dir {
+            fill: rgba(192, 256, 192, 0.5);
+        }
+
+        .launch-dir:hover {
+            fill: #AFA;
+        }
+
+        .launch-dir.current {
+            fill: rgba(0, 255, 0, 0.7);
+        }
+
+        .launch-target {
+            fill: none;
+            stroke: rgba(255, 0, 0, 0.7);
+            stroke-width: 3;
+        }
     </style>
 
     <script>
-        var ssdMap = {} // counter.ssd => SSD JSON
+		var ssdMap = {} // counter.ssd => SSD JSON
 
-        function getVal(obj, path) {
-            try {
-                var res = obj
-                for (var i in path) {
-                    res = res[path[i]]
-                }
-            } catch (e) {res=null}
-            return res
-        }
-        function translate(xmsg) {
-        	var textId, params;
-        	textId = xmsg.text;
-        	params = xmsg.params;
-        	var text = textId;
-        	if (params) {
-                for (var pid in params) {
-                	text = text.replace('{'+pid+'}', params[pid]);
-                }
+		function getVal(obj, path) {
+			try {
+				var res = obj
+				for (var i in path) {
+					res = res[path[i]]
+				}
+			} catch (e) {
+				res = null
+			}
+			return res
+		}
+		function translate(xmsg) {
+			var textId, params;
+			textId = xmsg.text;
+			params = xmsg.params;
+			var text = textId;
+			if (params) {
+				for (var pid in params) {
+					text = text.replace('{' + pid + '}', params[pid]);
+				}
 			}
 			return text;
-        }
-        var startTime;
+		}
+		var startTime;
 		function setAttr(node, params) {
 			if (params) {
-				Object.keys(params).forEach(key => {
+				Object.keys(params).forEach(function(key) {
 					node.setAttribute(key, params[key]);
 				});
 			}
@@ -222,7 +377,7 @@
 		function drawHex(pos, owner, cls) {
 			var vpos = calcViewPos(pos);
 			var d = '', x = vpos.x, y = vpos.y;
-			const addPoint = (x, y) => {
+			var addPoint = function (x, y) {
 				d += d ? 'L' : 'M';
 				d += x + ' ' + y;
 			}
@@ -243,29 +398,29 @@
 		var tasksQueue = Promise.resolve();
 		function addTask(promise) {
 			tasksQueue = tasksQueue.then(promise)
-        }
-        // Функция выполняется в конце интервала
-        function delay(time, func) {
-			return new Promise(resolve => {
-				setTimeout(() => {
+		}
+		// Функция выполняется в конце интервала
+		function delay(time, func) {
+			return new Promise(function(resolve) {
+				setTimeout(function() {
 					func();
 					resolve();
-                }, time);
-            })
-        }
-        // Сначала функция выполняется, затем ждет интервал
-        function wait(time, func) {
+				}, time);
+			})
+		}
+		// Сначала функция выполняется, затем ждет интервал
+		function wait(time, func) {
 			if (func) func();
-			return new Promise(resolve => {
-				setTimeout(() => {
+			return new Promise(function(resolve) {
+				setTimeout(function() {
 					resolve();
 				}, time);
 			})
 		}
 
 		function svgTime() {
-            var dt = +new Date() - startTime;
-            return dt+'ms';
+			var dt = +new Date() - startTime;
+			return dt + 'ms';
 		}
 
 		var idIndex = 1;
@@ -273,24 +428,30 @@
 		function fly(pos, text, type, angle, board) {
 			var id = 'id' + idIndex++;
 			var infoNode = createNode('text', board,
-				{x: pos.x, y: pos.y, 'class': 'dmg-'+type, id: id});
+				{x: pos.x, y: pos.y, 'class': 'dmg-' + type, id: id});
 			infoNode.innerHTML = text;
 			var dist = 40
 			var A = angle * Math.PI / 180;
-			var x1 =  dist * Math.cos(A), y1 = dist * Math.sin(A)
-            var t = svgTime()
+			var x1 = dist * Math.cos(A), y1 = dist * Math.sin(A)
+			var t = svgTime()
 			var anim = createNode('animateMotion', infoNode,
-				{path: 'M0 0 L'+x1+' '+y1, begin: 'DOMNodeInserted', dur: '2s',
+				{
+					path: 'M0 0 L' + x1 + ' ' + y1, begin: 'DOMNodeInserted', dur: '2s',
 					fill: 'freeze',
-					calcMode:"spline",
-					keyTimes:"0;1",
-					keySplines:"0.39 0.575 0.565 1"})
-			var anim1 = createNode('animation', infoNode, {attributeType:"CSS",
-				attributeName: 'opacity', from: '100%', to: '0', begin: t, dur: '2s',  fill: 'freeze'});
-			var anim2 = createNode('animate', infoNode, {attributeName: "font-size", additive:"sum",
-				attributeType: "CSS", from: '100%', to: '200%', begin: t, dur: '2s', fill:'freeze'})
-			setTimeout(() => {
-				 board.removeChild(infoNode)
+					calcMode: "spline",
+					keyTimes: "0;1",
+					keySplines: "0.39 0.575 0.565 1"
+				})
+			var anim1 = createNode('animation', infoNode, {
+				attributeType: "CSS",
+				attributeName: 'opacity', from: '100%', to: '0', begin: t, dur: '2s', fill: 'freeze'
+			});
+			var anim2 = createNode('animate', infoNode, {
+				attributeName: "font-size", additive: "sum",
+				attributeType: "CSS", from: '100%', to: '200%', begin: t, dur: '2s', fill: 'freeze'
+			})
+			setTimeout(function() {
+				board.removeChild(infoNode)
 			}, 2000)
 		}
 
@@ -303,45 +464,45 @@
 				var x0 = x * hexHalf * 3 + worldSpace;
 				var x1 = x0 + hexHalf, x2 = x1 + hexHalf + hexHalf, x3 = x2 + hexHalf;
 				var yt = (x & 1) * hexHalfHeight + worldSpaceTop;
-				d += 'M'+x1+' '+yt+' h'+hexW;
+				d += 'M' + x1 + ' ' + yt + ' h' + hexW;
 				for (y = 0; y < wHeight; y++) {
 					var y0 = (y * 2 + (x & 1)) * hexHalfHeight + worldSpaceTop;
 					var y1 = y0 + hexHalfHeight, y2 = y1 + hexHalfHeight;
-					d += 'M'+x2+' '+y0+'L'+x3+' '+y1+'L'+x2+' '+y2+'L'+x1+' '+y2;
+					d += 'M' + x2 + ' ' + y0 + 'L' + x3 + ' ' + y1 + 'L' + x2 + ' ' + y2 + 'L' + x1 + ' ' + y2;
 				}
 				if (x & 1) {
-					d += 'M'+x0+' '+y1+'L'+x1+' '+y2;
+					d += 'M' + x0 + ' ' + y1 + 'L' + x1 + ' ' + y2;
 				} else {
-					d += 'M'+x0+' '+(hexHalfHeight + worldSpaceTop)+'l'+hexHalf+' '+(-hexHalfHeight);
+					d += 'M' + x0 + ' ' + (hexHalfHeight + worldSpaceTop) + 'l' + hexHalf + ' ' + (-hexHalfHeight);
 				}
 			}
-			d += 'M'+worldSpace+' '+(hexHalfHeight + worldSpaceTop);
+			d += 'M' + worldSpace + ' ' + (hexHalfHeight + worldSpaceTop);
 			for (y = 0; y < wHeight; y++) {
-				if (y) d += 'l'+(-hexHalf)+' '+hexHalfHeight;
-				d += 'l'+hexHalf+' '+hexHalfHeight;
+				if (y) d += 'l' + (-hexHalf) + ' ' + hexHalfHeight;
+				d += 'l' + hexHalf + ' ' + hexHalfHeight;
 			}
 			var boardBk = createNode('rect', board, {'class': 'board-bk', x: 0, y: 0, width: vWidth, height: vHeight});
 			var rect = createNode('path', board, {'class': 'hex-border', d: d});
 
 			// Дебажный вывод координат
-			// for (x=0; x<wWidth; x++) {
-			// 	for (y=0; y<wHeight; y++) {
-			// 		var vpos = calcViewPos({x:x, y:y})
-   //                  createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y+10}).innerHTML = `${x}, ${y}`
-   //              }
-   //          }
+			for (x = 0; x < wWidth; x++) {
+				for (y = 0; y < wHeight; y++) {
+					var vpos = calcViewPos({x: x, y: y})
+					createNode('text', board, {'class': 'ssd-text', x: vpos.x, y: vpos.y + 10}).innerHTML = x+', '+y;
+				}
+			}
 		}
 		var ws = null;
 		var bHex = false;
 
 		function middle(array) {
-            var sum = 0, i=0;
-            for (; i<array.length; i++) sum += array[i];
-            return Math.round(10 * sum / array.length) / 10;
+			var sum = 0, i = 0;
+			for (; i < array.length; i++) sum += array[i];
+			return Math.round(10 * sum / array.length) / 10;
 		}
 
 		function sendRequest(msgObj) {
-            console.log('sendRequest: ', msgObj);
+			console.log('sendRequest: ', msgObj);
 			ws.send(JSON.stringify(msgObj));
 		}
 
@@ -351,31 +512,34 @@
 			var mainContainer = document.getElementById('main');
 			startTime = +new Date()
 
-            // Скроллирование доски
-            var bBoardDrag = 0;
-            var dragX, dragY, trX=0, trY=0, dX, dY;
-            boardContainer.addEventListener('mousedown', function(event){
-                bBoardDrag = 1;
-                dragX = event.screenX; dragY = event.screenY;
-            });
-            boardContainer.addEventListener('mouseup', function(event){
-                if (bBoardDrag===2) {
-                    trX += dX; trY += dY;
-                }
-                bBoardDrag = 0;
-            })
-            boardContainer.addEventListener('mousemove', function(event){
-                if (!bBoardDrag) return;
-                var x = event.screenX, y = event.screenY;
-                dX = x - dragX; dY = y - dragY;
-                if (bBoardDrag===1) {
-                    var d2 = dX * dX + dY * dY;
-                    if (d2 < 36) return;
-                    bBoardDrag=2;
-                }
-                var tr = 'translate('+(trX+dX)+','+(trY+dY)+')'
-                boardContainer.setAttribute('transform', tr)
-            })
+			// Скроллирование доски
+			var bBoardDrag = 0;
+			var dragX, dragY, trX = 0, trY = 0, dX, dY;
+			boardContainer.addEventListener('mousedown', function (event) {
+				bBoardDrag = 1;
+				dragX = event.screenX;
+				dragY = event.screenY;
+			});
+			boardContainer.addEventListener('mouseup', function (event) {
+				if (bBoardDrag === 2) {
+					trX += dX;
+					trY += dY;
+				}
+				bBoardDrag = 0;
+			})
+			boardContainer.addEventListener('mousemove', function (event) {
+				if (!bBoardDrag) return;
+				var x = event.screenX, y = event.screenY;
+				dX = x - dragX;
+				dY = y - dragY;
+				if (bBoardDrag === 1) {
+					var d2 = dX * dX + dY * dY;
+					if (d2 < 36) return;
+					bBoardDrag = 2;
+				}
+				var tr = 'translate(' + (trX + dX) + ',' + (trY + dY) + ')'
+				boardContainer.setAttribute('transform', tr)
+			})
 
 			function drawNextButton() {
 				var btn = createNode('g', mainContainer, {'class': 'btn-next'});
@@ -394,6 +558,7 @@
 				})
 				return btn;
 			}
+
 			function drawSsdButton() {
 				var btn = createNode('g', mainContainer, {'class': 'btn-ssd'});
 				var x = 400, y = 0, w = 80, h = 26;
@@ -405,18 +570,18 @@
 					if (ssdNode.firstChild) {
 						while (ssdNode.firstChild) ssdNode.removeChild(ssdNode.firstChild);
 						return;
-                    }
-                    // Найти первый подходящий корабль
-                    var ship = null;
-                    for (var uid in curGame.objects) {
-                    	ship = curGame.objects[uid];
-                    	if (ship.side === curSideIndex && ship.ssd) break;
-                    }
-                    if (!ship || !ship.ssd) return;
-                    drawSsd(ssdNode, ship);
+					}
+					// Найти первый подходящий корабль
+					var ship = null;
+					for (var uid in curGame.objects) {
+						ship = curGame.objects[uid];
+						if (ship.side === curSideIndex && ship.ssd) break;
+					}
+					if (!ship || !ship.ssd) return;
+					drawSsd(ssdNode, ship);
 				})
 				return btn;
-            }
+			}
 
 			var nextButton = drawNextButton();
 			var ssdButton = drawSsdButton();
@@ -424,87 +589,112 @@
 			var curGame = null;
 			var curAction = null;
 			var curSideIndex = 0;
+
 			function drawSsd(mainNode, ship) {
-				var mainWidth = 500, mainHeight = 500, k=15;
-                var popupNode = createNode('rect', mainNode, {x: 1, y: 1, width: mainWidth, height: mainHeight, 'class': 'ssd-box'});
+				var mainWidth = 500, mainHeight = 500, k = 15;
+				var popupNode = createNode('rect', mainNode, {
+					x: 1,
+					y: 1,
+					width: mainWidth,
+					height: mainHeight,
+					'class': 'ssd-box'
+				});
 
-                var nextX = 1, nextY=26, nextW=40, nextH=30;
-                var nextBtn = createNode('g', mainNode, {'class': 'btn-next'})
-                var nextRect = createNode('rect', nextBtn, {x:nextX, y:nextY,
-                    width:nextW, height:nextH})
-                var nextText = createNode('text', nextBtn, {x:nextX+nextW/2, y:nextY+nextH/2})
-                nextText.innerHTML = '>';
-                nextBtn.addEventListener('click', function(event){
-                    event.preventDefault();
-                    var uids = Object.keys(curGame.objects).filter(uid => curGame.objects[uid].state=='Active');
-                    var i = uids.length;
-                    if (i<2) return;
-                    while (i>0 && uids[i-1]!=ship.uid) i--;
-                    if (i==uids.length) i=0
-                    while (mainNode.firstChild) mainNode.removeChild(mainNode.firstChild);
-                    console.log('bext uid: ', uids[i]);
-                    drawSsd(mainNode,curGame.objects[uids[i]]);
-                });
+				var nextX = 1, nextY = 26, nextW = 40, nextH = 30;
+				var nextBtn = createNode('g', mainNode, {'class': 'btn-next'})
+				var nextRect = createNode('rect', nextBtn, {
+					x: nextX, y: nextY,
+					width: nextW, height: nextH
+				})
+				var nextText = createNode('text', nextBtn, {x: nextX + nextW / 2, y: nextY + nextH / 2})
+				nextText.innerHTML = '>';
+				nextBtn.addEventListener('click', function (event) {
+					event.preventDefault();
+					var uids = Object.keys(curGame.objects).filter(function(uid){
+						return curGame.objects[uid].state == 'Active'
+					});
+					var i = uids.length;
+					if (i < 2) return;
+					while (i > 0 && uids[i - 1] != ship.uid) i--;
+					if (i == uids.length) i = 0
+					while (mainNode.firstChild) mainNode.removeChild(mainNode.firstChild);
+					console.log('bext uid: ', uids[i]);
+					drawSsd(mainNode, curGame.objects[uids[i]]);
+				});
 
-                var ssdNode = createNode('g', mainNode, {transform: 'translate('+(mainWidth/2)+','+(mainHeight/2)+')'})
-                var ssdData = ssdMap[ship.ssd];
-                console.log('ssdData: ', ssdData)
-                if (!ssdData) return;
-                var title = createNode('text', mainNode, {x:1,y:16});
-                title.innerHTML = ship.name +': '+ssdData.title;
-                var ssdItems = ssdData.items;
-                var drawers = {
-                	Table: function (item) {
-                        var i = 0, x0 = item.X0, y0=item.Y0, path=item.Path;
-                        for (var iy=0; iy<item.Height; iy++) {
-                        	var ry = k*(y0+iy);
-                        	for (var ix=0; ix<item.Width; ix++) {
-                        		var rx = k*(x0+ix);
-                        		var cell = item.Cells[i++];
-                        		if (cell) {
-                        			if (cell.Hidden) continue;
-                                    var cls = ''
-                        			if (cell.Path) {
-                                        var path = cell.Path.split('.');
-                                        var val = getVal(ship, path);
-                                        if (path[0]=='shield') {
-                                            if (ship.shield && val>=cell.Val) cls='ssd-shield';
-                                        } else if (path[2]=='dronesCount') {
-                                            if (cell.Val <= val) cls='ssd-drone-rack';      
-                                        } else if (val !== null && cell.Val > val) {
-                                            cls = 'ssd-broken';
-                                        }
-                                    }
-                                    if (cls) {
-                                        createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': cls});
-                                    }
-                        		}
+				var ssdNode = createNode('g', mainNode, {transform: 'translate(' + (mainWidth / 2) + ',' + (mainHeight / 2) + ')'})
+				var ssdData = ssdMap[ship.ssd];
+				console.log('ssdData: ', ssdData)
+				if (!ssdData) return;
+				var title = createNode('text', mainNode, {x: 1, y: 16});
+				title.innerHTML = ship.name + ': ' + ssdData.title;
+				var ssdItems = ssdData.items;
+				var drawers = {
+					Table: function (item) {
+						var i = 0, x0 = item.X0, y0 = item.Y0, path = item.Path;
+						for (var iy = 0; iy < item.Height; iy++) {
+							var ry = k * (y0 + iy);
+							for (var ix = 0; ix < item.Width; ix++) {
+								var rx = k * (x0 + ix);
+								var cell = item.Cells[i++];
+								if (cell) {
+									if (cell.Hidden) continue;
+									var cls = ''
+									if (cell.Path) {
+										var path = cell.Path.split('.');
+										var val = getVal(ship, path);
+										if (path[0] == 'shield') {
+											if (ship.shield && val >= cell.Val) cls = 'ssd-shield';
+										} else if (path[2] == 'dronesCount') {
+											if (cell.Val <= val) cls = 'ssd-drone-rack';
+										} else if (val !== null && cell.Val > val) {
+											cls = 'ssd-broken';
+										} else if (path.length == 3 && path[0] == 'devs' && path[2] == 'hp') {
+											var dev = ship.devs[path[1]];
+											if (dev) {
+												var state = dev.state;
+												if (state == 'Used' || dev.wait > 0) cls = 'ssd-dev-used';
+												else if (state == 'Half') cls = 'ssd-dev-half';
+												else if (state == 'Disabled') cls = 'ssd-dev-disabled';
+											}
+										}
+									}
+									if (cls) {
+										createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': cls});
+									}
+								}
 								createNode('rect', ssdNode, {x: rx, y: ry, width: k, height: k, 'class': 'ssd-line'});
-                            }
-                        }
+							}
+						}
 					},
-                    Ellipse: function (item) {
-                        createNode('ellipse', ssdNode, {cx: k*item.CX, cy: k*item.CY, rx: k*item.RX, ry: k*item.RY, 'class': 'ssd-line'})
+					Ellipse: function (item) {
+						createNode('ellipse', ssdNode, {
+							cx: k * item.CX,
+							cy: k * item.CY,
+							rx: k * item.RX,
+							ry: k * item.RY,
+							'class': 'ssd-line'
+						})
 					},
-                    Polygon: function (item) {
-                		var d = '', points=item.Items;
-                		for (var i=0; i< points.length; i++) {
-                			var p = points[i];
-                			d += i?'L':'M';
-                            d += (k*p.X) + ' ' + (k*p.Y) + ' ';
-                        }
-                        createNode('path', ssdNode, {d: d, 'class': 'ssd-line'});
+					Polygon: function (item) {
+						var d = '', points = item.Items;
+						for (var i = 0; i < points.length; i++) {
+							var p = points[i];
+							d += i ? 'L' : 'M';
+							d += (k * p.X) + ' ' + (k * p.Y) + ' ';
+						}
+						createNode('path', ssdNode, {d: d, 'class': 'ssd-line'});
 					},
-                    Text: function (item) {
-                		var x = k*(item.X0 + item.Width/2), y = k*(item.Y0 + item.Height/2);
-                        createNode('text', ssdNode, {x: x, y: y, 'class': 'ssd-text'}).innerHTML = item.Text;
+					Text: function (item) {
+						var x = k * (item.X0 + item.Width / 2), y = k * (item.Y0 + item.Height / 2);
+						createNode('text', ssdNode, {x: x, y: y, 'class': 'ssd-text'}).innerHTML = item.Text;
 					},
-                }
-                for (var i in ssdItems) {
-                	var item = ssdItems[i];
-                	var drawer = drawers[item.Type];
-                	if (drawer) drawer(item);
-                }
+				}
+				for (var i in ssdItems) {
+					var item = ssdItems[i];
+					var drawer = drawers[item.Type];
+					if (drawer) drawer(item);
+				}
 			}
 
 			function updateNextButton() {
@@ -513,38 +703,40 @@
 
 			updateNextButton();
 			var actionHandlers = {
-                SpeedDeterm: function(action) {
-                    return new function () {
-                        var node = createNode('g', boardContainer, {id: 'Speed'});
-                        var allButtons = [];
-                        for (var speed=0; speed<=action.maxSpeed; speed++) addButton(speed);
-                        function addButton(speed) {
-                            // console.log('speed button ', speed)
-                            var w = 40, x = 20 + speed * w;
-                            var bt = createNode('text', node, {'class': 'speed-sel-text',
-                                x: x, y: 40
-                            })
-                            allButtons.push(bt);
-                            if (speed === action.speed) bt.classList.add('current')
-                            bt.innerHTML = ''+speed;
-                            bt.addEventListener('click', function(event){
-                                event.preventDefault();
-                                for (var i in allButtons) {
-                                    allButtons[i].classList.remove('current');
-                                }
-                                bt.classList.add('current');
-                                action.speed = speed;
-                            })
-                        }
-                        this.getResult = function () {
-                            return action;
-                        }
-                        this.close = function () {
-                            boardContainer.removeChild(node)
-                        }
-                    }
-                },
-				Move: function(action) {
+				SpeedDeterm: function (action) {
+					return new function () {
+						var node = createNode('g', boardContainer, {id: 'Speed'});
+						var allButtons = [];
+						for (var speed = 0; speed <= action.maxSpeed; speed++) addButton(speed);
+						function addButton(speed) {
+							// console.log('speed button ', speed)
+							var w = 40, x = 20 + speed * w;
+							var bt = createNode('text', node, {
+								'class': 'speed-sel-text',
+								x: x, y: 40
+							})
+							allButtons.push(bt);
+							if (speed === action.speed) bt.classList.add('current')
+							bt.innerHTML = '' + speed;
+							bt.addEventListener('click', function (event) {
+								event.preventDefault();
+								for (var i in allButtons) {
+									allButtons[i].classList.remove('current');
+								}
+								bt.classList.add('current');
+								action.speed = speed;
+							})
+						}
+
+						this.getResult = function () {
+							return action;
+						}
+						this.close = function () {
+							boardContainer.removeChild(node)
+						}
+					}
+				},
+				Move: function (action) {
 					return new function () {
 						var hexNodes = []
 						for (var j in action.list) createHex(+j);
@@ -552,7 +744,7 @@
 							var hexPos = action.list[j]
 							var hex = drawHex(hexPos, boardContainer,
 								j == action.current ? 'dir-selection-cur' : 'dir-selection');
-							hex.addEventListener('click', event => {
+							hex.addEventListener('click', function(event) {
 								event.preventDefault();
 								setAttr(hexNodes[action.current], {'class': 'dir-selection'});
 								setAttr(hexNodes[j], {'class': 'dir-selection-cur'})
@@ -571,197 +763,224 @@
 						}
 					};
 				},
-                Launch: function(action) {
-                    return new function() {
-                        var i, x = 20, y = 30, h = 28;
-                        var choices = [], current = 0;
-                        var buttonsBox = createNode('g', boardContainer, {})
-                        var dirBox = null;
-                        function makeChoice() {
-                            var info = choices[current];
-                            var pt = info.point
-                            var res = {}
-                            if (pt) {
-                                res[pt.devId] = {targetId: pt.targetId, dir: info.dir}
-                            }
-                            action.result = res;
-                        }
-                        function createDirButtons() {
-                            clearDirButtons()
-                            dirBox = createNode('g', boardContainer, {})
-                            var info = choices[current]
-                            var pt = info.point
-                            if (!pt) return;
-                            var dirs = pt.dirs
-                            var nodes = []
-                            for (var j in dirs) drawDir(j);
-                            function drawDir(j) {
-                                var hex = drawHex(dirs[j], dirBox, 'launch-dir')
-                                if (dirs[j].dir == info.dir) hex.classList.add('current')
-                                nodes.push(hex);
-                                hex.addEventListener('click', function(event) {
-                                    event.preventDefault();
-                                    nodes.forEach(n => n.classList.remove('current'));
-                                    hex.classList.add('current')
-                                    info.dir = dirs[j].dir;
-                                    makeChoice();
-                                })
-                            }
-                            var vpos = calcViewPos(curGame.objects[pt.targetId]);
-                            createNode('circle', dirBox, 
-                                {'class': 'launch-target', cx: vpos.x, cy: vpos.y, r: hexHalfHeight})
-                        }
-                        function clearDirButtons() {
-                            if (dirBox) {
-                                boardContainer.removeChild(dirBox);
-                                dirBox = null;
-                            }
-                        }
-                        function createButton(text, width, point) {
-                            var g = createNode('g', buttonsBox, {'class': 'launch-button'});
-                            var rect = createNode('rect', g,
-                                {x: x, y: y, width: width, height: h});
-                            var tx = createNode('text', g, {x: x+width/2, y: y+h/2})
-                            tx.innerHTML = text
-                            var info = {g: g, i: choices.length, point: point}
-                            if (point) info.dir = point.targetDir
-                            choices.push(info);
-                            x += width + 8;
-                            g.addEventListener('click', function(event){
-                                event.preventDefault()
-                                setActive(info.i)
-                            })
-                        }
-                        function setActive(index) {
-                            choices[current].g.classList.remove('current')
-                            choices[index].g.classList.add('current')
-                            current = index;
-                            createDirButtons();
-                            makeChoice();
-                        }
-                        createButton('None', 50, null)
-                        for (i in action.points) {
-                            var pt = action.points[i]
-                            var target = curGame.objects[pt.targetId]
-                            createButton(target.name, 100, pt)
-                        }
-                        setActive(0)
-                        this.getResult = function () {
-                            return action;
-                        }
-                        this.close = function () {
-                            clearDirButtons();
-                            boardContainer.removeChild(buttonsBox);
-                        }
-                    }
-                },
-                Fire: function(action) {
+				Launch: function (action) {
+					return new function () {
+						var i, x = 20, y = 30, h = 28;
+						var choices = [], current = 0;
+						var buttonsBox = createNode('g', boardContainer, {})
+						var dirBox = null;
+
+						function makeChoice() {
+							var info = choices[current];
+							var pt = info.point
+							var res = {}
+							if (pt) {
+								res[pt.devId] = {targetId: pt.targetId, dir: info.dir}
+							}
+							action.result = res;
+						}
+
+						function createDirButtons() {
+							clearDirButtons()
+							dirBox = createNode('g', boardContainer, {})
+							var info = choices[current]
+							var pt = info.point
+							if (!pt) return;
+							var dirs = pt.dirs
+							var nodes = []
+							for (var j in dirs) drawDir(j);
+							function drawDir(j) {
+								var hex = drawHex(dirs[j], dirBox, 'launch-dir')
+								if (dirs[j].dir == info.dir) hex.classList.add('current')
+								nodes.push(hex);
+								hex.addEventListener('click', function (event) {
+									event.preventDefault();
+									nodes.forEach(function(n) {
+										n.classList.remove('current');
+									});
+									hex.classList.add('current')
+									info.dir = dirs[j].dir;
+									makeChoice();
+								})
+							}
+
+							var vpos = calcViewPos(curGame.objects[pt.targetId]);
+							createNode('circle', dirBox,
+								{'class': 'launch-target', cx: vpos.x, cy: vpos.y, r: hexHalfHeight})
+						}
+
+						function clearDirButtons() {
+							if (dirBox) {
+								boardContainer.removeChild(dirBox);
+								dirBox = null;
+							}
+						}
+
+						function createButton(text, width, point) {
+							var g = createNode('g', buttonsBox, {'class': 'launch-button'});
+							var rect = createNode('rect', g,
+								{x: x, y: y, width: width, height: h});
+							var tx = createNode('text', g, {x: x + width / 2, y: y + h / 2})
+							tx.innerHTML = text
+							var info = {g: g, i: choices.length, point: point}
+							if (point) info.dir = point.targetDir
+							choices.push(info);
+							x += width + 8;
+							g.addEventListener('click', function (event) {
+								event.preventDefault()
+								setActive(info.i)
+							})
+						}
+
+						function setActive(index) {
+							choices[current].g.classList.remove('current')
+							choices[index].g.classList.add('current')
+							current = index;
+							createDirButtons();
+							makeChoice();
+						}
+
+						createButton('None', 50, null)
+						for (i in action.points) {
+							var pt = action.points[i]
+							var target = curGame.objects[pt.targetId]
+							createButton(target.name, 100, pt)
+						}
+						setActive(0)
+						this.getResult = function () {
+							return action;
+						}
+						this.close = function () {
+							clearDirButtons();
+							boardContainer.removeChild(buttonsBox);
+						}
+					}
+				},
+				Fire: function (action) {
 					return new function () {
 						var nodes = [], curTarget = null;
 						// Собрать список целей
-                        var targets = {}, i, x = 20, y = 30, w = 100, h = 28;
-                        var weapons = {};
-                        function updateWeapons() {
-                        	for (var targetId in targets) targets[targetId].dmg = 0;
-                        	for (var devId in weapons) {
-                        		var w = weapons[devId];
-                        		if (!w.trace) continue;
-                        		if (w.ln) {boardContainer.removeChild(w.ln)}
-                        		var p1 = calcViewPos(w.trace.pos), p2 = calcViewPos(w.trace.targetPos)
-                        		w.ln = createNode('line', boardContainer,
-                                    {'class': 'fire-line', x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y});
-                                if (w.trace.damages)
-                        		targets[w.trace.targetId].dmg += middle(w.trace.damages);
-                            }
-                            for (targetId in targets) {
-                        		var tx = targets[targetId].counter.name;
-                        		var dmg = targets[targetId].dmg;
-                        		if (dmg) tx += ': '+dmg;
-                        		targets[targetId].tx.innerHTML = tx;
-                            }
-                        }
-                        for (i=0; i<action.traces.length; i++) {
-                        	var trace = action.traces[i];
-                        	trace.index = i;
-                        	var targetId = trace.targetId;
-                        	weapons[trace.devId] = {}
-                        	if (!targets[targetId]) createTargetButton(trace);
-                        	function createTargetButton(trace) {
+						var targets = {}, i, x = 20, y = 30, w = 100, h = 28;
+						var weapons = {};
+
+						function updateWeapons() {
+							for (var targetId in targets) targets[targetId].dmg = 0;
+							for (var devId in weapons) {
+								var w = weapons[devId];
+								if (!w.trace) continue;
+								if (w.ln) {
+									boardContainer.removeChild(w.ln)
+								}
+								var p1 = calcViewPos(w.trace.pos), p2 = calcViewPos(w.trace.targetPos)
+								w.ln = createNode('line', boardContainer,
+									{'class': 'fire-line', x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y});
+								if (w.trace.damages)
+									targets[w.trace.targetId].dmg += middle(w.trace.damages);
+							}
+							for (targetId in targets) {
+								var tx = targets[targetId].counter.name;
+								var dmg = targets[targetId].dmg;
+								if (dmg) tx += ': ' + dmg;
+								targets[targetId].tx.innerHTML = tx;
+							}
+						}
+
+						for (i = 0; i < action.traces.length; i++) {
+							var trace = action.traces[i];
+							trace.index = i;
+							var targetId = trace.targetId;
+							weapons[trace.devId] = {}
+							if (!targets[targetId]) createTargetButton(trace);
+							function createTargetButton(trace) {
 								var targetId = trace.targetId;
 								var targetCounter = curGame.objects[targetId]
-                        		var node = createNode('g', mainContainer, {
-                        			'class': 'btn-target'});
+								var node = createNode('g', mainContainer, {
+									'class': 'btn-target'
+								});
 								var btnX = x;
-                        		var rect = createNode('rect', node, {x: x, y: y, width: w, height: h});
-                        		var text = createNode('text', node, {x: x+w/2, y: y+h/2});
-                        		text.innerHTML = targetCounter.name;
-                        		var vpos = calcViewPos(targetCounter)
-                        		var center = createNode('circle', boardContainer, {cx: vpos.x, cy: vpos.y, r: hexHalfHeight, 'class': 'fire-target'})
-                        		var targetRec = {node: node, tx: text, counter: targetCounter, traces: [], center: center}
-                        		targets[targetId] = targetRec
-                        		x += w + 10;
-                        		node.addEventListener('click', function (event) {
-                        			event.preventDefault();
-                                    clear();
-                                    if (curTarget) {
-                                    	curTarget.node.classList.remove('active');
-                                        curTarget.center.classList.remove('active');
-                                    }
-                                    curTarget = targetRec;
-                                    curTarget.node.classList.add('active');
-                                    curTarget.center.classList.add('active');
-                                    // Вывод списка орудий
-                                    var devX = btnX, devY = 65, devW = 110, devH = 20;
-                                    for (var k=0; k<targetRec.traces.length; k++) onTrace(targetRec.traces[k])
-                                    function onTrace(trace) {
-                                    	var c = 'btn-weapon';
-                                    	if (weapons[trace.devId].trace === trace) c += ' checked';
-                                    	else if (weapons[trace.devId].trace) c += ' checked-out';
-                                    	var g = createNode('g', mainContainer, {'class': c});
-                                    	nodes.push(g);
-                                    	var r = createNode('rect', g, {x: devX, y: devY, width: devW, height: devH});
-                                    	var t = createNode('text', g, {x: devX + devW/2, y: devY + devH/2});
-                                    	var txt1 = trace.devId + '(' + trace.arc0 + '): ';
-                                    	if (trace.damages) {
-                                    		txt1 += middle(trace.damages);
-                                        } else if (trace.chance) {
-                                    		txt1 += trace.damage + '*' + trace.chance + '/6';
-                                        }
-                                        t.innerHTML = txt1;
-                                        devX += devW + 5;
-                                        g.addEventListener('click', function (event) {
-                                            event.preventDefault();
-                                            if (weapons[trace.devId].trace === trace) {
-                                            	weapons[trace.devId].trace = null;
-                                            	g.classList.remove('checked');
-                                            } else {
+								var rect = createNode('rect', node, {x: x, y: y, width: w, height: h});
+								var text = createNode('text', node, {x: x + w / 2, y: y + h / 2});
+								text.innerHTML = targetCounter.name;
+								var vpos = calcViewPos(targetCounter)
+								var center = createNode('circle', boardContainer, {
+									cx: vpos.x,
+									cy: vpos.y,
+									r: hexHalfHeight,
+									'class': 'fire-target'
+								})
+								var targetRec = {
+									node: node,
+									tx: text,
+									counter: targetCounter,
+									traces: [],
+									center: center
+								}
+								targets[targetId] = targetRec
+								x += w + 10;
+								node.addEventListener('click', function (event) {
+									event.preventDefault();
+									clear();
+									if (curTarget) {
+										curTarget.node.classList.remove('active');
+										curTarget.center.classList.remove('active');
+									}
+									curTarget = targetRec;
+									curTarget.node.classList.add('active');
+									curTarget.center.classList.add('active');
+									// Вывод списка орудий
+									var devX = btnX, devY = 65, devW = 110, devH = 20;
+									for (var k = 0; k < targetRec.traces.length; k++) onTrace(targetRec.traces[k])
+									function onTrace(trace) {
+										var c = 'btn-weapon';
+										if (weapons[trace.devId].trace === trace) c += ' checked';
+										else if (weapons[trace.devId].trace) c += ' checked-out';
+										var g = createNode('g', mainContainer, {'class': c});
+										nodes.push(g);
+										var r = createNode('rect', g, {x: devX, y: devY, width: devW, height: devH});
+										var t = createNode('text', g, {x: devX + devW / 2, y: devY + devH / 2});
+										var txt1 = trace.devId + '(' + trace.arc0 + '): ';
+										if (trace.damages) {
+											txt1 += middle(trace.damages);
+										} else if (trace.chance) {
+											txt1 += trace.damage + '*' + trace.chance + '/6';
+										}
+										t.innerHTML = txt1;
+										devX += devW + 5;
+										g.addEventListener('click', function (event) {
+											event.preventDefault();
+											if (weapons[trace.devId].trace === trace) {
+												weapons[trace.devId].trace = null;
+												g.classList.remove('checked');
+											} else {
 												weapons[trace.devId].trace = trace;
 												g.classList.add('checked');
 												g.classList.remove('checked-out');
 											}
 											updateWeapons();
 										})
-                                    }
+									}
 								})
-                            }
-                            targets[targetId].traces.push(trace)
-                        }
+							}
+
+							targets[targetId].traces.push(trace)
+						}
 						function clear() {
 							for (var j in nodes) {
 								mainContainer.removeChild(nodes[j]);
-                            }
-                            nodes.length = 0;
-                        }
-						this.getResult = function () {
-                            return action;
+							}
+							nodes.length = 0;
 						}
-                        this.close = function () {
-                        	// Убрать визуальные элементы
-                        	clear();
-                        	for (var id in targets) {
-                        		mainContainer.removeChild(targets[id].node);
-                                boardContainer.removeChild(targets[id].center);
-                            }
+
+						this.getResult = function () {
+							return action;
+						}
+						this.close = function () {
+							// Убрать визуальные элементы
+							clear();
+							for (var id in targets) {
+								mainContainer.removeChild(targets[id].node);
+								boardContainer.removeChild(targets[id].center);
+							}
 							for (var id in weapons) {
 								if (weapons[id].ln) {
 									boardContainer.removeChild(weapons[id].ln);
@@ -769,72 +988,74 @@
 								var trace = weapons[id].trace;
 								if (trace) {
 									action.choices.push(trace.index);
-                                }
+								}
 							}
 						}
 					};
-                }
+				}
 			}
 			var infoHandlers = {
 				move: function (info) {
-                    updateShipState(info);
+					updateShipState(info);
 				},
 				/**
 				 * @param {Object} info
-                 * @param {{sourseId,targetId,targetStatus:string,result:Object<string,number>}[]} info.hits
+				 * @param {{sourseId,targetId,targetStatus:string,result:Object<string,number>}[]} info.hits
 				 */
 				hits: function (info) {
 					console.log('hits: ', info);
 					for (var i in info.hits) onHit(info.hits[i]);
 					function onHit(hit) {
-                        var targetObject = curGame.objects[hit.targetId]
-                        if (targetObject) {
+						var targetObject = curGame.objects[hit.targetId]
+						if (targetObject) {
 							var vpos1 = calcViewPos(targetObject)
-                            function showDmg(type, angle, dt) {
+
+							function showDmg(type, angle, dt) {
 								var value = hit.result[type]
-                                if (!value) return dt
-                                setTimeout(() => {
+								if (!value) return dt
+								setTimeout(function() {
 									fly(vpos1, value, type, angle, boardContainer);
-                                }, dt)
-                                return dt + 500
-                            }
-                            // Вывод эффекта, изображающего выстрела
-                            var srcObject = curGame.objects[hit.sourceId]
-                            if (srcObject) {
+								}, dt)
+								return dt + 500
+							}
+
+							// Вывод эффекта, изображающего выстрела
+							var srcObject = curGame.objects[hit.sourceId]
+							if (srcObject) {
 								var vpos0 = calcViewPos(srcObject)
-                                var shape = null;
-                                if (hit.type) {
-                                    shape = createNode('line', boardContainer, {
-                                        'class': hit.type.toLowerCase().replace(' ', '-'),
-                                        x1: vpos0.x, y1: vpos0.y, x2: vpos1.x, y2: vpos1.y
-                                    })
-                                }
-                                if (shape) addTask(delay(1000, () => {
+								var shape = null;
+								if (hit.type) {
+									shape = createNode('line', boardContainer, {
+										'class': hit.type.toLowerCase().replace(' ', '-'),
+										x1: vpos0.x, y1: vpos0.y, x2: vpos1.x, y2: vpos1.y
+									})
+								}
+								if (shape) addTask(delay(1000, function() {
 									boardContainer.removeChild(shape);
 								}));
-                                var dt = 0
-                                dt = showDmg('shield', -40, dt)
-                                dt = showDmg('internal', -10, dt);
-                                dt = showDmg('lost', 30, dt);
-                                addTask(wait(dt + 2000))
-                                if (hit.targetState !== 'Active') addTask(wait(100, function () {
-                                	var node = shipNodes[hit.targetId];
-                                    boardContainer.removeChild(node);
-                                    delete shipNodes[hit.targetId]
+								var dt = 0
+								dt = showDmg('shield', -40, dt)
+								dt = showDmg('internal', -10, dt);
+								dt = showDmg('lost', 30, dt);
+								addTask(wait(dt + 2000))
+								if (hit.targetState !== 'Active') addTask(wait(100, function () {
+									var node = shipNodes[hit.targetId];
+									boardContainer.removeChild(node);
+									delete shipNodes[hit.targetId]
 								}));
-                            }
-                        }
-                    } // for
+							}
+						}
+					} // for
 				}, // hits
-                finish: info => {
+				finish: function(info) {
 					console.log('Finish: ', info);
 					curGame.reasonMessage = info.reason;
 					curGame.state = info.state
 					drawGameHeader(curGame)
-                },
-            }
+				},
+			}
 			var msgHandlers = {
-				game: function(msg) {
+				game: function (msg) {
 					var game = msg.game;
 					curGame = game;
 					var bFirst = !bHex;
@@ -845,27 +1066,27 @@
 					addTask(delay(1, function () {
 						drawGameHeader(game);
 						// if (bFirst)
-						    updateShips(game.objects)
+						updateShips(game.objects)
 					}));
 					// Загрузка SSD
-                    var uid, objects = game.objects;
-                    for (uid in objects) {
-                    	var counter = objects[uid];
-                    	if (counter.ssd && !ssdMap[counter.ssd]) {
-                    		ssdMap[counter.ssd] = 1;    // Отметка о старте загрузки. Чтобы не слать дубли
-                    		sendRequest({type: 'askSsd', ssd: counter.ssd});
-                        }
-                    }
+					var uid, objects = game.objects;
+					for (uid in objects) {
+						var counter = objects[uid];
+						if (counter.ssd && !ssdMap[counter.ssd]) {
+							ssdMap[counter.ssd] = 1;    // Отметка о старте загрузки. Чтобы не слать дубли
+							sendRequest({type: 'askSsd', ssd: counter.ssd});
+						}
+					}
 				},
 				/**
 				 * @param {{type:string, key:string, data:Object}} msg
 				 */
-				ssd: function(msg) {
+				ssd: function (msg) {
 					if (msg.data) {
 						ssdMap[msg.key] = msg.data
-                    }
-                },
-				action: function(msg) {
+					}
+				},
+				action: function (msg) {
 					var action = msg.action;
 					var handler = actionHandlers[action.name];
 					if (handler) {
@@ -875,15 +1096,15 @@
 						console.warn('Unhandled action: ', action);
 					}
 				},
-                info: function(msg) {
-					const {info} = msg
-					const handler = infoHandlers[info.type]
-                    if (handler) {
+				info: function (msg) {
+					var info = msg.info;
+					var handler = infoHandlers[info.type]
+					if (handler) {
 						handler(info)
-                    } else {
+					} else {
 						console.log('Info: ', msg);
 					}
-                },
+				},
 			}
 
 			function drawHeader(msg) {
@@ -899,7 +1120,7 @@
 						msg += ' ' + game.curProcId;
 					} else {
 						msg += ' ' + game.turnStepId;
-                    }
+					}
 				} else if (game.reasonMessage) {
 					msg = translate(game.reasonMessage);
 				} else {
@@ -907,47 +1128,47 @@
 				}
 				drawHeader(msg);
 			}
-			
+
 			function updateShipState(info) {
 				var vpos = calcViewPos(info.to);
 				var a = info.to.dir * 60;
 				var shipNode = shipNodes[info.uid];
-				if (shipNode) addTask(delay(300, () => {
+				if (shipNode) addTask(delay(300, function() {
 					setAttr(shipNode, {'transform': 'translate(' + vpos.x + ',' + vpos.y + '),rotate(' + a + ')'});
-                }));
+				}));
 			}
 
 			function updateShips(ships) {
 				for (var uid in ships) onShip(uid);
-				function onShip(uid){
+				function onShip(uid) {
 					var ship = ships[uid];
 					var shipNode = shipNodes[uid];
-					if (!shipNode && ship.state=='Active') {
+					if (!shipNode && ship.state == 'Active') {
 						shipNode = createNode('g', boardContainer);
 						shipNodes[uid] = shipNode;
 						var img = createNode('image', shipNode, {
 							href: "/img/" + ship.img + ".png",
 						});
 						img.addEventListener('load', function () {
-                            var box = img.getBBox();
-                            var maxDim = Math.max(box.width, box.height);
-                            var k  = (hexHalfHeight * 2) * 0.9 / maxDim;
-                            var w = box.width * k;
-                            var h = box.height * k;
-                            setAttr(img, {x: -w/2, y: -h/2, width: w, height: h});
+							var box = img.getBBox();
+							var maxDim = Math.max(box.width, box.height);
+							var k = (hexHalfHeight * 2) * 0.9 / maxDim;
+							var w = box.width * k;
+							var h = box.height * k;
+							setAttr(img, {x: -w / 2, y: -h / 2, width: w, height: h});
 						})
-                        img.addEventListener('error', function(event){
-                            console.error(event)
-                        })
+						img.addEventListener('error', function (event) {
+							console.error(event)
+						})
 					} else if (ship.state !== 'Active') {
-                        if (shipNode) boardContainer.removeChild(shipNode);
-                        delete shipNodes[uid]
-                        shipNode = null;
-                    }
+						if (shipNode) boardContainer.removeChild(shipNode);
+						delete shipNodes[uid]
+						shipNode = null;
+					}
 					var vpos = calcViewPos(ship);
 					var a = ship.dir * 60;
-                    if (shipNode)
-					setAttr(shipNode, {'transform': 'translate(' + vpos.x + ',' + vpos.y + '),rotate(' + a + ')'});
+					if (shipNode)
+						setAttr(shipNode, {'transform': 'translate(' + vpos.x + ',' + vpos.y + '),rotate(' + a + ')'});
 				}
 			}
 
@@ -966,6 +1187,7 @@
 			ws.onmessage = function (event) {
 				try {
 					var msgObj = JSON.parse(event.data)
+                    console.log('=>', msgObj)
 					var handler = msgHandlers[msgObj.type];
 					if (handler) {
 						handler(msgObj)

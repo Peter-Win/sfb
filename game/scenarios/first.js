@@ -127,7 +127,7 @@ const firstMod = (params = {}) => {
 				Object.assign(objects[i], {
 					name: 'Destruction',
 					Type: KlingonCruiser,
-					disabledDevices: null,
+					disabledDevices: ['DRN'],
 				})
 			}
 		})

@@ -6,11 +6,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.APR.HP",
+					"Path": "devs.APR.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.APR.HP",
+					"Path": "devs.APR.hp",
 					"Val": 2
 				}
 			],
@@ -34,11 +34,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Imp.HP",
+					"Path": "devs.Imp.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.Imp.HP",
+					"Path": "devs.Imp.hp",
 					"Val": 2
 				}
 			],
@@ -62,11 +62,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 4
 				}
 			],
@@ -90,11 +90,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 2
 				},
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 5
 				}
 			],
@@ -118,11 +118,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 3
 				},
 				{
-					"Path": "Devs.Hull.HP",
+					"Path": "devs.Hull.hp",
 					"Val": 6
 				}
 			],
@@ -146,11 +146,11 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.BTTY.HP",
+					"Path": "devs.BTTY.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.BTTY.HP",
+					"Path": "devs.BTTY.hp",
 					"Val": 2
 				}
 			],
@@ -172,8 +172,7 @@
 			"Y0": 2
 		},
 		{
-			"Cells": [
-			],
+			"Cells": [],
 			"Height": 1,
 			"Name": "Bridge",
 			"Type": "Table",
@@ -194,7 +193,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.PH1.HP",
+					"Path": "devs.PH1.hp",
 					"Text": "1",
 					"Val": 1
 				}
@@ -229,7 +228,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Transp.HP",
+					"Path": "devs.Transp.hp",
 					"Val": 1
 				}
 			],
@@ -251,8 +250,7 @@
 			"Y0": -8
 		},
 		{
-			"Cells": [
-			],
+			"Cells": [],
 			"Height": 1,
 			"Name": "LAB",
 			"Type": "Table",
@@ -273,12 +271,12 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.PhotA.HP",
+					"Path": "devs.PhotA.hp",
 					"Text": "A",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.PhotB.HP",
+					"Path": "devs.PhotB.hp",
 					"Text": "B",
 					"Val": 1
 				}
@@ -312,7 +310,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.PH2.HP",
+					"Path": "devs.PH2.hp",
 					"Text": "2",
 					"Val": 1
 				}
@@ -347,7 +345,7 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.PH3.HP",
+					"Path": "devs.PH3.hp",
 					"Text": "3",
 					"Val": 1
 				}
@@ -390,8 +388,7 @@
 			"Y0": -10.5
 		},
 		{
-			"Cells": [
-			],
+			"Cells": [],
 			"Height": 1,
 			"Name": "SHTL",
 			"Type": "Table",
@@ -434,35 +431,35 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 3
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 7
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 5
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 11
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 9
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 15
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 13
 				}
 			],
@@ -486,35 +483,35 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 2
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 4
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 6
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 8
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 10
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 12
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 14
 				},
 				{
-					"Path": "Devs.Warp.HP",
+					"Path": "devs.Warp.hp",
 					"Val": 16
 				}
 			],
@@ -1034,15 +1031,15 @@
 		{
 			"Cells": [
 				{
-					"Path": "Devs.ExDmg.HP",
+					"Path": "devs.ExDmg.hp",
 					"Val": 1
 				},
 				{
-					"Path": "Devs.ExDmg.HP",
+					"Path": "devs.ExDmg.hp",
 					"Val": 2
 				},
 				{
-					"Path": "Devs.ExDmg.HP",
+					"Path": "devs.ExDmg.hp",
 					"Val": 3
 				}
 			],

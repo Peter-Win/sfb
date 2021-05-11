@@ -155,7 +155,7 @@ class Ship extends Counter {
 		const result = []
 		params.devList.forEach(dev => {
 			enemies.forEach(target => {
-				if (dev.isValidTarget(this, target)) {
+				if (dev.isCanFireTo(this, target)) {
 					result.push(fireAgent.createTrace({game, ship: this, dev, target}))
 				}
 			})
@@ -171,7 +171,7 @@ class Ship extends Counter {
 		const result = []
 		params.devList.forEach(dev => {
 			enemies.forEach(target => {
-				if (dev.isValidTarget(this, target)) {
+				if (dev.isCanFireTo(this, target)) {
 					result.push(launchAgent.createPoint({game, ship: this, dev, target}))
 				}
 			})

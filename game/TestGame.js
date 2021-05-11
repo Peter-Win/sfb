@@ -10,10 +10,12 @@ const {scenario03} = require('./scenarios/scenario03')
 const {scenario04} = require('./scenarios/scenario04')
 const {CtrlBase} = require('./ctrls/CtrlBase')
 
+// const scenario = firstMod()
 // const scenario = firstMod({race: 'Klingon'})
-// const scenario = secondMod({race: 'Klingon'})
+// const scenario = secondMod({demo: true})
+const scenario = secondMod({race: 'Klingon', demo: 0})
 // const scenario = scenario03({race: 'Federation'})
-const scenario = scenario04()
+// const scenario = scenario04()
 
 /**
  * @param {WebSocket} webSocketServer WebSocket
@@ -22,10 +24,12 @@ const scenario = scenario04()
 const createTestGame = (webSocketServer) => {
 	const game = new Game()
 	game.create(scenario)
+	const mainCtrl = new CtrlWS(webSocketServer)
+	game.sides[0].ctrl = mainCtrl
 	Object.keys(game.objects).forEach(key => {
 		const unit = game.objects[key]
-		if (unit.side === 0) {
-			unit.ctrl = new CtrlWS(webSocketServer)
+		if (!unit.ctrl) {
+			unit.ctrl = mainCtrl
 		}
 	})
 	game.idle()

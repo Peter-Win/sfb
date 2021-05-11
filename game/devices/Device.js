@@ -30,7 +30,7 @@ class Device extends StateObject{
 		this.energyIn = 0	// Сумма поступившей энергии на текущий ход
 	}
 	toSimple() {
-		return {devId: this.devId, state: this.state, hp: this.hp}
+		return {devId: this.devId, state: this.state, hp: this.hp, wait: this.wait}
 	}
 
 	/**
@@ -65,6 +65,18 @@ class Device extends StateObject{
 	 */
 	isValidTarget(ship, target) {
 		return false
+	}
+
+	/**
+	 * Может ли устройство стрелять по указанной цели
+	 * Является более общей функцией, чем isValidTarget
+	 * Учитывается не только особенности цели, но и состояние устройства
+	 * @param {Ship} ship *
+	 * @param {Counter} target Цель
+	 * @return {boolean} true, если можно стрелять
+	 */
+	isCanFireTo(ship, target) {
+		return this.isActive() && this.isValidTarget(ship, target)
 	}
 
 	/**

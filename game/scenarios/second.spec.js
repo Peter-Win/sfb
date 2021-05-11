@@ -2,12 +2,14 @@
  * Created by PeterWin on 12.02.2018.
  */
 const {expect} = require('chai')
-const {second} = require('./second')
+const {second, secondMod} = require('./second')
 const {Game} = require('../Game')
 const {GameState} = require('../GameState')
 const {Side} = require('../Side')
 const {CtrlSimple} = require('../ctrls/CtrlSimple')
 const {ShipState} = require('../ships/Counter')
+const {RaceType} = require('../Race')
+const {DeviceState} = require('../devices/DeviceState')
 
 describe('second', () => {
 	it('Con left the map', () => {
@@ -55,5 +57,13 @@ describe('second', () => {
 		expect(Con.state).to.be.equal(ShipState.Active)
 		expect(game.state).to.be.equal(GameState.End)
 		expect(game.sides[0].state).to.be.equal(Side.states.Winner)
+	})
+	it('Klingon', () => {
+		const game = new Game()
+		game.create(secondMod({race: RaceType.Klingon}))
+		const ship = game.getShip('Con')
+		const droneRack = ship.getDevice('DRN')
+		expect(droneRack).to.be.ok
+		expect(droneRack.state).to.be.equal(DeviceState.Disabled)
 	})
 })

@@ -157,6 +157,13 @@ const photFsm = Object.freeze({
 			devList.push(dev)
 		},
 		/**
+		 * @param {{game:Game, ship:Ship, dev:Device}} params *
+		 * @return {void}
+		 */
+		FireEnd(params) {
+			params.dev.setState(DeviceState.Used)
+		},
+		/**
 		 * @param {{dev:PhotonTorpedo}} params *
 		 * @return {void}
 		 */

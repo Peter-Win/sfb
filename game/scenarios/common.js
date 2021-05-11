@@ -17,4 +17,11 @@ const isMainShipLost = (game, ship, enemySide = 1) => {
 	return false
 }
 
-module.exports = {isMainShipLost}
+/**
+ * Текущий ход и импульс в виде одного числа
+ * @param {Game} game *
+ * @return {number} Например, 8-й импульс 2-го хода = 208
+ */
+const getTurnImp = (game) => game.curTurn * 100 + (game.curImp + 1)
+
+module.exports = {isMainShipLost, getTurnImp}
